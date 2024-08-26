@@ -2,6 +2,7 @@ public class Propiedad {
     private int id;
     private String direccion;
     private double precio;
+    
 
     // Constructor
     public Propiedad(int id, String direccion, double precio) {

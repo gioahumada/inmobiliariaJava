@@ -6,6 +6,7 @@ public class App {
         PropiedadCSV propiedadCSV = new PropiedadCSV();
         Scanner scanner = new Scanner(System.in);
 
+        
         while (true) {
             System.out.println("Sistema de Gestión de Propiedades");
             System.out.println("1. Agregar Propiedad");
