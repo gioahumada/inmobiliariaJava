@@ -132,12 +132,14 @@ public class Menu {
     private void actualizarPropiedad() throws IOException {
         System.out.print("Ingrese ID de la propiedad a actualizar: ");
         int idActualizar = scanner.nextInt();
+        scanner.nextLine(); // Consumir la nueva línea /* NO QUITAR */
 
         System.out.print("Ingrese nueva Dirección: ");
         String nuevaDireccion = scanner.nextLine();
 
         System.out.print("Ingrese nuevo Precio: ");
         double nuevoPrecio = scanner.nextDouble();
+        scanner.nextLine(); // Consumir la nueva línea /* NO QUITAR */
 
         Propiedad propiedadActualizada = new Propiedad(idActualizar, nuevaDireccion, nuevoPrecio);
         propiedadCSV.actualizarPropiedad(propiedadActualizada);
@@ -149,6 +151,7 @@ public class Menu {
     private void eliminarPropiedad() throws IOException {
         System.out.print("Ingrese ID de la propiedad a eliminar: ");
         int idEliminar = scanner.nextInt();
+        scanner.nextLine(); // Consumir la nueva línea /* NO QUITAR */
 
         propiedadCSV.eliminarPropiedad(idEliminar);
         System.out.println("Propiedad eliminada exitosamente.");

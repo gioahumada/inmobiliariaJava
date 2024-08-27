@@ -46,4 +46,23 @@ public class PropiedadCSV {
             }
         }
     }
+
+    public void eliminarPropiedad(int id) throws IOException {
+        List<Propiedad> propiedades = leerPropiedades();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Propiedad p : propiedades) {
+                if (p.getId() != id) {
+                    writer.write(p.toString());
+                    writer.newLine();
+                }
+            }
+        }
+    }
+
+    public void agregarPropiedad(Propiedad propiedad) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            writer.write(propiedad.toString());
+            writer.newLine();
+        }
+    }
 }
