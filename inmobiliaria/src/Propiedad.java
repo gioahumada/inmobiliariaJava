@@ -2,9 +2,11 @@ public class Propiedad {
     private int id;
     private String direccion;
     private double precio;
-    
 
-    // Constructor
+    // Constructor sin argumentos
+    public Propiedad() {}
+
+    // Constructor con argumentos
     public Propiedad(int id, String direccion, double precio) {
         this.id = id;
         this.direccion = direccion;
@@ -16,29 +18,27 @@ public class Propiedad {
         return id;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    // Setters
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDireccion() {
+        return direccion;
     }
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
+    public double getPrecio() {
+        return precio;
+    }
+
     public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    // Methods 
-
+    // Methods
     @Override
     public String toString() {
         return id + "," + direccion + "," + precio;
@@ -47,5 +47,4 @@ public class Propiedad {
     public String mostrarFormateado() {
         return "ID: " + id + "\nDirección: " + direccion + "\nPrecio: " + precio;
     }
-
 }

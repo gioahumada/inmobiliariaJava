@@ -1,15 +1,9 @@
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class PropiedadCSV {
     private static final String FILE_PATH = "propiedades.csv";
-
-    public void agregarPropiedad(Propiedad propiedad) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(propiedad.toString());
-            writer.newLine();
-        }
-    }
 
     public List<Propiedad> leerPropiedades() throws IOException {
         List<Propiedad> propiedades = new ArrayList<>();
@@ -17,11 +11,22 @@ public class PropiedadCSV {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                Propiedad propiedad = new Propiedad(
-                    Integer.parseInt(data[0]),
-                    data[1],
-                    Double.parseDouble(data[2])
-                );
+                Propiedad propiedad = new Propiedad();
+                Field[] fields = Propiedad.class.getDeclaredFields();
+                for (int i = 0; i < fields.length; i++) {
+                    fields[i].setAccessible(true);
+                    try {
+                        if (fields[i].getType() == int.class) {
+                            fields[i].setInt(propiedad, Integer.parseInt(data[i]));
+                        } else if (fields[i].getType() == double.class) {
+                            fields[i].setDouble(propiedad, Double.parseDouble(data[i]));
+                        } else {
+                            fields[i].set(propiedad, data[i]);
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
                 propiedades.add(propiedad);
             }
         }
@@ -51,6 +56,13 @@ public class PropiedadCSV {
                     writer.newLine();
                 }
             }
+        }
+    }
+
+    public void agregarPropiedad(Propiedad propiedad) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            writer.write(propiedad.toString());
+            writer.newLine();
         }
     }
 }
