@@ -7,29 +7,21 @@ public class PropiedadCSV {
 
     public List<Propiedad> leerPropiedades() throws IOException {
         List<Propiedad> propiedades = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                Propiedad propiedad = new Propiedad();
-                Field[] fields = Propiedad.class.getDeclaredFields();
-                for (int i = 0; i < fields.length; i++) {
-                    fields[i].setAccessible(true);
-                    try {
-                        if (fields[i].getType() == int.class) {
-                            fields[i].setInt(propiedad, Integer.parseInt(data[i]));
-                        } else if (fields[i].getType() == double.class) {
-                            fields[i].setDouble(propiedad, Double.parseDouble(data[i]));
-                        } else {
-                            fields[i].set(propiedad, data[i]);
-                        }
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-                propiedades.add(propiedad);
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            try {
+                int id = Integer.parseInt(values[0].trim());
+                String direccion = values[1].trim();
+                double precio = Double.parseDouble(values[2].trim());
+                propiedades.add(new Propiedad(id, direccion, precio));
+            } catch (NumberFormatException e) {
+                System.err.println("Error al parsear la línea: " + line);
+                e.printStackTrace();
             }
         }
+        br.close();
         return propiedades;
     }
 
@@ -64,5 +56,25 @@ public class PropiedadCSV {
             writer.write(propiedad.toString());
             writer.newLine();
         }
+    }
+
+    public int obtenerMaxId() throws IOException {
+        int maxId = 0;
+        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            try {
+                int id = Integer.parseInt(values[0].trim());
+                if (id > maxId) {
+                    maxId = id;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Error al parsear la línea: " + line);
+                e.printStackTrace();
+            }
+        }
+        br.close();
+        return maxId;
     }
 }

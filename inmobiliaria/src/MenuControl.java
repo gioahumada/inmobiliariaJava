@@ -2,17 +2,22 @@ import java.util.*;
 import java.io.*;
 
 public class MenuControl {
+
+    /* Atributos */
     private final PropiedadCSV propiedadCSV;
     private final MenuVista menuVista;
 
+    
+    /* Constructor */
     public MenuControl(PropiedadCSV propiedadCSV, MenuVista menuView) {
         this.propiedadCSV = propiedadCSV;
         this.menuVista = menuView;
     }
 
+    /* Métodos */
+
     public void iniciar() {
         while (true) {
-            menuVista.limpiarPantalla();
             menuVista.mostrarMenu();
 
             try {
@@ -47,19 +52,18 @@ public class MenuControl {
     }
 
     private void agregarPropiedad() throws IOException {
-        int id = menuVista.obtenerId();
         String direccion = menuVista.obtenerDireccion();
         double precio = menuVista.obtenerPrecio();
 
-        Propiedad nuevaPropiedad = new Propiedad(id, direccion, precio);
+        Propiedad nuevaPropiedad = new Propiedad(direccion, precio);
         propiedadCSV.agregarPropiedad(nuevaPropiedad);
 
-        menuVista.mostrarMensaje("Propiedad agregada exitosamente.");
+        menuVista.mostrarMensajeExito("Propiedad agregada exitosamente.");
         menuVista.pausar();
     }
 
     private void leerPropiedades() throws IOException {
-        List<Propiedad> propiedades = propiedadCSV.leerPropiedades();
+        List<Propiedad> propiedades = propiedadCSV.leerPropiedades(); /* ArrayList */
 
         for (Propiedad p : propiedades) {
             menuVista.mostrarMensaje(p.mostrarFormateado());
@@ -76,7 +80,7 @@ public class MenuControl {
         Propiedad propiedadActualizada = new Propiedad(id, direccion, precio);
         propiedadCSV.actualizarPropiedad(propiedadActualizada);
 
-        menuVista.mostrarMensaje("Propiedad actualizada exitosamente.");
+        menuVista.mostrarMensajeExito("Propiedad actualizada exitosamente.");
         menuVista.pausar();
     }
 
@@ -84,7 +88,7 @@ public class MenuControl {
         int id = menuVista.obtenerId();
         propiedadCSV.eliminarPropiedad(id);
 
-        menuVista.mostrarMensaje("Propiedad eliminada exitosamente.");
+        menuVista.mostrarMensajeExito("Propiedad eliminada exitosamente.");
         menuVista.pausar();
     }
 }

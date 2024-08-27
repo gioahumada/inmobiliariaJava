@@ -3,6 +3,8 @@ import java.io.*;
 
 public class MenuVista {
     private final Scanner scanner = new Scanner(System.in);
+
+    /* CONSTANTES COLORES */
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_RED = "\u001B[31m";
@@ -10,6 +12,7 @@ public class MenuVista {
     private static final String ANSI_BOLD = "\u001B[1m";
 
     public void mostrarMenu() {
+        limpiarPantalla();
         System.out.printf(ANSI_GREEN + ANSI_BOLD);
         System.out.println("→ Sistema de Gestión de Propiedades\n");
         System.out.printf(ANSI_RESET + ANSI_YELLOW);
@@ -25,7 +28,7 @@ public class MenuVista {
     public int obtenerOpcion() {
         while (!scanner.hasNextInt()) {
             mostrarMensajeError("Entrada no válida. Por favor, ingrese un número.");
-            scanner.next(); // Clear the invalid input
+            scanner.next(); // QUEMA UNA LINEA /* NO QUITAR */
             System.out.print("\nSeleccione una opción: ");
         }
         return scanner.nextInt();
@@ -33,6 +36,12 @@ public class MenuVista {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    public void mostrarMensajeExito(String mensaje) {
+        System.out.printf(ANSI_GREEN);
+        System.out.println(mensaje);
+        System.out.printf(ANSI_RESET);
     }
 
     public void mostrarMensajeError(String mensaje) {
@@ -60,7 +69,7 @@ public class MenuVista {
         System.out.print("Ingrese ID: ");
         while (!scanner.hasNextInt()) {
             mostrarMensajeError("Entrada no válida. Por favor, ingrese un número.");
-            scanner.next(); // Clear the invalid input
+            scanner.next(); // QUEMA UNA LINEA /* NO QUITAR */
             System.out.print("Ingrese ID: ");
         }
         return scanner.nextInt();
@@ -68,7 +77,7 @@ public class MenuVista {
 
     public String obtenerDireccion() {
         System.out.print("Ingrese Dirección: ");
-        scanner.nextLine(); // Consume the newline left-over
+        scanner.nextLine(); // QUEMA UNA LINEA /* NO QUITAR */
         return scanner.nextLine();
     }
 
@@ -76,7 +85,7 @@ public class MenuVista {
         System.out.print("Ingrese Precio: ");
         while (!scanner.hasNextDouble()) {
             mostrarMensajeError("Entrada no válida. Por favor, ingrese un número.");
-            scanner.next(); // Clear the invalid input
+            scanner.next(); // QUEMA UNA LINEA /* NO QUITAR */
             System.out.print("Ingrese Precio: ");
         }
         return scanner.nextDouble();
