@@ -5,6 +5,7 @@ public class Propiedad {
     private int id;
     private String direccion;
     private double precio;
+    
 
     // Constructor sin argumentos
     public Propiedad() {}

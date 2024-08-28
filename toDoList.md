@@ -7,7 +7,7 @@ Acción: Documentar en el README.md el análisis de los datos a utilizar y las p
 ### SIA1.2 Diseño conceptual de clases del Dominio y su código en Java
 Acción: Asegurarte de que todas las clases del dominio están bien diseñadas y codificadas en Java. Actualmente, tienes la clase Propiedad, pero asegúrate de que todas las clases necesarias están presentes y bien diseñadas.
 
-### SIA1.3 Atributos privados con getters y setters
+### ✅ SIA1.3 Atributos privados con getters y setters
 Acción: Verificar que todos los atributos de todas las clases sean privados y tengan sus respectivos métodos de lectura y escritura (getters y setters). Por ejemplo, la clase Propiedad ya tiene getters y setters.
 
 ### SIA1.4 Datos iniciales dentro del código
