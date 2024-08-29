@@ -1,3 +1,5 @@
+package deprecatedd;
+
 import java.util.*;
 import java.io.*;
 
