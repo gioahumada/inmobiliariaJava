@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /* Clases en carpetas */
-import propiedades.Inmueble;
-import user.Usuario;
+import modelo.Inmueble;
+import modelo.Usuario;
 
 public class Inmobiliaria {
     private ArrayList<Inmueble> inmuebles;
