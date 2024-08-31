@@ -1,43 +1,32 @@
+package modelo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /* Clases en carpetas */
-import modelo.Inmueble;
-import modelo.Usuario;
 
 public class Inmobiliaria {
-    private ArrayList<Inmueble> inmuebles;
-    private Map<String, Usuario> usuarios;
+    private ArrayList<Comuna> comunas;
 
     public Inmobiliaria() {
-        inmuebles = new ArrayList<>();
-        usuarios = new HashMap<>();
+        this.comunas = new ArrayList<>();
     }
 
-    // Métodos para gestionar inmuebles
-    public void agregarInmueble(Inmueble inmueble) {
-        inmuebles.add(inmueble);
+    /* Metodos */
+
+    public void agregarComuna(Comuna comuna) {
+        comunas.add(comuna);
     }
 
-    public void eliminarInmueble(Inmueble inmueble) {
-        inmuebles.remove(inmueble);
+    public void eliminarComuna(Comuna comuna) {
+        comunas.remove(comuna);
     }
 
-    public ArrayList<Inmueble> listarInmuebles() {
-        return inmuebles;
+    public ArrayList<Comuna> getComunas() {
+        return comunas;
     }
 
-    // Métodos para gestionar usuarios
-    public void registrarUsuario(Usuario usuario) {
-        usuarios.put(usuario.getNombreUsuario(), usuario);
-    }
 
-    public Usuario autenticarUsuario(String nombreUsuario, String contraseña) {
-        Usuario usuario = usuarios.get(nombreUsuario);
-        if (usuario != null && usuario.verificarContraseña(contraseña)) { /* Agregar Funcion a User */
-            return usuario;
-        }
-        return null;
-    }
+
 }

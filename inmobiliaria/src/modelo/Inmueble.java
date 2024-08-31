@@ -1,4 +1,4 @@
-package propiedades;
+package modelo;
 
 public class Inmueble {
     /* Atributos */

@@ -1,4 +1,4 @@
-package propiedades;
+package modelo;
 
 public class Terreno extends Inmueble{
     private String direccion;

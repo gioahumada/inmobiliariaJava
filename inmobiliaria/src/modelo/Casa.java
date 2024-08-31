@@ -1,4 +1,4 @@
-package propiedades;
+package modelo;
 
 public class Casa extends Inmueble {
     private int numHabitaciones;
