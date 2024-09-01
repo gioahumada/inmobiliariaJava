@@ -6,15 +6,13 @@ public class Inmueble {
     private double precio;
     private String direccion;
     private double mts2;
-    private String claseDeZona;
 
     /* Constructor */
-    public Inmueble(int id, double precio, String direccion, double mts2, String ClaseDeZona) {
+    public Inmueble(int id, double precio, String direccion, double mts2) {
         this.id = id;
         this.precio = precio;
         this.direccion = direccion;
         this.mts2 = mts2;
-        this.claseDeZona = ClaseDeZona;
     }
 
     public Inmueble() {
@@ -22,7 +20,6 @@ public class Inmueble {
         this.precio = 0;
         this.direccion = "";
         this.mts2 = 0;
-        this.claseDeZona = "";
     }
 
     /* Getter & Setter */
@@ -59,20 +56,10 @@ public class Inmueble {
         this.mts2 = mts2;
     }
 
-    public String getClaseDeZona() {
-        return claseDeZona;
-    }
-
-    public void setClaseDeZona(String ClaseDeZona) {
-        this.claseDeZona = ClaseDeZona;
-    }
-
     /* Metodos */
 
     @Override
     public String toString() {
-        return id + "," + precio + "," + direccion + "," + mts2 + "," + claseDeZona;
+        return id + "," + precio + "," + direccion + "," + mts2;
     }
-
-
 }

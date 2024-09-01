@@ -60,4 +60,13 @@ public class InmobiliariaController {
     public List<Comuna> obtenerTodasLasComunas() {
         return inmobiliaria.getComunas();
     }
+
+    public List<Object> obtenerTodasLasPropiedadesDeComuna(int idComuna) {
+        Comuna comuna = obtenerComuna(idComuna);
+        if (comuna != null) {
+            return comuna.obtenerTodasLasPropiedades();
+        }
+        return null;
+    }
+
 }
