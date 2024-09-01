@@ -3,7 +3,9 @@ package controlador;
 
 import modelo.Casa;
 import modelo.Comuna;
+import modelo.Departamento;
 import modelo.Inmobiliaria;
+import modelo.Terreno;
 
 import java.util.List;
 
@@ -57,6 +59,26 @@ public class InmobiliariaController {
         }
     }
 
+    public void eliminarDepartamentoDeComuna(int idComuna, Departamento departamento) {
+        Comuna comuna = obtenerComuna(idComuna);
+        if (comuna != null) {
+            comuna.getDepartamentos().remove(departamento);
+            System.out.println("Departamento eliminado de la comuna con éxito.");
+        } else {
+            System.out.println("Comuna no encontrada.");
+        }
+    }
+
+    public void eliminarTerrenoDeComuna(int idComuna, Terreno terreno) {
+        Comuna comuna = obtenerComuna(idComuna);
+        if (comuna != null) {
+            comuna.getTerrenos().remove(terreno);
+            System.out.println("Terreno eliminado de la comuna con éxito.");
+        } else {
+            System.out.println("Comuna no encontrada.");
+        }
+    }
+
     public List<Comuna> obtenerTodasLasComunas() {
         return inmobiliaria.getComunas();
     }
@@ -69,4 +91,23 @@ public class InmobiliariaController {
         return null;
     }
 
+    public void agregarDepartamentoAComuna(int idComuna, Departamento departamento) {
+        Comuna comuna = obtenerComuna(idComuna);
+        if (comuna != null) {
+            comuna.agregarDepartamento(departamento);
+            System.out.println("Departamento añadido a la comuna con ID " + idComuna);
+        } else {
+            System.out.println("No se encontró la comuna con ID " + idComuna);
+        }
+    }    
+
+    public void agregarTerrenoAComuna(int idComuna, Terreno terreno) {
+        Comuna comuna = obtenerComuna(idComuna);
+        if (comuna != null) {
+            comuna.agregarTerreno(terreno);
+            System.out.println("Terreno añadido a la comuna con ID " + idComuna);
+        } else {
+            System.out.println("No se encontró la comuna con ID " + idComuna);
+        }
+    }
 }

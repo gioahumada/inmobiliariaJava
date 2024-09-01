@@ -56,7 +56,7 @@ public class Terreno extends Inmueble{
                 ", direccion='" + direccion + '\'' +
                 ", precio=" + precio +
                 ", mts2=" + getMts2() +
-                 '\'' +
+                '\'' +
                 ", disponibilidadServiciosBasicos=" + disponibilidadServiciosBasicos +
                 '}';
     }
