@@ -10,7 +10,7 @@ public class Departamento extends Inmueble {
 
     // Constructor con parámetros
     public Departamento(int id, String direccion, double precio, double mts2, String ClaseDeZona, int numHabitaciones, int numBanos, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
-        super(id, precio, direccion, mts2, ClaseDeZona);
+        super(id, precio, direccion, mts2);
         this.numHabitaciones = numHabitaciones;
         this.numBanos = numBanos;
         this.piso = piso;

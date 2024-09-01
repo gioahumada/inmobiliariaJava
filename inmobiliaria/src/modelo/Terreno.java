@@ -7,7 +7,7 @@ public class Terreno extends Inmueble{
 
     // Constructor con parámetros
     public Terreno(int id, String direccion, double precio, double mts2, String claseDeZona, boolean disponibilidadServiciosBasicos) {
-        super(id, precio, direccion, mts2, claseDeZona);
+        super(id, precio, direccion, mts2);
         this.direccion = direccion;
         this.precio = precio;
         this.disponibilidadServiciosBasicos = disponibilidadServiciosBasicos;
@@ -56,7 +56,7 @@ public class Terreno extends Inmueble{
                 ", direccion='" + direccion + '\'' +
                 ", precio=" + precio +
                 ", mts2=" + getMts2() +
-                ", claseDeZona='" + getClaseDeZona() + '\'' +
+                 '\'' +
                 ", disponibilidadServiciosBasicos=" + disponibilidadServiciosBasicos +
                 '}';
     }

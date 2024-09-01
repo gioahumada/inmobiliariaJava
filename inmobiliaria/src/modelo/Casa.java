@@ -7,8 +7,8 @@ public class Casa extends Inmueble {
     private int mts2Construidos;
     private boolean tienePatio;
 
-    public Casa(int id, double precio, String direccion, double mts2, String ClaseDeZona, int numHabitaciones, int numBanios, int numEstacionamiento, boolean tienePatio) {
-        super(id, precio, direccion, mts2, ClaseDeZona);
+    public Casa(int id, double precio, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, boolean tienePatio) {
+        super(id, precio, direccion, mts2);
         this.numHabitaciones = numHabitaciones;
         this.numBanios = numBanios;
         this.numEstacionamiento = numEstacionamiento;
@@ -21,6 +21,6 @@ public class Casa extends Inmueble {
         this.numEstacionamiento = 0;
         this.tienePatio = false;
     }
-
-
 }
+
+

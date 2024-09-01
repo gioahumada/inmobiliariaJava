@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Comuna {
     private int id;
@@ -79,6 +80,14 @@ public class Comuna {
         return casas;
     }
 
+    public List<Object> obtenerTodasLasPropiedades() {
+        List<Object> propiedades = new ArrayList<>();
+        propiedades.addAll(casas);
+        propiedades.addAll(departamentos);
+        propiedades.addAll(terrenos);
+        return propiedades;
+    }
+
     @Override
     public String toString() {
         return "Comuna{" +
@@ -88,3 +97,5 @@ public class Comuna {
                 '}';
     }
 }
+
+
