@@ -1,78 +1,63 @@
 package modelo;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Terreno extends Inmueble{
-    private boolean tieneServicioAgua;
-    private boolean tieneServicioLuz;
-    private boolean tieneServicioGas;
+    private String direccion;
+    private double precio;
+    private boolean disponibilidadServiciosBasicos;
 
-    public Terreno(int id, int precio, String direccion, double mts2, boolean tieneServicioAgua, boolean tieneServicioLuz, boolean tieneServicioGas) {
+    // Constructor con parámetros
+    public Terreno(int id, String direccion, double precio, double mts2, String claseDeZona, boolean disponibilidadServiciosBasicos) {
         super(id, precio, direccion, mts2);
-        this.tieneServicioAgua = tieneServicioAgua;
-        this.tieneServicioLuz = tieneServicioLuz;
-        this.tieneServicioGas = tieneServicioGas;
+        this.direccion = direccion;
+        this.precio = precio;
+        this.disponibilidadServiciosBasicos = disponibilidadServiciosBasicos;
+    }
+    // Getters y Setters
+
+    public String getDireccion() {
+        return direccion;
     }
 
-    /* Getter & Setter */
-
-    public boolean isTieneServicioAgua() {
-        return tieneServicioAgua;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public void setTieneServicioAgua(boolean tieneServicioAgua) {
-        this.tieneServicioAgua = tieneServicioAgua;
+    public double getPrecio() {
+        return precio;
     }
 
-    public boolean isTieneServicioLuz() {
-        return tieneServicioLuz;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    public void setTieneServicioLuz(boolean tieneServicioLuz) {
-        this.tieneServicioLuz = tieneServicioLuz;
+    public boolean isDisponibilidadServiciosBasicos() {
+        return disponibilidadServiciosBasicos;
     }
 
-    public boolean isTieneServicioGas() {
-        return tieneServicioGas;
+    public void setDisponibilidadServiciosBasicos(boolean disponibilidadServiciosBasicos) {
+        this.disponibilidadServiciosBasicos = disponibilidadServiciosBasicos;
     }
 
-    public void setTieneServicioGas(boolean tieneServicioGas) {
-        this.tieneServicioGas = tieneServicioGas;
-    }
-
-
-    /* Metodos */
-
-    public double calcPrecioTerreno() {
-        double multiplicador = 0;
-
-        if (this.isTieneServicioAgua()) {
-            multiplicador += 0.5;
-        }
-
-        if (this.isTieneServicioLuz()) {
-            multiplicador += 0.5;
-        }
-
-        if (this.isTieneServicioGas()) {
-            multiplicador += 0.5;
-        }
-
-        return multiplicador;
-    }
-
+    // Método para representar el terreno como una cadena de texto
     @Override
     public String toString() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
-        return "ID : " + this.getId() + "\n" +
-                "Precio: " + currencyFormat.format(this.getPrecio()) +  "\n" +
-                "Dirección: " + this.getDireccion() + "\n" +
-                "Metros Cuadrados: "+ this.getMts2() + "\n" +
-                "Tiene Agua: " + this.isTieneServicioAgua() + "\n" +
-                "Tiene Luz: " + this.isTieneServicioLuz() + "\n" +
-                "Tiene Gas: " + this.isTieneServicioGas() + "\n" +
-                "------------------------";
+        return "Terreno{" +
+                "direccion='" + direccion + '\'' +
+                ", precio=" + precio +
+                ", disponibilidadServiciosBasicos=" + disponibilidadServiciosBasicos +
+                '}';
     }
 
+    // Método para mostrar la información del terreno
+
+    public String mostrarFormateado() {
+        return "Terreno{" +
+                "id=" + getId() +
+                ", direccion='" + direccion + '\'' +
+                ", precio=" + precio +
+                ", mts2=" + getMts2() +
+                '\'' +
+                ", disponibilidadServiciosBasicos=" + disponibilidadServiciosBasicos +
+                '}';
+    }
 }

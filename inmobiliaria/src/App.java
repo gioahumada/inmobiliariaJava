@@ -9,8 +9,6 @@ public class App {
         Inmobiliaria inmobiliaria = new Inmobiliaria();
         InmobiliariaController controller = new InmobiliariaController(inmobiliaria);
         InmobiliariaVista vista = new InmobiliariaVista(controller);
-
-        inmobiliaria.inicializarDatosDePrueba();
         vista.mostrarMenu();
     }
 }

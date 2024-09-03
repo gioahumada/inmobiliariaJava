@@ -44,10 +44,6 @@ public class Comuna {
         this.clase = clase;
     }
 
-    /* Metodos */
-
-    // Departamento
-
     public void agregarDepartamento(Departamento departamento) {
         departamentos.add(departamento);
     }
@@ -59,8 +55,6 @@ public class Comuna {
     public ArrayList<Departamento> getDepartamentos() {
         return departamentos;
     }
-
-    // Terreno
 
     public void agregarTerreno(Terreno terreno) {
         terrenos.add(terreno);
@@ -74,8 +68,6 @@ public class Comuna {
         return terrenos;
     }
 
-    // Casa
-
     public void agregarCasa(Casa casa) {
         casas.add(casa);
     }
@@ -88,8 +80,6 @@ public class Comuna {
         return casas;
     }
 
-    // Mostrar todos las listas
-
     public List<Object> obtenerTodasLasPropiedades() {
         List<Object> propiedades = new ArrayList<>();
         propiedades.addAll(casas);
@@ -98,27 +88,13 @@ public class Comuna {
         return propiedades;
     }
 
-    public double calcPrecioAgregadoSector() {
-        String charClase = this.getClase();
-
-        return switch (charClase) {
-            case "A" -> 2.0;  // Clase alta, gran impacto
-            case "B" -> 1.5;
-            case "C" -> 1.2;
-            case "D" -> 1.0;
-            case "E" -> 0.8;
-            case "F" -> 0.5;  // Clase baja, menor impacto
-            default -> 0.0;
-        };
-    }
-
     @Override
     public String toString() {
-        return "ID: " + this.getId() + "\n" +
-        "Nombre: " + this.getNombre() + "\n" +
-        "Clase: " + this.getClase() + "\n" +
-        "Total Inmuebles: " + (departamentos.size() + casas.size() + terrenos.size()) + "\n" +
-        "------------------------";
+        return "Comuna{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", clase='" + clase + '\'' +
+                '}';
     }
 }
 

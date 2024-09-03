@@ -19,7 +19,7 @@ public class InmobiliariaVista {
     }
 
     public void mostrarMenu() {
-        System.out.println("Bienvenido a la InmobiliariaJava");
+        System.out.println("Bienvenido a la Inmobiliaria");
         while (true) {
             System.out.println();
             System.out.println("Seleccione una opción:");
@@ -162,7 +162,10 @@ public class InmobiliariaVista {
             System.out.println("No hay comunas que mostrar");
         } else {
             for (Comuna comuna : comunas) {
-                System.out.println(comuna.toString());
+                System.out.println("ID: " + comuna.getId());
+                System.out.println("Nombre: " + comuna.getNombre());
+                System.out.println("Clase: " + comuna.getClase());
+                System.out.println("------------------------");
             }
         }
     }
@@ -174,7 +177,15 @@ public class InmobiliariaVista {
     
         Comuna comuna = controller.obtenerComuna(idComuna);
         if (comuna != null) {
+<<<<<<< HEAD
             System.out.println(comuna.toString());
+=======
+            // Mostrar detalles de la comuna
+            System.out.println();
+            System.out.println("ID: " + comuna.getId());
+            System.out.println("Nombre: " + comuna.getNombre());
+            System.out.println("Clase: " + comuna.getClase());
+>>>>>>> parent of d81a185 (Improve Commune Management Functions)
     
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
             if (!propiedades.isEmpty()) {
@@ -182,13 +193,25 @@ public class InmobiliariaVista {
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;
-                        System.out.println(casa.toString());
+                        System.out.println("    Tipo: Casa");
+                        System.out.println("    ID: " + casa.getId());
+                        System.out.println("    Precio: " + casa.getPrecio());
+                        System.out.println("    Direccion: " + casa.getDireccion());
+                        System.out.println("    Metros Cuadrados: " + casa.getMts2());
                     } else if (propiedad instanceof Departamento) {
                         Departamento departamento = (Departamento) propiedad;
-                        System.out.println(departamento.toString());
+                        System.out.println("    Tipo: Departamento");
+                        System.out.println("    ID: " + departamento.getId());
+                        System.out.println("    Precio: " + departamento.getPrecio());
+                        System.out.println("    Direccion: " + departamento.getDireccion());
+                        System.out.println("    Metros Cuadrados: " + departamento.getMts2());
                     } else if (propiedad instanceof Terreno) {
                         Terreno terreno = (Terreno) propiedad;
-                        System.out.println(terreno.toString());
+                        System.out.println("    Tipo: Terreno");
+                        System.out.println("    ID: " + terreno.getId());
+                        System.out.println("    Precio: " + terreno.getPrecio());
+                        System.out.println("    Direccion: " + terreno.getDireccion());
+                        System.out.println("    Metros Cuadrados: " + terreno.getMts2());
                     }
                     System.out.println(); // Añadir una línea en blanco entre propiedades
                 }
@@ -241,6 +264,10 @@ public class InmobiliariaVista {
         int idCasa = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
+        System.out.println("Ingrese Precio:");
+        double precio = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    
         System.out.println("Ingrese Dirección:");
         String direccion = scanner.nextLine();
     
@@ -264,7 +291,7 @@ public class InmobiliariaVista {
         boolean tienePatio = scanner.nextBoolean();
         scanner.nextLine(); // Consume newline
     
-        Casa casa = new Casa(idCasa, 0, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
+        Casa casa = new Casa(idCasa, precio, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
         controller.agregarCasaAComuna(idComuna, casa);
     
         System.out.println("Casa añadida con éxito a la comuna.");
@@ -277,6 +304,10 @@ public class InmobiliariaVista {
     
         System.out.println("Ingrese ID del Departamento:");
         int idDepartamento = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese Precio:");
+        double precio = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
     
         System.out.println("Ingrese Dirección:");
@@ -304,7 +335,11 @@ public class InmobiliariaVista {
         String bodegaInput = scanner.nextLine().trim().toLowerCase();
         boolean tieneBodega = bodegaInput.equals("sí") || bodegaInput.equals("si");
     
+<<<<<<< HEAD
         Departamento departamento = new Departamento(idDepartamento, 0, direccion, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
+=======
+        Departamento departamento = new Departamento(idDepartamento, direccion, precio, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
+>>>>>>> parent of d81a185 (Improve Commune Management Functions)
         controller.agregarDepartamentoAComuna(idComuna, departamento);
     
         System.out.println("Departamento añadido con éxito a la comuna.");
@@ -319,6 +354,13 @@ public class InmobiliariaVista {
         int idTerreno = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
+<<<<<<< HEAD
+=======
+        System.out.println("Ingrese Precio:");
+        double precio = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    
+>>>>>>> parent of d81a185 (Improve Commune Management Functions)
         System.out.println("Ingrese Dirección:");
         String direccion = scanner.nextLine();
     
@@ -326,14 +368,25 @@ public class InmobiliariaVista {
         double mts2 = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
     
+<<<<<<< HEAD
         System.out.println("Ingrese Valor Fiscal:");
         double valorFiscal = scanner.nextDouble();
     
         Terreno terreno = new Terreno(idTerreno, 0, direccion, mts2, valorFiscal);
+=======
+        System.out.println("Ingrese Clase de Zona:");
+        String claseDeZona = scanner.nextLine();
+    
+        System.out.println("¿Tiene Disponibilidad de Servicios Básicos? (Sí/No):");
+        String serviciosInput = scanner.nextLine().trim().toLowerCase();
+        boolean disponibilidadServiciosBasicos = serviciosInput.equals("sí") || serviciosInput.equals("si");
+    
+        Terreno terreno = new Terreno(idTerreno, direccion, precio, mts2, claseDeZona, disponibilidadServiciosBasicos);
+>>>>>>> parent of d81a185 (Improve Commune Management Functions)
         controller.agregarTerrenoAComuna(idComuna, terreno);
     
         System.out.println("Terreno añadido con éxito a la comuna.");
-    }
+    }    
 
     private void quitarDeComuna() {
         System.out.println("1- Quitar Casa de Comuna");
