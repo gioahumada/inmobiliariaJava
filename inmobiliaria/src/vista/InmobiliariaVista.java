@@ -1,4 +1,3 @@
-// InmobiliariaVista.java
 package vista;
 
 import controlador.InmobiliariaController;
@@ -23,14 +22,11 @@ public class InmobiliariaVista {
         System.out.println("Bienvenido a la InmobiliariaJava");
         while (true) {
             System.out.println();
-            System.out.println("1. Mostrar Todas las Comunas");
-            System.out.println("2. Ver Comuna");
-            System.out.println("3. Crear Comuna");
-            System.out.println("4. Añadir a Comuna");
-            System.out.println("5. Eliminar Comuna");
-            System.out.println("6. Quitar a Comuna");
-            System.out.println("7. Actualizar Datos");
-            System.out.println("8. Salir");
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Gestionar Comunas");
+            System.out.println("2. Gestionar Propiedades");
+            System.out.println("3. Actualizar Datos");
+            System.out.println("4. Salir");
             System.out.println("Ingrese una opción:");
             System.out.println();
 
@@ -39,39 +35,117 @@ public class InmobiliariaVista {
 
             switch (opcion) {
                 case 1:
-                    limpiarPantalla();
-                    mostrarTodasLasComunas();
+                    menuGestionComunas();
                     break;
                 case 2:
-                    limpiarPantalla();
-                    verComuna();
-                    
+                    menuGestionPropiedades();
                     break;
                 case 3:
-                    limpiarPantalla();
-                    crearComuna();
+                    menuActualizarDatos();
                     break;
                 case 4:
-                    limpiarPantalla();
-                    añadirAComuna();
-                    break;
-                case 5:
-                    limpiarPantalla();
-                    eliminarComuna();
-                    break;
-                case 6:
-                    limpiarPantalla();
-                    quitarDeComuna();
-                    break;
-                case 7:
-                    limpiarPantalla();
-                    actualizarDatos();
-                    break;
-                case 8:
                     return;
                 default:
                     System.out.println("Opción no válida");
             }
+        }
+    }
+
+    private void menuGestionComunas() {
+        System.out.println("=== Gestión de Comunas ===");
+        System.out.println("1. Mostrar Todas las Comunas");
+        System.out.println("2. Ver Comuna");
+        System.out.println("3. Crear Comuna");
+        System.out.println("4. Eliminar Comuna");
+        System.out.println("5. Volver al Menú Principal");
+        System.out.println("Ingrese una opción:");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consumir nueva línea
+
+        switch (opcion) {
+            case 1:
+                limpiarPantalla();
+                mostrarTodasLasComunas();
+                break;
+            case 2:
+                limpiarPantalla();
+                verComuna();
+                break;
+            case 3:
+                limpiarPantalla();
+                crearComuna();
+                break;
+            case 4:
+                limpiarPantalla();
+                eliminarComuna();
+                break;
+            case 5:
+                return;
+            default:
+                System.out.println("Opción no válida");
+        }
+    }
+
+    private void menuGestionPropiedades() {
+        System.out.println("=== Gestión de Propiedades ===");
+        System.out.println("1. Añadir Propiedad a Comuna");
+        System.out.println("2. Quitar Propiedad de Comuna");
+        System.out.println("3. Volver al Menú Principal");
+        System.out.println("Ingrese una opción:");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consumir nueva línea
+
+        switch (opcion) {
+            case 1:
+                limpiarPantalla();
+                añadirAComuna();
+                break;
+            case 2:
+                limpiarPantalla();
+                quitarDeComuna();
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Opción no válida");
+        }
+    }
+
+    private void menuActualizarDatos() {
+        System.out.println("=== Actualización de Datos ===");
+        System.out.println("1. Actualizar Comuna");
+        System.out.println("2. Actualizar Casa");
+        System.out.println("3. Actualizar Departamento");
+        System.out.println("4. Actualizar Terreno");
+        System.out.println("5. Volver al Menú Principal");
+        System.out.println("Ingrese una opción:");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consumir nueva línea
+
+        switch (opcion) {
+            case 1:
+                limpiarPantalla();
+                actualizarComuna();
+                break;
+            case 2:
+                limpiarPantalla();
+                actualizarCasa();
+                break;
+            case 3:
+                limpiarPantalla();
+                actualizarDepartamento();
+                break;
+            case 4:
+                limpiarPantalla();
+                actualizarTerreno();
+                break;
+            case 5:
+                return;
+            default:
+                System.out.println("Opción no válida");
         }
     }
 
@@ -100,10 +174,8 @@ public class InmobiliariaVista {
     
         Comuna comuna = controller.obtenerComuna(idComuna);
         if (comuna != null) {
-            // Mostrar detalles de la comuna
             System.out.println(comuna.toString());
     
-            // Mostrar todas las propiedades de la comuna
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
             if (!propiedades.isEmpty()) {
                 System.out.println("Propiedades en la Comuna:");
@@ -232,193 +304,258 @@ public class InmobiliariaVista {
         String bodegaInput = scanner.nextLine().trim().toLowerCase();
         boolean tieneBodega = bodegaInput.equals("sí") || bodegaInput.equals("si");
     
-        Departamento departamento = new Departamento(idDepartamento, direccion, 0, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
+        Departamento departamento = new Departamento(idDepartamento, 0, direccion, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
         controller.agregarDepartamentoAComuna(idComuna, departamento);
     
         System.out.println("Departamento añadido con éxito a la comuna.");
     }
-
+    
     private void añadirTerrenoAComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-
+    
         System.out.println("Ingrese ID del Terreno:");
         int idTerreno = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-
+    
         System.out.println("Ingrese Dirección:");
         String direccion = scanner.nextLine();
-
+    
         System.out.println("Ingrese Metros Cuadrados:");
         double mts2 = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
-
-        System.out.println("¿Tiene Servicio de Agua? (Sí/No):");
-        String aguaInput = scanner.nextLine().trim().toLowerCase();
-        boolean tieneServicioAgua = aguaInput.equals("sí") || aguaInput.equals("si");
-
-        System.out.println("¿Tiene Servicio de Luz? (Sí/No):");
-        String luzInput = scanner.nextLine().trim().toLowerCase();
-        boolean tieneServicioLuz = luzInput.equals("sí") || luzInput.equals("si");
-
-        System.out.println("¿Tiene Servicio de Gas? (Sí/No):");
-        String gasInput = scanner.nextLine().trim().toLowerCase();
-        boolean tieneServicioGas = gasInput.equals("sí") || gasInput.equals("si");
-
-        // Creación del objeto Terreno con los parámetros correctos
-        Terreno terreno = new Terreno(idTerreno, 0, direccion, mts2, tieneServicioAgua, tieneServicioLuz, tieneServicioGas);
-
-        // Agregar el terreno a la comuna
+    
+        System.out.println("Ingrese Valor Fiscal:");
+        double valorFiscal = scanner.nextDouble();
+    
+        Terreno terreno = new Terreno(idTerreno, 0, direccion, mts2, valorFiscal);
         controller.agregarTerrenoAComuna(idComuna, terreno);
-
+    
         System.out.println("Terreno añadido con éxito a la comuna.");
     }
 
-    private void eliminarComuna() {
-        System.out.println("Ingrese ID:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        controller.eliminarComuna(id);
-    }
-
     private void quitarDeComuna() {
-        System.out.println("1- Eliminar Casa de Comuna");
-        System.out.println("2- Eliminar Departamento de Comuna");
-        System.out.println("3- Eliminar Terreno de Comuna");
+        System.out.println("1- Quitar Casa de Comuna");
+        System.out.println("2- Quitar Departamento de Comuna");
+        System.out.println("3- Quitar Terreno de Comuna");
         int opcion = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
         switch (opcion) {
             case 1:
-                eliminarCasaDeComuna();
+                quitarCasaDeComuna();
                 break;
             case 2:
-                eliminarDepartamentoDeComuna();
+                quitarDepartamentoDeComuna();
                 break;
             case 3:
-                eliminarTerrenoDeComuna();
+                quitarTerrenoDeComuna();
                 break;
             default:
                 System.out.println("Opción no válida");
         }
     }
 
-    private void eliminarCasaDeComuna() {
+    private void quitarCasaDeComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+    
         System.out.println("Ingrese ID de la Casa:");
         int idCasa = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
-        Comuna comuna = controller.obtenerComuna(idComuna);
-        if (comuna != null) {
-            for (Casa casa : comuna.getCasas()) {
-                if (casa.getId() == idCasa) {
-                    controller.eliminarCasaDeComuna(idComuna, casa);
-                    System.out.println("Casa eliminada con éxito.");
-                    return;
-                }
-            }
-            System.out.println("Casa no encontrada en la comuna.");
-        } else {
-            System.out.println("Comuna no encontrada");
-        }
+        controller.eliminarCasaDeComuna(idComuna, idCasa);
+    
+        System.out.println("Casa eliminada con éxito de la comuna.");
     }
     
-    private void eliminarDepartamentoDeComuna() {
+    private void quitarDepartamentoDeComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+    
         System.out.println("Ingrese ID del Departamento:");
         int idDepartamento = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
-        Comuna comuna = controller.obtenerComuna(idComuna);
-        if (comuna != null) {
-            for (Departamento departamento : comuna.getDepartamentos()) { // Suponiendo que Comuna tiene un método getDepartamentos
-                if (departamento.getId() == idDepartamento) {
-                    controller.eliminarDepartamentoDeComuna(idComuna, departamento);
-                    System.out.println("Departamento eliminado con éxito.");
-                    return;
-                }
-            }
-            System.out.println("Departamento no encontrado en la comuna.");
-        } else {
-            System.out.println("Comuna no encontrada");
-        }
+        controller.eliminarDepartamentoDeComuna(idComuna, idDepartamento);
+    
+        System.out.println("Departamento eliminado con éxito de la comuna.");
     }
     
-    private void eliminarTerrenoDeComuna() {
+    private void quitarTerrenoDeComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+    
         System.out.println("Ingrese ID del Terreno:");
         int idTerreno = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
-        Comuna comuna = controller.obtenerComuna(idComuna);
-        if (comuna != null) {
-            for (Terreno terreno : comuna.getTerrenos()) { // Suponiendo que Comuna tiene un método getTerrenos
-                if (terreno.getId() == idTerreno) {
-                    controller.eliminarTerrenoDeComuna(idComuna, terreno);
-                    System.out.println("Terreno eliminado con éxito.");
-                    return;
-                }
-            }
-            System.out.println("Terreno no encontrado en la comuna.");
-        } else {
-            System.out.println("Comuna no encontrada");
-        }
-    }    
-
-    private void actualizarDatos() {
-        System.out.println("1- Actualizar Comuna");
-        System.out.println("2- Actualizar Casa");
-        System.out.println("3- Actualizar Departamento");
-        System.out.println("4- Actualizar Terreno");
-        int opcion = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        controller.eliminarTerrenoDeComuna(idComuna, idTerreno);
     
-        switch (opcion) {
-            case 1:
-                actualizarComuna();
-                break;
-            case 2:
-                actualizarCasa();
-                break;
-            case 3:
-                actualizarDepartamento();
-                break;
-            case 4:
-                actualizarTerreno();
-                break;
-            default:
-                System.out.println("Opción no válida");
-        }
+        System.out.println("Terreno eliminado con éxito de la comuna.");
     }
-    
+
     private void actualizarComuna() {
-        System.out.println("Ingrese ID:");
-        int id = scanner.nextInt();
+        System.out.println("Ingrese ID de la Comuna a Actualizar:");
+        int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+    
+        Comuna comuna = controller.obtenerComuna(idComuna);
+        if (comuna == null) {
+            System.out.println("Comuna no encontrada");
+            return;
+        }
+    
         System.out.println("Ingrese Nuevo Nombre:");
-        String nombre = scanner.nextLine();
+        String nuevoNombre = scanner.nextLine();
+    
         System.out.println("Ingrese Nueva Clase:");
-        String clase = scanner.nextLine();
-        controller.actualizarComuna(id, nombre, clase);
+        String nuevaClase = scanner.nextLine();
+    
+        comuna.setNombre(nuevoNombre);
+        comuna.setClase(nuevaClase);
+    
+        System.out.println("Comuna actualizada con éxito.");
     }
     
     private void actualizarCasa() {
-        System.out.println("Funcionalidad de actualizar casa aún no implementada.");
+        System.out.println("Ingrese ID de la Comuna:");
+        int idComuna = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese ID de la Casa a Actualizar:");
+        int idCasa = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        Casa casa = controller.obtenerCasaDeComuna(idComuna, idCasa);
+        if (casa == null) {
+            System.out.println("Casa no encontrada");
+            return;
+        }
+    
+        System.out.println("Ingrese Nueva Dirección:");
+        String nuevaDireccion = scanner.nextLine();
+    
+        System.out.println("Ingrese Nuevos Metros Cuadrados:");
+        double nuevosMts2 = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese Nuevo Número de Habitaciones:");
+        int nuevoNumHabitaciones = scanner.nextInt();
+    
+        System.out.println("Ingrese Nuevo Número de Baños:");
+        int nuevoNumBanios = scanner.nextInt();
+    
+        System.out.println("Ingrese Nuevo Número de Estacionamientos:");
+        int nuevoNumEstacionamiento = scanner.nextInt();
+    
+        System.out.println("Ingrese Nuevos Metros Cuadrados Construidos:");
+        int nuevosMts2Construidos = scanner.nextInt();
+    
+        System.out.println("¿Tiene Patio? (true/false):");
+        boolean nuevoTienePatio = scanner.nextBoolean();
+        scanner.nextLine(); // Consume newline
+    
+        casa.setDireccion(nuevaDireccion);
+        casa.setMts2(nuevosMts2);
+        casa.setNumHabitaciones(nuevoNumHabitaciones);
+        casa.setNumBanios(nuevoNumBanios);
+        casa.setNumEstacionamiento(nuevoNumEstacionamiento);
+        casa.setMts2Construidos(nuevosMts2Construidos);
+        casa.setTienePatio(nuevoTienePatio);
+    
+        System.out.println("Casa actualizada con éxito.");
     }
     
     private void actualizarDepartamento() {
-        System.out.println("Funcionalidad de actualizar departamento aún no implementada.");
+        System.out.println("Ingrese ID de la Comuna:");
+        int idComuna = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese ID del Departamento a Actualizar:");
+        int idDepartamento = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        Departamento departamento = controller.obtenerDepartamentoDeComuna(idComuna, idDepartamento);
+        if (departamento == null) {
+            System.out.println("Departamento no encontrado");
+            return;
+        }
+    
+        System.out.println("Ingrese Nueva Dirección:");
+        String nuevaDireccion = scanner.nextLine();
+    
+        System.out.println("Ingrese Nuevos Metros Cuadrados:");
+        double nuevosMts2 = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese Nuevo Número de Habitaciones:");
+        int nuevoNumHabitaciones = scanner.nextInt();
+    
+        System.out.println("Ingrese Nuevo Número de Baños:");
+        int nuevoNumBanios = scanner.nextInt();
+    
+        System.out.println("Ingrese Nuevo Piso:");
+        int nuevoPiso = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("¿Tiene Estacionamiento? (true/false):");
+        boolean nuevoTieneEstacionamiento = scanner.nextBoolean();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("¿Tiene Bodega? (true/false):");
+        boolean nuevoTieneBodega = scanner.nextBoolean();
+        scanner.nextLine(); // Consume newline
+    
+        departamento.setDireccion(nuevaDireccion);
+        departamento.setMts2(nuevosMts2);
+        departamento.setNumHabitaciones(nuevoNumHabitaciones);
+        departamento.setNumBanios(nuevoNumBanios);
+        departamento.setPiso(nuevoPiso);
+        departamento.setTieneEstacionamiento(nuevoTieneEstacionamiento);
+        departamento.setTieneBodega(nuevoTieneBodega);
+    
+        System.out.println("Departamento actualizado con éxito.");
     }
     
     private void actualizarTerreno() {
-        System.out.println("Funcionalidad de actualizar terreno aún no implementada.");
-    }    
+        System.out.println("Ingrese ID de la Comuna:");
+        int idComuna = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese ID del Terreno a Actualizar:");
+        int idTerreno = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    
+        Terreno terreno = controller.obtenerTerrenoDeComuna(idComuna, idTerreno);
+        if (terreno == null) {
+            System.out.println("Terreno no encontrado");
+            return;
+        }
+    
+        System.out.println("Ingrese Nueva Dirección:");
+        String nuevaDireccion = scanner.nextLine();
+    
+        System.out.println("Ingrese Nuevos Metros Cuadrados:");
+        double nuevosMts2 = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    
+        System.out.println("Ingrese Nuevo Valor Fiscal:");
+        double nuevoValorFiscal = scanner.nextDouble();
+    
+        terreno.setDireccion(nuevaDireccion);
+        terreno.setMts2(nuevosMts2);
+        terreno.setValorFiscal(nuevoValorFiscal);
+    
+        System.out.println("Terreno actualizado con éxito.");
+    }
+
+    private void eliminarComuna() {
+        System.out.println("Ingrese ID de la Comuna a Eliminar:");
+        int id = scanner.nextInt();
+        controller.eliminarComuna(id);
+    }
 }
