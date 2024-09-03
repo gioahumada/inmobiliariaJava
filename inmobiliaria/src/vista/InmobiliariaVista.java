@@ -20,7 +20,7 @@ public class InmobiliariaVista {
     }
 
     public void mostrarMenu() {
-        System.out.println("Bienvenido a la Inmobiliaria");
+        System.out.println("Bienvenido a la InmobiliariaJava");
         while (true) {
             System.out.println();
             System.out.println("1. Mostrar Todas las Comunas");
@@ -88,10 +88,7 @@ public class InmobiliariaVista {
             System.out.println("No hay comunas que mostrar");
         } else {
             for (Comuna comuna : comunas) {
-                System.out.println("ID: " + comuna.getId());
-                System.out.println("Nombre: " + comuna.getNombre());
-                System.out.println("Clase: " + comuna.getClase());
-                System.out.println("------------------------");
+                System.out.println(comuna.toString());
             }
         }
     }
@@ -104,10 +101,7 @@ public class InmobiliariaVista {
         Comuna comuna = controller.obtenerComuna(idComuna);
         if (comuna != null) {
             // Mostrar detalles de la comuna
-            System.out.println();
-            System.out.println("ID: " + comuna.getId());
-            System.out.println("Nombre: " + comuna.getNombre());
-            System.out.println("Clase: " + comuna.getClase());
+            System.out.println(comuna.toString());
     
             // Mostrar todas las propiedades de la comuna
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
@@ -116,25 +110,13 @@ public class InmobiliariaVista {
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;
-                        System.out.println("    Tipo: Casa");
-                        System.out.println("    ID: " + casa.getId());
-                        System.out.println("    Precio: " + casa.getPrecio());
-                        System.out.println("    Direccion: " + casa.getDireccion());
-                        System.out.println("    Metros Cuadrados: " + casa.getMts2());
+                        System.out.println(casa.toString());
                     } else if (propiedad instanceof Departamento) {
                         Departamento departamento = (Departamento) propiedad;
-                        System.out.println("    Tipo: Departamento");
-                        System.out.println("    ID: " + departamento.getId());
-                        System.out.println("    Precio: " + departamento.getPrecio());
-                        System.out.println("    Direccion: " + departamento.getDireccion());
-                        System.out.println("    Metros Cuadrados: " + departamento.getMts2());
+                        System.out.println(departamento.toString());
                     } else if (propiedad instanceof Terreno) {
                         Terreno terreno = (Terreno) propiedad;
-                        System.out.println("    Tipo: Terreno");
-                        System.out.println("    ID: " + terreno.getId());
-                        System.out.println("    Precio: " + terreno.getPrecio());
-                        System.out.println("    Direccion: " + terreno.getDireccion());
-                        System.out.println("    Metros Cuadrados: " + terreno.getMts2());
+                        System.out.println(terreno.toString());
                     }
                     System.out.println(); // Añadir una línea en blanco entre propiedades
                 }
@@ -187,10 +169,6 @@ public class InmobiliariaVista {
         int idCasa = scanner.nextInt();
         scanner.nextLine(); // Consume newline
     
-        System.out.println("Ingrese Precio:");
-        double precio = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
-    
         System.out.println("Ingrese Dirección:");
         String direccion = scanner.nextLine();
     
@@ -214,7 +192,7 @@ public class InmobiliariaVista {
         boolean tienePatio = scanner.nextBoolean();
         scanner.nextLine(); // Consume newline
     
-        Casa casa = new Casa(idCasa, precio, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
+        Casa casa = new Casa(idCasa, 0, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
         controller.agregarCasaAComuna(idComuna, casa);
     
         System.out.println("Casa añadida con éxito a la comuna.");
@@ -227,10 +205,6 @@ public class InmobiliariaVista {
     
         System.out.println("Ingrese ID del Departamento:");
         int idDepartamento = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-    
-        System.out.println("Ingrese Precio:");
-        double precio = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
     
         System.out.println("Ingrese Dirección:");
@@ -258,44 +232,48 @@ public class InmobiliariaVista {
         String bodegaInput = scanner.nextLine().trim().toLowerCase();
         boolean tieneBodega = bodegaInput.equals("sí") || bodegaInput.equals("si");
     
-        Departamento departamento = new Departamento(idDepartamento, direccion, precio, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
+        Departamento departamento = new Departamento(idDepartamento, direccion, 0, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
         controller.agregarDepartamentoAComuna(idComuna, departamento);
     
         System.out.println("Departamento añadido con éxito a la comuna.");
     }
-    
+
     private void añadirTerrenoAComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
+
         System.out.println("Ingrese ID del Terreno:");
         int idTerreno = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
-        System.out.println("Ingrese Precio:");
-        double precio = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
-    
+
         System.out.println("Ingrese Dirección:");
         String direccion = scanner.nextLine();
-    
+
         System.out.println("Ingrese Metros Cuadrados:");
         double mts2 = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
-    
-        System.out.println("Ingrese Clase de Zona:");
-        String claseDeZona = scanner.nextLine();
-    
-        System.out.println("¿Tiene Disponibilidad de Servicios Básicos? (Sí/No):");
-        String serviciosInput = scanner.nextLine().trim().toLowerCase();
-        boolean disponibilidadServiciosBasicos = serviciosInput.equals("sí") || serviciosInput.equals("si");
-    
-        Terreno terreno = new Terreno(idTerreno, direccion, precio, mts2, claseDeZona, disponibilidadServiciosBasicos);
+
+        System.out.println("¿Tiene Servicio de Agua? (Sí/No):");
+        String aguaInput = scanner.nextLine().trim().toLowerCase();
+        boolean tieneServicioAgua = aguaInput.equals("sí") || aguaInput.equals("si");
+
+        System.out.println("¿Tiene Servicio de Luz? (Sí/No):");
+        String luzInput = scanner.nextLine().trim().toLowerCase();
+        boolean tieneServicioLuz = luzInput.equals("sí") || luzInput.equals("si");
+
+        System.out.println("¿Tiene Servicio de Gas? (Sí/No):");
+        String gasInput = scanner.nextLine().trim().toLowerCase();
+        boolean tieneServicioGas = gasInput.equals("sí") || gasInput.equals("si");
+
+        // Creación del objeto Terreno con los parámetros correctos
+        Terreno terreno = new Terreno(idTerreno, 0, direccion, mts2, tieneServicioAgua, tieneServicioLuz, tieneServicioGas);
+
+        // Agregar el terreno a la comuna
         controller.agregarTerrenoAComuna(idComuna, terreno);
-    
+
         System.out.println("Terreno añadido con éxito a la comuna.");
-    }    
+    }
 
     private void eliminarComuna() {
         System.out.println("Ingrese ID:");

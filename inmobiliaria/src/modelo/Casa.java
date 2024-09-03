@@ -1,5 +1,9 @@
 package modelo;
 
+/* Transformar precios */
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Casa extends Inmueble {
     private int numHabitaciones;
     private int numBanios;
@@ -8,7 +12,7 @@ public class Casa extends Inmueble {
     private boolean tienePatio;
 
     // Constructor con parámetros
-    public Casa(int id, double precio, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
+    public Casa(int id, int precio, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
         super(id, precio, direccion, mts2);
         this.numHabitaciones = numHabitaciones;
         this.numBanios = numBanios;
@@ -68,15 +72,66 @@ public class Casa extends Inmueble {
         this.tienePatio = tienePatio;
     }
 
-    // Método para representar la casa como una cadena de texto
+    /* Metodos */
+
+    /* $$$$ */
+
+    public double calcPrecioCasa() {
+        double valorAgregado = 0;
+
+        /*Num Habitaciones */
+
+        if (this.getNumHabitaciones() > 2) {
+            valorAgregado += (getNumHabitaciones() - 2) * 0.02;
+        }
+
+        if (this.getNumHabitaciones() < 0) {
+            valorAgregado -= 2.0;
+        }
+
+        /* Baños */
+
+        if (this.getNumBanios() > 1) {
+            valorAgregado += (getNumBanios() - 1) * 0.03;
+        }
+
+        if (this.getNumBanios() < 0) {
+            valorAgregado -= 2.0;
+        }
+
+        /* Estacionamiento */
+
+        if (this.getNumEstacionamiento() > 1) {
+            valorAgregado += (getNumEstacionamiento() - 1) * 0.2;
+        }
+
+        if (this.getNumBanios() < 0) {
+            valorAgregado -= 2.0;
+        }
+
+        if (this.isTienePatio()) {
+            valorAgregado += 0.5;
+        }
+
+        return valorAgregado;
+    }
+
+    public double precioMetroCuadradoConstruido() {
+        return this.getMts2Construidos() * 500000; /*Valor mt2 construido aprox 2024 */
+    }
+
     @Override
     public String toString() {
-        return "Casa{" +
-                "numHabitaciones=" + numHabitaciones +
-                ", numBanios=" + numBanios +
-                ", numEstacionamiento=" + numEstacionamiento +
-                ", mts2Construidos=" + mts2Construidos +
-                ", tienePatio=" + tienePatio +
-                "} " + super.toString();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
+        return "ID : " + this.getId() + "\n" +
+                "Precio: " + currencyFormat.format(this.getPrecio()) +  "\n" + /* Formatea a peso chileno y agrega $*/
+                "Direccion: " + this.getDireccion() + "\n" +
+                "Metros Cuadrados: " + this.getMts2() + "\n" +
+                "Cant. Baños: " + this.getNumBanios() + "\n" +
+                "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
+                "Cant. Estacionamientos: " + this.getNumEstacionamiento() + "\n" +
+                "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
+                "Tiene Patio: " + this.isTienePatio() + "\n" +
+                "------------------------";
     }
 }
