@@ -3,12 +3,12 @@ package modelo;
 public class Inmueble {
     /* Atributos */
     private int id;
-    private double precio;
+    private int precio;
     private String direccion;
     private double mts2;
 
     /* Constructor */
-    public Inmueble(int id, double precio, String direccion, double mts2) {
+    public Inmueble(int id, int precio, String direccion, double mts2) {
         this.id = id;
         this.precio = precio;
         this.direccion = direccion;
@@ -36,8 +36,12 @@ public class Inmueble {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = (int) precio;
     }
 
     public String getDireccion() {
@@ -57,6 +61,10 @@ public class Inmueble {
     }
 
     /* Metodos */
+
+    public int precioMetroCuadrado() {
+        return (int) this.getMts2() * 110282;  /*Valor mt2 2024 */
+    }
 
     @Override
     public String toString() {
