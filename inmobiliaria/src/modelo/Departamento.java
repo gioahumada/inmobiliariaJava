@@ -1,8 +1,5 @@
 package modelo;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Departamento extends Inmueble {
     private int numHabitaciones;
     private int numBanos;
@@ -12,7 +9,7 @@ public class Departamento extends Inmueble {
 
 
     // Constructor con parámetros
-    public Departamento(int id, String direccion, int precio, double mts2, int numHabitaciones, int numBanos, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
+    public Departamento(int id, int precio, String direccion, double mts2, int numHabitaciones, int numBanos, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
         super(id, precio, direccion, mts2);
         this.numHabitaciones = numHabitaciones;
         this.numBanos = numBanos;
@@ -65,11 +62,6 @@ public class Departamento extends Inmueble {
 
     /* $$$$ */
 
-    public String getPrecioFormateado() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
-        return currencyFormat.format(this.getPrecio());
-    }
-
     public double calcPrecioDepartamento() {
         double multiplicador = 0;
 
@@ -94,14 +86,12 @@ public class Departamento extends Inmueble {
         return multiplicador;
     }
 
-
-
     // Método para representar el departamento como una cadena de texto
     @Override
     public String toString() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
-        return "ID : " + this.getId() + "\n" +
-                "Precio: " + currencyFormat.format(this.getPrecio()) +  "\n" + /* Formatea a peso chileno y agrega $*/
+        return "Departamento\n" +
+                "ID : " + this.getId() + "\n" +
+                "Precio: " + this.getPrecioFormat() +  "\n" +
                 "Direccion: " + this.getDireccion() + "\n" +
                 "Metros Cuadrados: " + this.getMts2() + "\n" +
                 "Cant. Baños: " + this.getNumBanos() + "\n" +
@@ -111,5 +101,15 @@ public class Departamento extends Inmueble {
                 "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
                 "Tiene bodega: " + isTieneBodega() + "\n" +
                 "------------------------";
+    }
+
+    public String toString(boolean incluirInfoAdicional) {
+        if (incluirInfoAdicional) {
+            return toString() + "\n" +
+                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
+                    "------------------------";
+        } else {
+            return toString();
+        }
     }
 }

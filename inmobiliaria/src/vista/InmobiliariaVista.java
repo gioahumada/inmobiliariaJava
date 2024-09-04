@@ -1,11 +1,7 @@
-// InmobiliariaVista.java
 package vista;
 
 import controlador.InmobiliariaController;
-import modelo.Casa;
-import modelo.Comuna;
-import modelo.Departamento;
-import modelo.Terreno;
+import modelo.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,9 +16,86 @@ public class InmobiliariaVista {
     }
 
     public void mostrarMenu() {
-        System.out.println("Bienvenido a la InmobiliariaJava");
+        mostrarMenuLogin(); // Llamar al método de login antes de mostrar el menú principal
+    }
+
+    private void mostrarMenuLogin() {
+        limpiarPantalla();
+        System.out.println("=== Sistema de Inicio de Sesión ===\n");
+        System.out.println("¿Desea iniciar sesión o continuar como invitado?");
+        System.out.println("1. Iniciar sesión");
+        System.out.println("2. Continuar como invitado");
+        System.out.println("\nIngrese una opción:");
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Consumir nueva línea
+
+        if (opcion == 1) {
+            limpiarPantalla();
+            System.out.println("Ingrese su nombre de usuario:");
+            String nombreUsuario = scanner.nextLine();
+            System.out.println("Ingrese su contraseña:");
+            String contraseña = scanner.nextLine();
+
+            Usuario usuario = controller.obtenerUsuario(nombreUsuario);
+            if (usuario != null && usuario.getHashContraseña().equals(contraseña)) {
+                if (usuario.isEsAdministrador()) {
+                    limpiarPantalla();
+                    System.out.println("Bienvenido Administrador " + nombreUsuario);
+                    mostrarMenuAdministrador(); // Mostrar menú existente para administradores
+                } else {
+                    limpiarPantalla();
+                    System.out.println("Bienvenido Invitado " + nombreUsuario);
+                    mostrarMenuInvitado(); // Mostrar menú limitado para invitados
+                }
+            } else {
+                System.out.println("Usuario o contraseña incorrectos.");
+                System.exit(0); // Salir del sistema si las credenciales son incorrectas
+            }
+        } else if (opcion == 2) {
+            limpiarPantalla();
+            System.out.println("Continuando como invitado...");
+            mostrarMenuInvitado(); // Mostrar menú limitado para invitados
+        } else {
+            limpiarPantalla();
+            System.out.println("Opción no válida");
+            System.exit(0); // Salir del sistema si la opción es inválida
+        }
+    }
+
+    private void mostrarMenuInvitado() {
         while (true) {
             System.out.println();
+            System.out.println("=== Menú Invitado ===");
+            System.out.println("1. Mostrar Todas las Comunas");
+            System.out.println("2. Ver Comuna");
+            System.out.println("3. Salir");
+            System.out.println("Ingrese una opción:");
+            System.out.println();
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir nueva línea
+
+            switch (opcion) {
+                case 1:
+                    limpiarPantalla();
+                    mostrarTodasLasComunas();
+                    break;
+                case 2:
+                    limpiarPantalla();
+                    verComuna();
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Opción no válida");
+            }
+        }
+    }
+
+    public void mostrarMenuAdministrador() {
+        while (true) {
+            System.out.println();
+            System.out.println("=== InmobiliariaJava ===");
             System.out.println("1. Menú Comuna");
             System.out.println("2. Menú Propiedades");
             System.out.println("3. Menú Actualización de Datos");
@@ -105,7 +178,7 @@ public class InmobiliariaVista {
             switch (opcion) {
                 case 1:
                     limpiarPantalla();
-                    añadirAComuna();
+                    addAComuna();
                     break;
                 case 2:
                     limpiarPantalla();
@@ -158,10 +231,18 @@ public class InmobiliariaVista {
         }
     }
 
+
     private void limpiarPantalla() {
-        for (int i = 0; i < 8; i++) {
-            System.out.println();
-        }
+        for (int i = 0; i < 50; ++i) System.out.println();
+    }
+
+    /* Gracias a StackOverFlow */
+    public void pause() {
+        String verde = "\u001B[32m";
+        String reset = "\u001B[0m";
+
+        System.out.println(verde + "Presione Enter para continuar..." + reset);
+        scanner.nextLine();
     }
 
     private void mostrarTodasLasComunas() {
@@ -174,6 +255,7 @@ public class InmobiliariaVista {
                 System.out.println(comuna.toString());
             }
         }
+        pause();
     }
 
     private void verComuna() {
@@ -207,6 +289,7 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada");
         }
+        pause();
     }
 
     private void crearComuna() {
@@ -218,9 +301,10 @@ public class InmobiliariaVista {
         System.out.println("Ingrese Clase:");
         String clase = scanner.nextLine();
         controller.agregarComuna(id, nombre, clase);
+        pause();
     }
 
-    private void añadirAComuna() {
+    private void addAComuna() {
         System.out.println("1. Añadir Casa a Comuna");
         System.out.println("2. Añadir Departamento a Comuna");
         System.out.println("3. Añadir Terreno a Comuna");
@@ -229,20 +313,20 @@ public class InmobiliariaVista {
 
         switch (opcion) {
             case 1:
-                añadirCasaAComuna();
+                addCasaAComuna();
                 break;
             case 2:
-                añadirDepartamentoAComuna();
+                addDepartamentoAComuna();
                 break;
             case 3:
-                añadirTerrenoAComuna();
+                addTerrenoAComuna();
                 break;
             default:
                 System.out.println("Opción no válida");
         }
     }
 
-    private void añadirCasaAComuna() {
+    private void addCasaAComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine();
@@ -278,7 +362,7 @@ public class InmobiliariaVista {
         controller.agregarCasaAComuna(idComuna, casa);
 
         System.out.println("Casa añadida con éxito a la comuna.");
-        System.out.println("Precio asignado: " + (int) casa.getPrecio());
+        System.out.println("Precio asignado: " + casa.getPrecioFormat());
         System.out.println("¿Desea aceptar el precio? (sí/no):");
         String respuesta = scanner.nextLine().trim().toLowerCase();
 
@@ -287,11 +371,13 @@ public class InmobiliariaVista {
             double nuevoPrecio = scanner.nextDouble();
             scanner.nextLine();
             casa.setPrecio(nuevoPrecio);
-            System.out.println("Precio actualizado: " + casa.getPrecio());
+            System.out.println("Precio actualizado: " + casa.getPrecioFormat());
         }
+
+        pause();
     }
 
-    private void añadirDepartamentoAComuna() {
+    private void addDepartamentoAComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine();
@@ -325,11 +411,11 @@ public class InmobiliariaVista {
         String bodegaInput = scanner.nextLine().trim().toLowerCase();
         boolean tieneBodega = bodegaInput.equals("sí") || bodegaInput.equals("si");
 
-        Departamento departamento = new Departamento(idDepartamento, direccion, 0, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
+        Departamento departamento = new Departamento(idDepartamento, 0, direccion, mts2, numHabitaciones, numBanos, piso, tieneEstacionamiento, tieneBodega);
         controller.agregarDepartamentoAComuna(idComuna, departamento);
 
         System.out.println("Departamento añadido con éxito a la comuna.");
-        System.out.println("Precio asignado: " + departamento.getPrecio());
+        System.out.println("Precio asignado: " + departamento.getPrecioFormat());
         System.out.println("¿Desea aceptar el precio? (sí/no):");
         String respuesta = scanner.nextLine().trim().toLowerCase();
 
@@ -338,12 +424,13 @@ public class InmobiliariaVista {
             double nuevoPrecio = scanner.nextDouble();
             scanner.nextLine();
             departamento.setPrecio(nuevoPrecio);
-            System.out.println("Precio actualizado: " + departamento.getPrecio());
+            System.out.println("Precio actualizado: " + departamento.getPrecioFormat());
         }
+        pause();
     }
 
 
-    private void añadirTerrenoAComuna() {
+    private void addTerrenoAComuna() {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine();
@@ -375,7 +462,7 @@ public class InmobiliariaVista {
         controller.agregarTerrenoAComuna(idComuna, terreno);
 
         System.out.println("Terreno añadido con éxito a la comuna.");
-        System.out.println("Precio asignado: " + terreno.getPrecio());
+        System.out.println("Precio asignado: " + terreno.getPrecioFormat());
         System.out.println("¿Desea aceptar el precio? (sí/no):");
         String respuesta = scanner.nextLine().trim().toLowerCase();
 
@@ -384,8 +471,10 @@ public class InmobiliariaVista {
             double nuevoPrecio = scanner.nextDouble();
             scanner.nextLine();
             terreno.setPrecio(nuevoPrecio);
-            System.out.println("Precio actualizado: " + terreno.getPrecio());
+            System.out.println("Precio actualizado: " + terreno.getPrecioFormat());
         }
+
+        pause();
     }
 
     private void quitarDeComuna() {
@@ -431,6 +520,7 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+        pause();
     }
 
     private void quitarDepartamentoDeComuna() {
@@ -454,6 +544,8 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+
+        pause();
     }
 
     private void quitarTerrenoDeComuna() {
@@ -477,6 +569,8 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+
+        pause();
     }
 
     private void eliminarComuna() {
@@ -484,6 +578,7 @@ public class InmobiliariaVista {
         int id = scanner.nextInt();
         scanner.nextLine();
         controller.eliminarComuna(id);
+        pause();
     }
 
     private void actualizarComuna() {
@@ -499,6 +594,8 @@ public class InmobiliariaVista {
 
         controller.actualizarComuna(idComuna, nombre, clase);
         System.out.println("Comuna actualizada con éxito.");
+
+        pause();
     }
 
     private void actualizarCasa() {
@@ -548,6 +645,8 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+
+        pause();
     }
 
     private void actualizarDepartamento() {
@@ -597,6 +696,8 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+
+        pause();
     }
 
     private void actualizarTerreno() {
@@ -638,5 +739,6 @@ public class InmobiliariaVista {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+        pause();
     }
 }

@@ -5,15 +5,11 @@ public class Usuario {
     private String hashContraseña;
     private boolean esAdministrador;
 
-    /* Constructures */
-
     public Usuario(String nombreUsuario, String hashContraseña, boolean esAdministrador) {
         this.nombreUsuario = nombreUsuario;
         this.hashContraseña = hashContraseña;
         this.esAdministrador = esAdministrador;
     }
-
-    /* Getters & Setters */
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -31,11 +27,13 @@ public class Usuario {
         this.hashContraseña = hashContraseña;
     }
 
+    public boolean isEsAdministrador() {
+        return esAdministrador;
+    }
+
     public void setEsAdministrador(boolean esAdministrador) {
         this.esAdministrador = esAdministrador;
     }
-
-    /* Metodos */
 
     @Override
     public String toString() {
@@ -43,9 +41,5 @@ public class Usuario {
                 "nombreUsuario='" + nombreUsuario + '\'' +
                 ", esAdministrador=" + esAdministrador +
                 '}';
-    }
-
-    public boolean verificarContraseña(String contraseña) {
-        return hashContraseña.equals(contraseña);
     }
 }

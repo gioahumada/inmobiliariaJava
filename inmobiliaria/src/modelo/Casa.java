@@ -1,9 +1,5 @@
 package modelo;
 
-/* Transformar precios */
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Casa extends Inmueble {
     private int numHabitaciones;
     private int numBanios;
@@ -116,15 +112,20 @@ public class Casa extends Inmueble {
         return valorAgregado;
     }
 
+    public double calcPrecioCasa(double factorAjuste) {
+        double valorAgregado = calcPrecioCasa();
+        return valorAgregado * factorAjuste;
+    }
+
     public double precioMetroCuadradoConstruido() {
         return this.getMts2Construidos() * 500000; /*Valor mt2 construido aprox 2024 */
     }
 
     @Override
     public String toString() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
-        return "ID : " + this.getId() + "\n" +
-                "Precio: " + currencyFormat.format(this.getPrecio()) +  "\n" + /* Formatea a peso chileno y agrega $*/
+        return "Casa\n" +
+                "ID : " + this.getId() + "\n" +
+                "Precio: " + getPrecioFormat() +  "\n" +
                 "Direccion: " + this.getDireccion() + "\n" +
                 "Metros Cuadrados: " + this.getMts2() + "\n" +
                 "Cant. Baños: " + this.getNumBanios() + "\n" +
@@ -133,5 +134,15 @@ public class Casa extends Inmueble {
                 "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
                 "Tiene Patio: " + this.isTienePatio() + "\n" +
                 "------------------------";
+    }
+
+    public String toString(boolean incluirInfoAdicional) {
+        if (incluirInfoAdicional) {
+            return toString() + "\n" +
+                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
+                    "------------------------";
+        } else {
+            return toString();
+        }
     }
 }

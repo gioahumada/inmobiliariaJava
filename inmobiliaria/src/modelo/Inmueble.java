@@ -1,5 +1,8 @@
 package modelo;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Inmueble {
     /* Atributos */
     private int id;
@@ -64,6 +67,12 @@ public class Inmueble {
 
     public int precioMetroCuadrado() {
         return (int) this.getMts2() * 110282;  /*Valor mt2 2024 */
+    }
+
+    public String getPrecioFormat() {
+        /* Coloca los precios en pesos chilenos */
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CL"));
+        return currencyFormat.format(this.getPrecio());
     }
 
     @Override

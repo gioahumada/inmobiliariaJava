@@ -11,6 +11,8 @@ public class Comuna {
     private ArrayList<Terreno> terrenos;
     private ArrayList<Casa> casas;
 
+    /* Constructor */
+
     public Comuna(int id, String nombre, String clase) {
         this.id = id;
         this.nombre = nombre;
@@ -19,6 +21,8 @@ public class Comuna {
         this.terrenos = new ArrayList<>();
         this.casas = new ArrayList<>();
     }
+
+    /* Getter & Setters */
 
     public int getId() {
         return id;
@@ -174,7 +178,9 @@ public class Comuna {
     public double calcPrecioAgregadoSector() {
         String charClase = this.getClase();
 
-        return switch (charClase) {
+        /* Mas demanda MAS precio */
+
+        return switch (charClase) { /*entre mas alta la demanda de comuna mas alta la clase de zona*/
             case "A" -> 2.0;  // Clase alta, gran impacto
             case "B" -> 1.5;
             case "C" -> 1.2;
@@ -192,5 +198,17 @@ public class Comuna {
                 "Clase: " + this.getClase() + "\n" +
                 "Total Inmuebles: " + (departamentos.size() + casas.size() + terrenos.size()) + "\n" +
                 "------------------------";
+    }
+
+    public String toString(boolean incluirInfoAdicional) {
+        if (incluirInfoAdicional) {
+            return toString() + "\n" +
+                    "Departamentos: " + departamentos.size() + "\n" +
+                    "Casas: " + casas.size() + "\n" +
+                    "Terrenos: " + terrenos.size() + "\n" +
+                    "------------------------";
+        } else {
+            return toString();
+        }
     }
 }

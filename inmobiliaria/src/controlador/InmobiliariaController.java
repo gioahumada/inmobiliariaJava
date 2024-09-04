@@ -1,11 +1,6 @@
-// InmobiliariaController.java
 package controlador;
 
-import modelo.Casa;
-import modelo.Comuna;
-import modelo.Departamento;
-import modelo.Inmobiliaria;
-import modelo.Terreno;
+import modelo.*;
 
 import java.util.List;
 
@@ -66,7 +61,7 @@ public class InmobiliariaController {
     public void agregarCasaAComuna(int idComuna, Casa casa) {
         Comuna comuna = obtenerComuna(idComuna);
         if (comuna != null) {
-            casa.setPrecio((int) precioFinalCasa(comuna,casa));
+            casa.setPrecio(precioFinalCasa(comuna,casa));
             System.out.println("El precio para la casa seleccionado por nuestro sistema fue: " + casa.getPrecio());
             comuna.agregarCasa(casa);
         }
@@ -84,18 +79,19 @@ public class InmobiliariaController {
         double multCasa = casa.calcPrecioCasa();
         int precioBase = casa.precioMetroCuadrado();
 
-        precioBase += casa.precioMetroCuadradoConstruido();
+        precioBase += (int) casa.precioMetroCuadradoConstruido(); // Se agrega el precio por metro cuadrado construido
 
-        // Asegúrate de que los multiplicadores están en un rango razonable
         double factorTotal = 1.0 + multSector + multCasa;
 
         return (int) (precioBase * factorTotal);
     }
 
+    /* Departamento */
+
     public void agregarDepartamentoAComuna(int idComuna, Departamento departamento) {
         Comuna comuna = obtenerComuna(idComuna);
         if (comuna != null) {
-            departamento.setPrecio((int) precioFinalDepartamento(comuna, departamento));
+            departamento.setPrecio(precioFinalDepartamento(comuna, departamento));
             comuna.agregarDepartamento(departamento);
             System.out.println("Departamento añadido a la comuna con ID " + idComuna);
         } else {
@@ -116,12 +112,14 @@ public class InmobiliariaController {
     public int precioFinalDepartamento(Comuna comuna, Departamento departamento) {
         double multSector = comuna.calcPrecioAgregadoSector();
         double multDepto = departamento.calcPrecioDepartamento();
-        int precioBase = departamento.precioMetroCuadrado();
+        int precioBase = departamento.precioMetroCuadrado() * 4;
 
         double factorTotal = 1.0 + multSector + multDepto;
 
-        return (int) (precioBase *= factorTotal);
+        return (int) (precioBase * factorTotal);
     }
+
+    /* Terreno */
 
     public int precioFinalTerreno(Comuna comuna, Terreno terreno) {
         double multSector = comuna.calcPrecioAgregadoSector();
@@ -130,13 +128,13 @@ public class InmobiliariaController {
 
         double factorTotal = 1.0 + multSector + multTerreno;
 
-        return (int) (precioBase *= factorTotal);
+        return (int)(precioBase * factorTotal);
     }
 
     public void agregarTerrenoAComuna(int idComuna, Terreno terreno) {
         Comuna comuna = obtenerComuna(idComuna);
         if (comuna != null) {
-            terreno.setPrecio((int) precioFinalTerreno(comuna, terreno));
+            terreno.setPrecio(precioFinalTerreno(comuna, terreno));
             comuna.agregarTerreno(terreno);
             System.out.println("Terreno añadido a la comuna con ID " + idComuna);
         } else {
@@ -152,6 +150,12 @@ public class InmobiliariaController {
         } else {
             System.out.println("Comuna no encontrada.");
         }
+    }
+
+    /* Usuario */
+
+    public Usuario obtenerUsuario(String nombreUsuario) {
+        return inmobiliaria.obtenerUsuario(nombreUsuario);
     }
 
 
