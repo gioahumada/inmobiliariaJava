@@ -295,26 +295,35 @@ public class InmobiliariaVista {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine();
-
+    
         Comuna comuna = controller.obtenerComuna(idComuna);
         if (comuna != null) {
             System.out.println(comuna.toString());
 
             System.out.println();
-
+    
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
             if (!propiedades.isEmpty()) {
+
+                System.out.println("¿Desea ver la información adicional de las propiedades? (Si/No):");
+
+                String respuesta = scanner.nextLine().trim().toLowerCase();
+
+                System.out.println();
+
                 System.out.println(GREEN + "Propiedades en la Comuna: " + RESET + "\n");
+                
+                boolean incluirInfoAdicional = respuesta.equals("si") || respuesta.equals("yes") || respuesta.equals("sí") || respuesta.equals("s");
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;
-                        System.out.println(casa.toString());
+                        System.out.println(casa.toString(incluirInfoAdicional));  // Sobrecarga del toString
                     } else if (propiedad instanceof Departamento) {
                         Departamento departamento = (Departamento) propiedad;
-                        System.out.println(departamento.toString());
+                        System.out.println(departamento.toString(incluirInfoAdicional));  // Suponiendo que Departamento no tiene sobrecarga de toString
                     } else if (propiedad instanceof Terreno) {
                         Terreno terreno = (Terreno) propiedad;
-                        System.out.println(terreno.toString());
+                        System.out.println(terreno.toString(incluirInfoAdicional));  // Suponiendo que Terreno tampoco tiene sobrecarga de toString
                     }
                     System.out.println();
                 }
@@ -326,6 +335,7 @@ public class InmobiliariaVista {
         }
         pause();
     }
+    
 
     private void crearComuna() {
         System.out.println("Ingrese ID:");

@@ -123,25 +123,30 @@ public class Casa extends Inmueble {
 
     @Override
     public String toString() {
+        // Información básica que siempre se mostrará
         return "Casa\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + getPrecioFormat() +  "\n" +
                 "Direccion: " + this.getDireccion() + "\n" +
-                "Metros Cuadrados: " + this.getMts2() + "\n" +
-                "Cant. Baños: " + this.getNumBanios() + "\n" +
-                "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
-                "Cant. Estacionamientos: " + this.getNumEstacionamiento() + "\n" +
-                "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
-                "Tiene Patio: " + this.isTienePatio() + "\n" +
                 "------------------------";
     }
-
+    
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
-            return toString() + "\n" +
-                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
+            // Mostrar toda la información si se desea información adicional
+            return "Casa\n" +
+                    "ID : " + this.getId() + "\n" +
+                    "Precio: " + getPrecioFormat() +  "\n" +
+                    "Direccion: " + this.getDireccion() + "\n" +
+                    "Metros Cuadrados: " + this.getMts2() + "\n" +
+                    "Cant. Baños: " + this.getNumBanios() + "\n" +
+                    "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
+                    "Cant. Estacionamientos: " + this.getNumEstacionamiento() + "\n" +
+                    "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
+                    "Tiene Patio: " + this.isTienePatio() + "\n" +
                     "------------------------";
         } else {
+            // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
         }
     }

@@ -89,7 +89,18 @@ public class Departamento extends Inmueble {
     // Método para representar el departamento como una cadena de texto
     @Override
     public String toString() {
+        // Información básica que siempre se mostrará
         return "Departamento\n" +
+                "ID : " + this.getId() + "\n" +
+                "Precio: " + this.getPrecioFormat() +  "\n" +
+                "Direccion: " + this.getDireccion() + "\n" +
+                "------------------------";
+    }
+    
+    public String toString(boolean incluirInfoAdicional) {
+        if (incluirInfoAdicional) {
+            // Mostrar toda la información si se desea información adicional
+            return "Departamento\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + this.getPrecioFormat() +  "\n" +
                 "Direccion: " + this.getDireccion() + "\n" +
@@ -101,14 +112,8 @@ public class Departamento extends Inmueble {
                 "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
                 "Tiene bodega: " + isTieneBodega() + "\n" +
                 "------------------------";
-    }
-
-    public String toString(boolean incluirInfoAdicional) {
-        if (incluirInfoAdicional) {
-            return toString() + "\n" +
-                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
-                    "------------------------";
         } else {
+            // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
         }
     }

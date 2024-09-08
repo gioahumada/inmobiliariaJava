@@ -79,4 +79,17 @@ public class Inmueble {
     public String toString() {
         return id + "," + precio + "," + direccion + "," + mts2;
     }
+
+    public String toString(String formato) {
+        switch (formato.toLowerCase()) {
+            case "breve":
+                return "ID: " + id + ", Precio: " + getPrecioFormat();
+            case "direccion":
+                return "Dirección: " + direccion + " (" + mts2 + " m²)";
+            case "precio":
+                return "Precio: " + getPrecioFormat() + " (" + mts2 + " m² a " + getPrecioFormat(precioMetroCuadrado()) + "/m²)";
+            default:
+                return toString();
+        }
+    }
 }
