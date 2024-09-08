@@ -62,34 +62,40 @@ public class InmobiliariaVista {
             String contraseña = scanner.nextLine();
 
             Usuario usuario = controller.obtenerUsuario(nombreUsuario);
-            if (usuario != null && usuario.getHashContraseña().equals(contraseña)) {
-                if (usuario.isEsAdministrador()) {
-                    limpiarPantalla();
-                    System.out.println(GREEN + "Bienvenido Administrador " + RESET + BOLD + nombreUsuario + RESET);
-                    pause();
-                    mostrarMenuAdministrador(); // Mostrar menú existente para administradores
-                } else {
+            if (opcion == 1) {
+                System.out.println("¿Desea ver la información detallada del usuario? (Si/No):");
+                String respuesta = scanner.nextLine().trim().toLowerCase();
+                boolean incluirInfoAdicional = respuesta.equals("si") || respuesta.equals("yes") || respuesta.equals("sí") || respuesta.equals("s");
+                
+                limpiarPantalla();
+                System.out.println(GREEN + "Datos Usuario \n" + RESET + BOLD + RESET);
+                System.out.println(usuario.toString(incluirInfoAdicional));
+                    if (usuario.isEsAdministrador()) {
+                        System.out.println(GREEN + "Bienvenido Administrador " + RESET + BOLD + nombreUsuario + RESET);
+                        pause();
+                        mostrarMenuAdministrador(); 
+                        // Mostrar menú existente para administradores
+                        
+                    } else{
                     limpiarPantalla();
                     System.out.println(GREEN + "Bienvenido Invitado " + RESET + BOLD + nombreUsuario + RESET);
                     pause();
-                    mostrarMenuInvitado(); // Mostrar menú limitado para invitados
+                    mostrarMenuInvitado(); 
+                    // Mostrar menú limitado para invitados
                 }
-            } else {
-                System.out.println(RED + "Usuario o contraseña incorrectos. \n" + RESET);
-                System.out.println(YELLOW + "(ℹ) Las credenciales están en el archivo Inmobiliaria.java" + RESET);
-                pause();
-                System.exit(0); // Salir del sistema si las credenciales son incorrectas
             }
         } else if (opcion == 2) {
             limpiarPantalla();
             System.out.println(GREEN + "Continuando como invitado..." + RESET );
             pause();
-            mostrarMenuInvitado(); // Mostrar menú limitado para invitados
+            mostrarMenuInvitado(); 
+            // Mostrar menú limitado para invitados
         } else {
             limpiarPantalla();
             System.out.println(RED + "Opción no válida" + RESET);
             pause();
-            System.exit(0); // Salir del sistema si la opción es inválida
+            System.exit(0); 
+            // Salir del sistema si la opción es inválida
         }
     }
 
@@ -317,13 +323,13 @@ public class InmobiliariaVista {
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;
-                        System.out.println(casa.toString(incluirInfoAdicional));  // Sobrecarga del toString
+                        System.out.println(casa.toString(incluirInfoAdicional)); 
                     } else if (propiedad instanceof Departamento) {
                         Departamento departamento = (Departamento) propiedad;
-                        System.out.println(departamento.toString(incluirInfoAdicional));  // Suponiendo que Departamento no tiene sobrecarga de toString
+                        System.out.println(departamento.toString(incluirInfoAdicional)); 
                     } else if (propiedad instanceof Terreno) {
                         Terreno terreno = (Terreno) propiedad;
-                        System.out.println(terreno.toString(incluirInfoAdicional));  // Suponiendo que Terreno tampoco tiene sobrecarga de toString
+                        System.out.println(terreno.toString(incluirInfoAdicional));
                     }
                     System.out.println();
                 }
