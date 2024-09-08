@@ -66,25 +66,29 @@ public class Terreno extends Inmueble{
 
     @Override
     public String toString() {
+        // Información básica que siempre se mostrará
         return "Terreno\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + getPrecioFormat() +  "\n" +
                 "Dirección: " + this.getDireccion() + "\n" +
-                "Metros Cuadrados: "+ this.getMts2() + "\n" +
-                "Tiene Agua: " + this.isTieneServicioAgua() + "\n" +
-                "Tiene Luz: " + this.isTieneServicioLuz() + "\n" +
-                "Tiene Gas: " + this.isTieneServicioGas() + "\n" +
                 "------------------------";
     }
 
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
-            return toString() + "\n" +
-                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
+            // Mostrar toda la información si se desea información adicional
+            return "Terreno\n" +
+                    "ID : " + this.getId() + "\n" +
+                    "Precio: " + getPrecioFormat() +  "\n" +
+                    "Dirección: " + this.getDireccion() + "\n" +
+                    "Metros Cuadrados: "+ this.getMts2() + "\n" +
+                    "Tiene Agua: " + this.isTieneServicioAgua() + "\n" +
+                    "Tiene Luz: " + this.isTieneServicioLuz() + "\n" +
+                    "Tiene Gas: " + this.isTieneServicioGas() + "\n" +
                     "------------------------";
         } else {
+            // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
         }
     }
-
 }

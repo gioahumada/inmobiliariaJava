@@ -89,26 +89,31 @@ public class Departamento extends Inmueble {
     // Método para representar el departamento como una cadena de texto
     @Override
     public String toString() {
+        // Información básica que siempre se mostrará
         return "Departamento\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + this.getPrecioFormat() +  "\n" +
                 "Direccion: " + this.getDireccion() + "\n" +
-                "Metros Cuadrados: " + this.getMts2() + "\n" +
-                "Cant. Baños: " + this.getNumBanos() + "\n" +
-                "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
-                "Cant. Estacionamientos: " + this.isTieneEstacionamiento() + "\n" +
-                "Piso: " + getPiso() + "\n" +
-                "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
-                "Tiene bodega: " + isTieneBodega() + "\n" +
                 "------------------------";
     }
 
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
-            return toString() + "\n" +
-                    "Precio por metro cuadrado: " + precioMetroCuadrado() + "\n" +
+            // Mostrar toda la información si se desea información adicional
+            return "Departamento\n" +
+                    "ID : " + this.getId() + "\n" +
+                    "Precio: " + this.getPrecioFormat() +  "\n" +
+                    "Direccion: " + this.getDireccion() + "\n" +
+                    "Metros Cuadrados: " + this.getMts2() + "\n" +
+                    "Cant. Baños: " + this.getNumBanos() + "\n" +
+                    "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
+                    "Cant. Estacionamientos: " + this.isTieneEstacionamiento() + "\n" +
+                    "Piso: " + getPiso() + "\n" +
+                    "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
+                    "Tiene bodega: " + isTieneBodega() + "\n" +
                     "------------------------";
         } else {
+            // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
         }
     }

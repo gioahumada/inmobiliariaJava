@@ -158,5 +158,4 @@ public class InmobiliariaController {
         return inmobiliaria.obtenerUsuario(nombreUsuario);
     }
 
-
 }
