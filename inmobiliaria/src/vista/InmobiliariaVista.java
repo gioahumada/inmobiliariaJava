@@ -10,6 +10,17 @@ public class InmobiliariaVista {
     private InmobiliariaController controller;
     private Scanner scanner;
 
+    /* Colores para la consola -> Constantes */
+    private static final String RESET = "\u001B[0m";
+    public static final String BOLD = "\u001B[1m";
+    public static final String WHITE = "\u001B[37m";
+    private static final String RED = "\u001B[31m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String GREEN = "\u001B[32m";
+    public static final String GREEN_BG = "\u001B[42m";
+    public static final String ORANGE = "\u001B[38;5;214m";
+    public static final String ORANGEBG = "\u001B[48;5;214m";
+
     public InmobiliariaVista(InmobiliariaController controller) {
         this.controller = controller;
         this.scanner = new Scanner(System.in);
@@ -21,16 +32,30 @@ public class InmobiliariaVista {
 
     private void mostrarMenuLogin() {
         limpiarPantalla();
-        System.out.println("=== Sistema de Inicio de Sesión ===\n");
+
+        /* Muestra el logo */
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println(BOLD + "  ___                _    _ _ _          _           _               \n" +
+                " |_ _|_ _  _ __  ___| |__(_) (_)__ _ _ _(_)__ _   _ | |__ ___ ____ _ \n" +
+                "  | || ' \\| '  \\/ _ \\ '_ \\ | | / _` | '_| / _` | | || / _` \\ V / _` |\n" +
+                " |___|_||_|_|_|_\\___/_.__/_|_|_\\__,_|_| |_\\__,_|  \\__/\\__,_|\\_/\\__,_|\n" +
+                "                                                                     " + RESET);
+        System.out.println("--------------------------------------------------------- v.0.1b ------\n");
+        pause();
+        limpiarPantalla();
+
+        System.out.println(GREEN_BG + "=== Sistema de Inicio de Sesión ===" + RESET + "\n");
         System.out.println("¿Desea iniciar sesión o continuar como invitado?");
         System.out.println("1. Iniciar sesión");
         System.out.println("2. Continuar como invitado");
-        System.out.println("\nIngrese una opción:");
+        System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
         int opcion = scanner.nextInt();
         scanner.nextLine(); // Consumir nueva línea
 
         if (opcion == 1) {
             limpiarPantalla();
+            System.out.println(ORANGEBG + WHITE + "=== Inicio de Sesión ===" + RESET + "\n");
+            System.out.println();
             System.out.println("Ingrese su nombre de usuario:");
             String nombreUsuario = scanner.nextLine();
             System.out.println("Ingrese su contraseña:");
@@ -40,24 +65,30 @@ public class InmobiliariaVista {
             if (usuario != null && usuario.getHashContraseña().equals(contraseña)) {
                 if (usuario.isEsAdministrador()) {
                     limpiarPantalla();
-                    System.out.println("Bienvenido Administrador " + nombreUsuario);
+                    System.out.println(GREEN + "Bienvenido Administrador " + RESET + BOLD + nombreUsuario + RESET);
+                    pause();
                     mostrarMenuAdministrador(); // Mostrar menú existente para administradores
                 } else {
                     limpiarPantalla();
-                    System.out.println("Bienvenido Invitado " + nombreUsuario);
+                    System.out.println(GREEN + "Bienvenido Invitado " + RESET + BOLD + nombreUsuario + RESET);
+                    pause();
                     mostrarMenuInvitado(); // Mostrar menú limitado para invitados
                 }
             } else {
-                System.out.println("Usuario o contraseña incorrectos.");
+                System.out.println(RED + "Usuario o contraseña incorrectos. \n" + RESET);
+                System.out.println(YELLOW + "(ℹ) Las credenciales están en el archivo Inmobiliaria.java" + RESET);
+                pause();
                 System.exit(0); // Salir del sistema si las credenciales son incorrectas
             }
         } else if (opcion == 2) {
             limpiarPantalla();
-            System.out.println("Continuando como invitado...");
+            System.out.println(GREEN + "Continuando como invitado..." + RESET );
+            pause();
             mostrarMenuInvitado(); // Mostrar menú limitado para invitados
         } else {
             limpiarPantalla();
-            System.out.println("Opción no válida");
+            System.out.println(RED + "Opción no válida" + RESET);
+            pause();
             System.exit(0); // Salir del sistema si la opción es inválida
         }
     }
@@ -65,11 +96,11 @@ public class InmobiliariaVista {
     private void mostrarMenuInvitado() {
         while (true) {
             System.out.println();
-            System.out.println("=== Menú Invitado ===");
+            System.out.println(GREEN_BG + "=== InmobiliariaJava - Invitado ===" + RESET + "\n");
             System.out.println("1. Mostrar Todas las Comunas");
             System.out.println("2. Ver Comuna");
             System.out.println("3. Salir");
-            System.out.println("Ingrese una opción:");
+            System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
             System.out.println();
 
             int opcion = scanner.nextInt();
@@ -87,20 +118,21 @@ public class InmobiliariaVista {
                 case 3:
                     return;
                 default:
-                    System.out.println("Opción no válida");
+                    System.out.println(RED + "Opción no válida" + RESET);
             }
         }
     }
 
     public void mostrarMenuAdministrador() {
         while (true) {
+            limpiarPantalla();
             System.out.println();
-            System.out.println("=== InmobiliariaJava ===");
+            System.out.println(GREEN_BG + "=== InmobiliariaJava - Administrador ===" + RESET + "\n");
             System.out.println("1. Menú Comuna");
             System.out.println("2. Menú Propiedades");
             System.out.println("3. Menú Actualización de Datos");
             System.out.println("4. Salir");
-            System.out.println("Ingrese una opción:");
+            System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
             System.out.println();
 
             int opcion = scanner.nextInt();
@@ -126,13 +158,14 @@ public class InmobiliariaVista {
 
     private void mostrarMenuComuna() {
         while (true) {
-            System.out.println();
+            limpiarPantalla();
+            System.out.println(ORANGEBG + WHITE + "=== Menú Comuna ===" + RESET + "\n");
             System.out.println("1. Mostrar Todas las Comunas");
             System.out.println("2. Ver Comuna");
             System.out.println("3. Crear Comuna");
             System.out.println("4. Eliminar Comuna");
             System.out.println("5. Volver al menú principal");
-            System.out.println("Ingrese una opción:");
+            System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
             System.out.println();
 
             int opcion = scanner.nextInt();
@@ -165,11 +198,12 @@ public class InmobiliariaVista {
 
     private void mostrarMenuPropiedades() {
         while (true) {
-            System.out.println();
+            limpiarPantalla();
+            System.out.println(ORANGEBG + WHITE + "=== Menú Propiedades ===" + RESET + "\n");
             System.out.println("1. Añadir Propiedad a Comuna");
             System.out.println("2. Quitar Propiedad de Comuna");
             System.out.println("3. Volver al menú principal");
-            System.out.println("Ingrese una opción:");
+            System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
             System.out.println();
 
             int opcion = scanner.nextInt();
@@ -194,13 +228,14 @@ public class InmobiliariaVista {
 
     private void mostrarMenuActualizacion() {
         while (true) {
-            System.out.println();
+            limpiarPantalla();
+            System.out.println(ORANGEBG + WHITE + "=== Menú Actualización de Datos ===" + RESET + "\n");
             System.out.println("1. Actualizar Comuna");
             System.out.println("2. Actualizar Casa");
             System.out.println("3. Actualizar Departamento");
             System.out.println("4. Actualizar Terreno");
             System.out.println("5. Volver al menú principal");
-            System.out.println("Ingrese una opción:");
+            System.out.println(ORANGE + "\nIngrese una opción:" + RESET);
             System.out.println();
 
             int opcion = scanner.nextInt();
@@ -238,11 +273,9 @@ public class InmobiliariaVista {
 
     /* Gracias a StackOverFlow */
     public void pause() {
-        String verde = "\u001B[32m";
-        String reset = "\u001B[0m";
-
-        System.out.println(verde + "Presione Enter para continuar..." + reset);
+        System.out.println(GREEN + "\nPresione Enter para continuar..." + RESET);
         scanner.nextLine();
+        limpiarPantalla();
     }
 
     private void mostrarTodasLasComunas() {
@@ -267,9 +300,11 @@ public class InmobiliariaVista {
         if (comuna != null) {
             System.out.println(comuna.toString());
 
+            System.out.println();
+
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
             if (!propiedades.isEmpty()) {
-                System.out.println("Propiedades en la Comuna:");
+                System.out.println(GREEN + "Propiedades en la Comuna: " + RESET + "\n");
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;

@@ -119,16 +119,14 @@ public class Inmobiliaria {
         /* Agregar Usuario */
 
         this.agregarUsuario(new Usuario("admin", "admin", true));
+        this.agregarUsuario(new Usuario("root", "root", true));
+        this.agregarUsuario(new Usuario("user", "password", true));
         this.agregarUsuario(new Usuario("invitado", "invitado", false));
-        this.agregarUsuario(new Usuario("bastiivc", "bizcocho121", true));
-        this.agregarUsuario(new Usuario("gioahumada", "bizcocho121", true));
-        this.agregarUsuario(new Usuario("pytricio", "bizcocho121", true));
         this.agregarUsuario(new Usuario("21.368.487-6", "bizcocho121", true));
         this.agregarUsuario(new Usuario("123", "123", false));
         this.agregarUsuario(new Usuario("RafaelMellado", "HWKW17", true));
-        this.agregarUsuario(new Usuario("IvanMercado", "SOPRAVAL", true));
+        this.agregarUsuario(new Usuario("IvanMercado", "KLM245", true));
         this.agregarUsuario(new Usuario("ClaudioCubillos", "JSXY60", true));
-        this.agregarUsuario(new Usuario("Nachetao", "SKIBIDI", false));
-        this.agregarUsuario(new Usuario("SimonVera", "hashish", false));
+        this.agregarUsuario(new Usuario("admin", "admin", true));
     }
 }
