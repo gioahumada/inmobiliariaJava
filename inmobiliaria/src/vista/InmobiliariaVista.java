@@ -40,7 +40,7 @@ public class InmobiliariaVista {
                 "  | || ' \\| '  \\/ _ \\ '_ \\ | | / _` | '_| / _` | | || / _` \\ V / _` |\n" +
                 " |___|_||_|_|_|_\\___/_.__/_|_|_\\__,_|_| |_\\__,_|  \\__/\\__,_|\\_/\\__,_|\n" +
                 "                                                                     " + RESET);
-        System.out.println("--------------------------------------------------------- v.0.1b ------\n");
+        System.out.println("--------------------------------------------------------- v.0.1c ------\n");
         pause();
         limpiarPantalla();
 
@@ -116,6 +116,7 @@ public class InmobiliariaVista {
                     verComuna();
                     break;
                 case 3:
+                    System.out.println("Saliendo...");
                     return;
                 default:
                     System.out.println(RED + "Opción no válida" + RESET);
@@ -149,6 +150,7 @@ public class InmobiliariaVista {
                     mostrarMenuActualizacion();
                     break;
                 case 4:
+                    System.out.println("Saliendo...");
                     return;
                 default:
                     System.out.println("Opción no válida");
@@ -304,17 +306,26 @@ public class InmobiliariaVista {
 
             List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
             if (!propiedades.isEmpty()) {
+
+                System.out.println("¿Desea ver la información adicional de las propiedades? (Si/No):");
+
+                String respuesta = scanner.nextLine().trim().toLowerCase();
+
+                System.out.println();
+
                 System.out.println(GREEN + "Propiedades en la Comuna: " + RESET + "\n");
+
+                boolean incluirInfoAdicional = respuesta.equals("si") || respuesta.equals("yes") || respuesta.equals("sí") || respuesta.equals("s");
                 for (Object propiedad : propiedades) {
                     if (propiedad instanceof Casa) {
                         Casa casa = (Casa) propiedad;
-                        System.out.println(casa.toString());
+                        System.out.println(casa.toString(incluirInfoAdicional));
                     } else if (propiedad instanceof Departamento) {
                         Departamento departamento = (Departamento) propiedad;
-                        System.out.println(departamento.toString());
+                        System.out.println(departamento.toString(incluirInfoAdicional));
                     } else if (propiedad instanceof Terreno) {
                         Terreno terreno = (Terreno) propiedad;
-                        System.out.println(terreno.toString());
+                        System.out.println(terreno.toString(incluirInfoAdicional));
                     }
                     System.out.println();
                 }
@@ -326,6 +337,7 @@ public class InmobiliariaVista {
         }
         pause();
     }
+
 
     private void crearComuna() {
         System.out.println("Ingrese ID:");

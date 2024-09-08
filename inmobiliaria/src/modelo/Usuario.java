@@ -36,10 +36,21 @@ public class Usuario {
     }
 
     @Override
+
     public String toString() {
-        return "Usuario{" +
-                "nombreUsuario='" + nombreUsuario + '\'' +
-                ", esAdministrador=" + esAdministrador +
-                '}';
+        // Solo muestra el nombre de usuario
+        return "Usuario: " + nombreUsuario;
+    }
+
+    public String toString(boolean incluirInfoAdicional) {
+        // Muestra la información adicional si se solicita
+        if (incluirInfoAdicional) {
+            return "Usuario: " + nombreUsuario + "\n" +
+                    "Contraseña: " + hashContraseña + "\n" +
+                    "Es Administrador: " + esAdministrador + "\n";
+        } else {
+            return toString();
+            // Llama al método básico si no se desea la info adicional
+        }
     }
 }
