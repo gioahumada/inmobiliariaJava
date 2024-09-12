@@ -1,5 +1,13 @@
 package modelo;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +76,92 @@ public class Comuna {
         }
         return null;
     }
+
+    public void guardarPropiedadesCSV(String filePath) throws IOException {
+        File file = new File(filePath);
+        File directory = file.getParentFile(); // Obtiene el directorio donde se guardará el archivo
+
+        // Verificar si el directorio existe, si no, lo crea
+        if (directory != null && !directory.exists()) {
+            directory.mkdirs(); // Crear el directorio si no existe
+        }
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+            for (Casa casa : casas) {
+                String[] record = {"Casa", String.valueOf(casa.getId()), casa.getDireccion(), String.valueOf(casa.getPrecio()),
+                        String.valueOf(casa.getMts2()), String.valueOf(casa.getNumHabitaciones()),
+                        String.valueOf(casa.getNumBanios()), String.valueOf(casa.getNumEstacionamiento()),
+                        String.valueOf(casa.getMts2Construidos()), String.valueOf(casa.isTienePatio())};
+                writer.writeNext(record);
+            }
+            for (Departamento departamento : departamentos) {
+                String[] record = {"Departamento", String.valueOf(departamento.getId()), departamento.getDireccion(),
+                        String.valueOf(departamento.getPrecio()), String.valueOf(departamento.getMts2()),
+                        String.valueOf(departamento.getNumHabitaciones()), String.valueOf(departamento.getNumBanos()),
+                        String.valueOf(departamento.getPiso()), String.valueOf(departamento.isTieneEstacionamiento()),
+                        String.valueOf(departamento.isTieneBodega())};
+                writer.writeNext(record);
+            }
+            for (Terreno terreno : terrenos) {
+                String[] record = {"Terreno", String.valueOf(terreno.getId()), terreno.getDireccion(),
+                        String.valueOf(terreno.getPrecio()), String.valueOf(terreno.getMts2()),
+                        String.valueOf(terreno.isTieneServicioAgua()), String.valueOf(terreno.isTieneServicioLuz()),
+                        String.valueOf(terreno.isTieneServicioGas())};
+                writer.writeNext(record);
+            }
+        }
+    }
+
+    public void cargarPropiedadesCSV(String filePath) throws IOException {
+        File file = new File(filePath);
+
+        // Verificar si el archivo existe, si no, lo crea vacío
+        if (!file.exists()) {
+            System.out.println("El archivo " + filePath + " no existe, creando un archivo nuevo...");
+            file.createNewFile(); // Crear el archivo si no existe
+            return; // No hay nada que cargar si el archivo es nuevo
+        }
+
+        try (CSVReader reader = new CSVReader(new FileReader(file))) {
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                String tipo = nextLine[0];
+                int id = Integer.parseInt(nextLine[1]);
+                String direccion = nextLine[2];
+                int precio = Integer.parseInt(nextLine[3]);
+                double mts2 = Double.parseDouble(nextLine[4]);
+
+                switch (tipo) {
+                    case "Casa":
+                        int numHabitaciones = Integer.parseInt(nextLine[5]);
+                        int numBanios = Integer.parseInt(nextLine[6]);
+                        int numEstacionamiento = Integer.parseInt(nextLine[7]);
+                        int mts2Construidos = Integer.parseInt(nextLine[8]);
+                        boolean tienePatio = Boolean.parseBoolean(nextLine[9]);
+                        casas.add(new Casa(id, precio, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio));
+                        break;
+                    case "Departamento":
+                        int numHabitacionesDep = Integer.parseInt(nextLine[5]);
+                        int numBaniosDep = Integer.parseInt(nextLine[6]);
+                        int piso = Integer.parseInt(nextLine[7]);
+                        boolean tieneEstacionamiento = Boolean.parseBoolean(nextLine[8]);
+                        boolean tieneBodega = Boolean.parseBoolean(nextLine[9]);
+                        departamentos.add(new Departamento(id, precio, direccion, mts2, numHabitacionesDep, numBaniosDep, piso, tieneEstacionamiento, tieneBodega));
+                        break;
+                    case "Terreno":
+                        boolean tieneAgua = Boolean.parseBoolean(nextLine[5]);
+                        boolean tieneLuz = Boolean.parseBoolean(nextLine[6]);
+                        boolean tieneGas = Boolean.parseBoolean(nextLine[7]);
+                        terrenos.add(new Terreno(id, precio, direccion, mts2, tieneAgua, tieneLuz, tieneGas));
+                        break;
+                }
+            }
+        } catch (CsvValidationException e) {
+            throw new IOException("Error al validar el archivo CSV", e);
+        }
+    }
+
+
 
     public boolean actualizarDepartamento(int idDepartamento, String direccion, double mts2, int numHabitaciones, int numBanios, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
         Departamento departamento = obtenerDepartamento(idDepartamento);

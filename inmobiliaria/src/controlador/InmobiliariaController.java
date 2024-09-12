@@ -2,6 +2,7 @@ package controlador;
 
 import modelo.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public class InmobiliariaController {
@@ -10,6 +11,23 @@ public class InmobiliariaController {
     public InmobiliariaController(Inmobiliaria inmobiliaria) {
         this.inmobiliaria = inmobiliaria;
     }
+
+    /* Persistencia */
+
+    public void guardarTodasLasPropiedadesCSV(String directorio) throws IOException {
+        for (Comuna comuna : inmobiliaria.getComunas()) {
+            String filePath = directorio + "/comuna_" + comuna.getId() + "_propiedades.csv";
+            comuna.guardarPropiedadesCSV(filePath);  // Guardar todas las propiedades de la comuna
+        }
+    }    
+
+    public void cargarTodasLasPropiedadesCSV(String directorio) throws IOException {
+        for (Comuna comuna : inmobiliaria.getComunas()) {
+            String filePath = directorio + "/comuna_" + comuna.getId() + "_propiedades.csv";
+            comuna.cargarPropiedadesCSV(filePath);  // Cargar todas las propiedades de la comuna
+        }
+    }
+    
 
     // Comuna
 

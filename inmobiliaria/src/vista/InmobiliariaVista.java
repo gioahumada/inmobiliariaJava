@@ -3,6 +3,7 @@ package vista;
 import controlador.InmobiliariaController;
 import modelo.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,7 +34,7 @@ public class InmobiliariaVista {
     private void mostrarMenuLogin() {
         limpiarPantalla();
 
-        /* Muestra el logo */
+        // Muestra el logo
         System.out.println("-----------------------------------------------------------------------");
         System.out.println(BOLD + "  ___                _    _ _ _          _           _               \n" +
                 " |_ _|_ _  _ __  ___| |__(_) (_)__ _ _ _(_)__ _   _ | |__ ___ ____ _ \n" +
@@ -62,7 +63,7 @@ public class InmobiliariaVista {
             String contraseña = scanner.nextLine();
 
             Usuario usuario = controller.obtenerUsuario(nombreUsuario);
-            if (usuario != null && usuario.getHashContraseña().equals(contraseña)) {
+            if (usuario != null && usuario.verificarContraseña(contraseña)) {
                 if (usuario.isEsAdministrador()) {
                     limpiarPantalla();
                     System.out.println(GREEN + "Bienvenido Administrador " + RESET + BOLD + nombreUsuario + RESET);
@@ -408,20 +409,15 @@ public class InmobiliariaVista {
         Casa casa = new Casa(idCasa, 0, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
         controller.agregarCasaAComuna(idComuna, casa);
 
-        System.out.println("Casa añadida con éxito a la comuna.");
-        System.out.println("Precio asignado: " + casa.getPrecioFormat());
-        System.out.println("¿Desea aceptar el precio? (sí/no):");
-        String respuesta = scanner.nextLine().trim().toLowerCase();
-
-        if (respuesta.equals("no")) {
-            System.out.println("Ingrese el nuevo precio:");
-            double nuevoPrecio = scanner.nextDouble();
-            scanner.nextLine();
-            casa.setPrecio(nuevoPrecio);
-            System.out.println("Precio actualizado: " + casa.getPrecioFormat());
+        // Guardar inmediatamente después de agregar la casa
+        try {
+            controller.guardarTodasLasPropiedadesCSV("db");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        pause();
+        System.out.println("Casa añadida con éxito a la comuna.");
+        System.out.println("Precio asignado: " + casa.getPrecioFormat());
     }
 
     private void addDepartamentoAComuna() {

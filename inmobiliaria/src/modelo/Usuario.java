@@ -1,13 +1,17 @@
 package modelo;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 public class Usuario {
     private String nombreUsuario;
     private String hashContraseña;
     private boolean esAdministrador;
 
-    public Usuario(String nombreUsuario, String hashContraseña, boolean esAdministrador) {
+    public Usuario(String nombreUsuario, String contraseña, boolean esAdministrador) {
         this.nombreUsuario = nombreUsuario;
-        this.hashContraseña = hashContraseña;
+        this.hashContraseña = hashPassword(contraseña);
         this.esAdministrador = esAdministrador;
     }
 
@@ -23,8 +27,8 @@ public class Usuario {
         return hashContraseña;
     }
 
-    public void setHashContraseña(String hashContraseña) {
-        this.hashContraseña = hashContraseña;
+    public void setHashContraseña(String contraseña) {
+        this.hashContraseña = hashPassword(contraseña);
     }
 
     public boolean isEsAdministrador() {
@@ -36,21 +40,31 @@ public class Usuario {
     }
 
     @Override
-
     public String toString() {
-        // Solo muestra el nombre de usuario
         return "Usuario: " + nombreUsuario;
     }
 
     public String toString(boolean incluirInfoAdicional) {
-        // Muestra la información adicional si se solicita
         if (incluirInfoAdicional) {
             return "Usuario: " + nombreUsuario + "\n" +
                     "Contraseña: " + hashContraseña + "\n" +
                     "Es Administrador: " + esAdministrador + "\n";
         } else {
             return toString();
-            // Llama al método básico si no se desea la info adicional
         }
+    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean verificarContraseña(String contraseña) {
+        return hashContraseña.equals(hashPassword(contraseña));
     }
 }
