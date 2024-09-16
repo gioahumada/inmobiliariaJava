@@ -8,7 +8,7 @@ public class Casa extends Inmueble {
     private boolean tienePatio;
 
     // Constructor con parámetros
-    public Casa(int id, int precio, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
+    public Casa(int id, long precio, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
         super(id, precio, direccion, mts2);
         this.numHabitaciones = numHabitaciones;
         this.numBanios = numBanios;
@@ -72,54 +72,32 @@ public class Casa extends Inmueble {
 
     /* $$$$ */
 
-    public double calcPrecioCasa() {
-        double valorAgregado = 0;
-
-        /*Num Habitaciones */
+    public long calcPrecioCasa() {
+        long valorAgregado = 0;
 
         if (this.getNumHabitaciones() > 2) {
-            valorAgregado += (getNumHabitaciones() - 2) * 0.02;
+            valorAgregado += (this.getNumHabitaciones() - 2) * 200; // Cambiado a long
         }
-
-        if (this.getNumHabitaciones() < 0) {
-            valorAgregado -= 2.0;
-        }
-
-        /* Baños */
 
         if (this.getNumBanios() > 1) {
-            valorAgregado += (getNumBanios() - 1) * 0.03;
+            valorAgregado += (this.getNumBanios() - 1) * 300; // Cambiado a long
         }
-
-        if (this.getNumBanios() < 0) {
-            valorAgregado -= 2.0;
-        }
-
-        /* Estacionamiento */
 
         if (this.getNumEstacionamiento() > 1) {
-            valorAgregado += (getNumEstacionamiento() - 1) * 0.2;
-        }
-
-        if (this.getNumBanios() < 0) {
-            valorAgregado -= 2.0;
+            valorAgregado += (this.getNumEstacionamiento() - 1) * 20000; // Cambiado a long
         }
 
         if (this.isTienePatio()) {
-            valorAgregado += 0.5;
+            valorAgregado += 50000; // Cambiado a long
         }
 
         return valorAgregado;
     }
 
-    public double calcPrecioCasa(double factorAjuste) {
-        double valorAgregado = calcPrecioCasa();
-        return valorAgregado * factorAjuste;
+    public long precioMetroCuadradoConstruido() {
+        return (long) this.getMts2Construidos() * 500000; // Devuelve long
     }
 
-    public double precioMetroCuadradoConstruido() {
-        return this.getMts2Construidos() * 500000; /*Valor mt2 construido aprox 2024 */
-    }
 
     @Override
     public String toString() {
@@ -150,4 +128,6 @@ public class Casa extends Inmueble {
             return toString();
         }
     }
+
+
 }

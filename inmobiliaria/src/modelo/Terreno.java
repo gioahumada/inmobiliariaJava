@@ -5,7 +5,7 @@ public class Terreno extends Inmueble{
     private boolean tieneServicioLuz;
     private boolean tieneServicioGas;
 
-    public Terreno(int id, int precio, String direccion, double mts2, boolean tieneServicioAgua, boolean tieneServicioLuz, boolean tieneServicioGas) {
+    public Terreno(int id, long precio, String direccion, double mts2, boolean tieneServicioAgua, boolean tieneServicioLuz, boolean tieneServicioGas) {
         super(id, precio, direccion, mts2);
         this.tieneServicioAgua = tieneServicioAgua;
         this.tieneServicioLuz = tieneServicioLuz;
@@ -41,27 +41,22 @@ public class Terreno extends Inmueble{
 
     /* Metodos */
 
-    public double calcPrecioTerreno() {
-        double multiplicador = 0;
+    public long calcPrecioTerreno() {
+        long multiplicador = 0;
 
         if (this.isTieneServicioAgua()) {
-            multiplicador += 0.2;
+            multiplicador += 200;
         }
 
         if (this.isTieneServicioLuz()) {
-            multiplicador += 0.2;
+            multiplicador += 200;
         }
 
         if (this.isTieneServicioGas()) {
-            multiplicador += 0.2;
+            multiplicador += 200;
         }
 
         return multiplicador;
-    }
-
-    public double calcPrecioTerreno(double factorAjuste) {
-        double multiplicador = calcPrecioTerreno();
-        return multiplicador * factorAjuste;
     }
 
     @Override

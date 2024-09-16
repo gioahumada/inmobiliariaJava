@@ -38,14 +38,6 @@ public class Inmobiliaria {
         this.nombre = nombre;
     }
 
-    public ArrayList<Comuna> getComunas() {
-        return comunas;
-    }
-
-    public HashMap<String, Usuario> getUsuarios() {
-        return usuarios;
-    }
-
     /* Metodos */
 
     public void agregarUsuario(Usuario usuario) {
@@ -63,15 +55,68 @@ public class Inmobiliaria {
 
     public void agregarComuna(Comuna comuna) {
         comunas.add(comuna);
-        try {
-            guardarComunasCSV("comunas.csv");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        guardarCambiosComunas();
     }
 
     public void eliminarComuna(Comuna comuna) {
         comunas.remove(comuna);
+        guardarCambiosComunas();
+    }
+
+    public void actualizarComuna(Comuna comunaActualizada) {
+        for (Comuna comuna : comunas) {
+            if (comuna.getId() == comunaActualizada.getId()) {
+                comuna.setNombre(comunaActualizada.getNombre());
+                comuna.setClase(comunaActualizada.getClase());
+
+                // Guardar los cambios en el archivo CSV después de la actualización
+                try {
+                    guardarComunasCSV("comunas.csv");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Comuna actualizada con éxito.");
+                return;
+            }
+        }
+        System.out.println("No se encontró la comuna con ID: " + comunaActualizada.getId());
+    }
+
+    public List<Comuna> obtenerTodasLasComunas() {
+        return new ArrayList<>(comunas);
+    }
+
+    /* InmobiliariaController */
+
+    public Comuna buscarComunaPorId(int id) {
+        for (Comuna comuna : comunas) {
+            if (comuna.getId() == id) {
+                return comuna; // Devuelve la comuna si encuentra coincidencia de ID
+            }
+        }
+        return null; // Retorna null si no se encuentra la comuna
+    }
+
+    public void agregarComuna(int id, String nombre, String clase) {
+        Comuna comuna = new Comuna(id, nombre, clase);
+        agregarComuna(comuna); // Llama al método ya existente para agregar una comuna
+    }
+
+    public void eliminarComunaPorId(int id) {
+        Comuna comuna = buscarComunaPorId(id);
+        if (comuna != null) {
+            comunas.remove(comuna);
+            guardarCambiosComunas(); // Ya existente
+        }
+    }
+
+    public void actualizarComuna(int id, String nombre, String clase) {
+        Comuna comuna = buscarComunaPorId(id);
+        if (comuna != null) {
+            comuna.setNombre(nombre);
+            comuna.setClase(clase);
+            guardarCambiosComunas(); // Ya existente
+        }
     }
 
     /* Persistencia de Datos */
@@ -131,9 +176,22 @@ public class Inmobiliaria {
                 String clase = nextLine[2];
                 Comuna comuna = new Comuna(id, nombre, clase);
                 agregarComuna(comuna);
+
+                // Cargar propiedades asociadas a la comuna desde sus CSV
+                String propiedadesPath = "db/comuna_" + id + "_propiedades.csv";
+                comuna.cargarPropiedadesCSV(propiedadesPath); // Cargar las propiedades de cada comuna
             }
         } catch (CsvValidationException e) {
             e.printStackTrace();
         }
     }
+
+    private void guardarCambiosComunas() {
+        try {
+            guardarComunasCSV("comunas.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

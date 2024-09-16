@@ -62,10 +62,20 @@ public class Comuna {
 
     public void agregarDepartamento(Departamento departamento) {
         departamentos.add(departamento);
+        guardarCambios();
     }
 
     public void eliminarDepartamento(Departamento departamento) {
         departamentos.remove(departamento);
+        guardarCambios();
+    }
+
+    public void eliminarDepartamento(int idDepartamento) {
+        Departamento departamento = obtenerDepartamento(idDepartamento);
+        if (departamento != null) {
+            departamentos.remove(departamento);
+            guardarCambios();
+        }
     }
 
     public Departamento obtenerDepartamento(int idDepartamento) {
@@ -75,6 +85,183 @@ public class Comuna {
             }
         }
         return null;
+    }
+
+    public boolean actualizarDepartamento(int idDepartamento, String direccion, double mts2, int numHabitaciones, int numBanios, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
+        Departamento departamento = obtenerDepartamento(idDepartamento);
+        if (departamento != null) {
+            departamento.setDireccion(direccion);
+            departamento.setMts2(mts2);
+            departamento.setNumHabitaciones(numHabitaciones);
+            departamento.setNumBanos(numBanios);
+            departamento.setPiso(piso);
+            departamento.setTieneEstacionamiento(tieneEstacionamiento);
+            departamento.setTieneBodega(tieneBodega);
+            guardarCambios();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int precioFinalDepartamento(Comuna comuna, Departamento departamento) {
+        double multSector = comuna.calcPrecioAgregadoSector();
+        double multDepto = departamento.calcPrecioDepartamento();
+        long precioBase = departamento.precioMetroCuadrado() * 4;
+
+        double factorTotal = 1.0 + multSector + multDepto;
+
+        return (int) (precioBase * factorTotal);
+    }
+
+    // Terreno
+
+    public void agregarTerreno(Terreno terreno) {
+        terrenos.add(terreno);
+        guardarCambios();
+    }
+
+    public void eliminarTerreno(Terreno terreno) {
+        terrenos.remove(terreno);
+        guardarCambios();
+    }
+
+    public void eliminarTerreno(int idTerreno) {
+        Terreno terreno = obtenerTerreno(idTerreno);
+        if (terreno != null) {
+            terrenos.remove(terreno);
+            guardarCambios();
+        }
+    }
+
+    public Terreno obtenerTerreno(int idTerreno) {
+        for (Terreno terreno : terrenos) {
+            if (terreno.getId() == idTerreno) {
+                return terreno;
+            }
+        }
+        return null;
+    }
+
+    public boolean actualizarTerreno(int idTerreno, String direccion, double mts2, boolean agua, boolean luz, boolean gas) {
+        Terreno terreno = obtenerTerreno(idTerreno);
+        if (terreno != null) {
+            terreno.setDireccion(direccion);
+            terreno.setMts2(mts2);
+            terreno.setTieneServicioAgua(agua);
+            terreno.setTieneServicioLuz(luz);
+            terreno.setTieneServicioGas(gas);
+            guardarCambios();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int precioFinalTerreno(Comuna comuna, Terreno terreno) {
+        double multSector = comuna.calcPrecioAgregadoSector();
+        double multTerreno = terreno.calcPrecioTerreno();
+        long precioBase = terreno.precioMetroCuadrado();
+
+        double factorTotal = 1.0 + multSector + multTerreno;
+
+        return (int)(precioBase * factorTotal);
+    }
+
+    // Casa
+
+    public void agregarCasa(Casa casa) {
+        casas.add(casa);
+        guardarCambios();
+    }
+
+    public void eliminarCasa(Casa casa) {
+        casas.remove(casa);
+        guardarCambios();
+    }
+
+    public void eliminarCasa(int idCasa) {
+        Casa casa = obtenerCasa(idCasa);
+        if (casa != null) {
+            casas.remove(casa);
+            guardarCambios();
+        }
+    }
+
+    public Casa obtenerCasa(int idCasa) {
+        for (Casa casa : casas) {
+            if (casa.getId() == idCasa) {
+                return casa;
+            }
+        }
+        return null;
+    }
+
+    public boolean actualizarCasa(int idCasa, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
+        Casa casa = obtenerCasa(idCasa);
+        if (casa != null) {
+            casa.setDireccion(direccion);
+            casa.setMts2(mts2);
+            casa.setNumHabitaciones(numHabitaciones);
+            casa.setNumBanios(numBanios);
+            casa.setNumEstacionamiento(numEstacionamiento);
+            casa.setMts2Construidos(mts2Construidos);
+            casa.setTienePatio(tienePatio);
+            guardarCambios();
+            return true;
+        }
+        return false;
+    }
+
+    public long precioFinalCasa(Comuna comuna, Casa casa) {
+        long multSector = (long) (comuna.calcPrecioAgregadoSector() * 100); // Ajustado a long
+        long multCasa = casa.calcPrecioCasa();  // Usando el nuevo método que trabaja con long
+
+        long precioBase = casa.precioMetroCuadrado();
+        precioBase += casa.precioMetroCuadradoConstruido();
+
+        long factorTotal = 100 + multSector + multCasa; // Cambiado a long
+
+        return (precioBase * factorTotal) / 100; // Cálculo final con long
+    }
+
+
+
+
+    // Mostrar todos las listas
+
+    public List<Object> obtenerTodasLasPropiedades() {
+        List<Object> propiedades = new ArrayList<>();
+        propiedades.addAll(casas);
+        propiedades.addAll(departamentos);
+        propiedades.addAll(terrenos);
+        return propiedades;
+    }
+
+    public double calcPrecioAgregadoSector() {
+        String charClase = this.getClase();
+
+        /* Mas demanda MAS precio */
+
+        return switch (charClase) { /*entre mas alta la demanda de comuna mas alta la clase de zona*/
+            case "A" -> 2.0;  // Clase alta, gran impacto
+            case "B" -> 1.5;
+            case "C" -> 1.2;
+            case "D" -> 1.0;
+            case "E" -> 0.8;
+            case "F" -> 0.5;  // Clase baja, menor impacto
+            default -> 0.0;
+        };
+    }
+
+    /* Persistencia de Datos */
+
+    private void guardarCambios() {
+        try {
+            guardarPropiedadesCSV("db/comuna_" + this.id + "_propiedades.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void guardarPropiedadesCSV(String filePath) throws IOException {
@@ -87,30 +274,36 @@ public class Comuna {
         }
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+            // Guardar las casas
             for (Casa casa : casas) {
-                String[] record = {"Casa", String.valueOf(casa.getId()), casa.getDireccion(), String.valueOf(casa.getPrecio()),
+                String[] record = {"Casa", String.valueOf(casa.getId()), casa.getDireccion(), String.valueOf(casa.getPrecio()), // Cambiado a long
                         String.valueOf(casa.getMts2()), String.valueOf(casa.getNumHabitaciones()),
                         String.valueOf(casa.getNumBanios()), String.valueOf(casa.getNumEstacionamiento()),
                         String.valueOf(casa.getMts2Construidos()), String.valueOf(casa.isTienePatio())};
                 writer.writeNext(record);
             }
+
+            // Guardar los departamentos
             for (Departamento departamento : departamentos) {
                 String[] record = {"Departamento", String.valueOf(departamento.getId()), departamento.getDireccion(),
-                        String.valueOf(departamento.getPrecio()), String.valueOf(departamento.getMts2()),
-                        String.valueOf(departamento.getNumHabitaciones()), String.valueOf(departamento.getNumBanos()),
-                        String.valueOf(departamento.getPiso()), String.valueOf(departamento.isTieneEstacionamiento()),
-                        String.valueOf(departamento.isTieneBodega())};
+                        String.valueOf(departamento.getPrecio()), // Cambiado a long
+                        String.valueOf(departamento.getMts2()), String.valueOf(departamento.getNumHabitaciones()),
+                        String.valueOf(departamento.getNumBanos()), String.valueOf(departamento.getPiso()),
+                        String.valueOf(departamento.isTieneEstacionamiento()), String.valueOf(departamento.isTieneBodega())};
                 writer.writeNext(record);
             }
+
+            // Guardar los terrenos
             for (Terreno terreno : terrenos) {
                 String[] record = {"Terreno", String.valueOf(terreno.getId()), terreno.getDireccion(),
-                        String.valueOf(terreno.getPrecio()), String.valueOf(terreno.getMts2()),
-                        String.valueOf(terreno.isTieneServicioAgua()), String.valueOf(terreno.isTieneServicioLuz()),
-                        String.valueOf(terreno.isTieneServicioGas())};
+                        String.valueOf(terreno.getPrecio()), // Cambiado a long
+                        String.valueOf(terreno.getMts2()), String.valueOf(terreno.isTieneServicioAgua()),
+                        String.valueOf(terreno.isTieneServicioLuz()), String.valueOf(terreno.isTieneServicioGas())};
                 writer.writeNext(record);
             }
         }
     }
+
 
     public void cargarPropiedadesCSV(String filePath) throws IOException {
         File file = new File(filePath);
@@ -128,7 +321,7 @@ public class Comuna {
                 String tipo = nextLine[0];
                 int id = Integer.parseInt(nextLine[1]);
                 String direccion = nextLine[2];
-                int precio = Integer.parseInt(nextLine[3]);
+                long precio = Long.parseLong(nextLine[3]); // Leer como long
                 double mts2 = Double.parseDouble(nextLine[4]);
 
                 switch (tipo) {
@@ -161,129 +354,6 @@ public class Comuna {
         }
     }
 
-
-
-    public boolean actualizarDepartamento(int idDepartamento, String direccion, double mts2, int numHabitaciones, int numBanios, int piso, boolean tieneEstacionamiento, boolean tieneBodega) {
-        Departamento departamento = obtenerDepartamento(idDepartamento);
-        if (departamento != null) {
-            departamento.setDireccion(direccion);
-            departamento.setMts2(mts2);
-            departamento.setNumHabitaciones(numHabitaciones);
-            departamento.setNumBanos(numBanios);
-            departamento.setPiso(piso);
-            departamento.setTieneEstacionamiento(tieneEstacionamiento);
-            departamento.setTieneBodega(tieneBodega);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public ArrayList<Departamento> getDepartamentos() {
-        return departamentos;
-    }
-
-    // Terreno
-
-    public void agregarTerreno(Terreno terreno) {
-        terrenos.add(terreno);
-    }
-
-    public void eliminarTerreno(Terreno terreno) {
-        terrenos.remove(terreno);
-    }
-
-    public Terreno obtenerTerreno(int idTerreno) {
-        for (Terreno terreno : terrenos) {
-            if (terreno.getId() == idTerreno) {
-                return terreno;
-            }
-        }
-        return null;
-    }
-
-    public boolean actualizarTerreno(int idTerreno, String direccion, double mts2, boolean agua, boolean luz, boolean gas) {
-        Terreno terreno = obtenerTerreno(idTerreno);
-        if (terreno != null) {
-            terreno.setDireccion(direccion);
-            terreno.setMts2(mts2);
-            terreno.setTieneServicioAgua(agua);
-            terreno.setTieneServicioLuz(luz);
-            terreno.setTieneServicioGas(gas);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public ArrayList<Terreno> getTerrenos() {
-        return terrenos;
-    }
-
-    // Casa
-
-    public void agregarCasa(Casa casa) {
-        casas.add(casa);
-    }
-
-    public void eliminarCasa(Casa casa) {
-        casas.remove(casa);
-    }
-
-    public Casa obtenerCasa(int idCasa) {
-        for (Casa casa : casas) {
-            if (casa.getId() == idCasa) {
-                return casa;
-            }
-        }
-        return null;
-    }
-
-    public boolean actualizarCasa(int idCasa, String direccion, double mts2, int numHabitaciones, int numBanios, int numEstacionamiento, int mts2Construidos, boolean tienePatio) {
-        Casa casa = obtenerCasa(idCasa);
-        if (casa != null) {
-            casa.setDireccion(direccion);
-            casa.setMts2(mts2);
-            casa.setNumHabitaciones(numHabitaciones);
-            casa.setNumBanios(numBanios);
-            casa.setNumEstacionamiento(numEstacionamiento);
-            casa.setMts2Construidos(mts2Construidos);
-            casa.setTienePatio(tienePatio);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public ArrayList<Casa> getCasas() {
-        return casas;
-    }
-
-    // Mostrar todos las listas
-
-    public List<Object> obtenerTodasLasPropiedades() {
-        List<Object> propiedades = new ArrayList<>();
-        propiedades.addAll(casas);
-        propiedades.addAll(departamentos);
-        propiedades.addAll(terrenos);
-        return propiedades;
-    }
-
-    public double calcPrecioAgregadoSector() {
-        String charClase = this.getClase();
-
-        /* Mas demanda MAS precio */
-
-        return switch (charClase) { /*entre mas alta la demanda de comuna mas alta la clase de zona*/
-            case "A" -> 2.0;  // Clase alta, gran impacto
-            case "B" -> 1.5;
-            case "C" -> 1.2;
-            case "D" -> 1.0;
-            case "E" -> 0.8;
-            case "F" -> 0.5;  // Clase baja, menor impacto
-            default -> 0.0;
-        };
-    }
 
     @Override
     public String toString() {
