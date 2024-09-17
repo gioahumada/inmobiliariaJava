@@ -107,8 +107,25 @@ public class Inmobiliaria {
         if (comuna != null) {
             comunas.remove(comuna);
             guardarCambiosComunas(); // Ya existente
+            
+            // Eliminar el archivo CSV de propiedades asociado a la comuna
+            String propiedadesFilePath = "db/comuna_" + id + "_propiedades.csv";
+            File archivoPropiedades = new File(propiedadesFilePath);
+            
+            if (archivoPropiedades.exists()) {
+                if (archivoPropiedades.delete()) {
+                    System.out.println("Archivo de propiedades eliminado");
+                } else {
+                    System.out.println("No se pudo eliminar el archivo de propiedades");
+                }
+            } else {
+                System.out.println("El archivo de propiedades no existe");
+            }
+        } else {
+            System.out.println("Comuna no encontrada.");
         }
     }
+    
 
     public void actualizarComuna(int id, String nombre, String clase) {
         Comuna comuna = buscarComunaPorId(id);

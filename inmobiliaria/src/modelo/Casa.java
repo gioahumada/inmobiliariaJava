@@ -72,23 +72,41 @@ public class Casa extends Inmueble {
 
     /* $$$$ */
 
-    public long calcPrecioCasa() {
-        long valorAgregado = 0;
+    public double calcPrecioCasa() {
+        double valorAgregado = 0;
+
+        /*Num Habitaciones */
 
         if (this.getNumHabitaciones() > 2) {
-            valorAgregado += (this.getNumHabitaciones() - 2) * 200; // Cambiado a long
+            valorAgregado += (getNumHabitaciones() - 2) * 0.02;
         }
+
+        if (this.getNumHabitaciones() < 0) {
+            valorAgregado -= 2.0;
+        }
+
+        /* Baños */
 
         if (this.getNumBanios() > 1) {
-            valorAgregado += (this.getNumBanios() - 1) * 300; // Cambiado a long
+            valorAgregado += (getNumBanios() - 1) * 0.03;
         }
 
+        if (this.getNumBanios() < 0) {
+            valorAgregado -= 2.0;
+        }
+
+        /* Estacionamiento */
+
         if (this.getNumEstacionamiento() > 1) {
-            valorAgregado += (this.getNumEstacionamiento() - 1) * 20000; // Cambiado a long
+            valorAgregado += (getNumEstacionamiento() - 1) * 0.2;
+        }
+
+        if (this.getNumBanios() < 0) {
+            valorAgregado -= 2.0;
         }
 
         if (this.isTienePatio()) {
-            valorAgregado += 50000; // Cambiado a long
+            valorAgregado += 0.5;
         }
 
         return valorAgregado;

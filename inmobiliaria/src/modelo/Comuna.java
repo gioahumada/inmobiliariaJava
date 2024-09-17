@@ -215,14 +215,14 @@ public class Comuna {
 
     public long precioFinalCasa(Comuna comuna, Casa casa) {
         long multSector = (long) (comuna.calcPrecioAgregadoSector() * 100); // Ajustado a long
-        long multCasa = casa.calcPrecioCasa();  // Usando el nuevo método que trabaja con long
+        double multCasa = casa.calcPrecioCasa();  // Usando el nuevo método que trabaja con long
 
         long precioBase = casa.precioMetroCuadrado();
         precioBase += casa.precioMetroCuadradoConstruido();
 
-        long factorTotal = 100 + multSector + multCasa; // Cambiado a long
+        double factorTotal = 1 + multSector + multCasa; // Cambiado a long
 
-        return (precioBase * factorTotal) / 100; // Cálculo final con long
+        return (long) (precioBase * factorTotal); // Cálculo final con long
     }
 
 
@@ -256,7 +256,7 @@ public class Comuna {
 
     /* Persistencia de Datos */
 
-    private void guardarCambios() {
+    public void guardarCambios() {
         try {
             guardarPropiedadesCSV("db/comuna_" + this.id + "_propiedades.csv");
         } catch (IOException e) {

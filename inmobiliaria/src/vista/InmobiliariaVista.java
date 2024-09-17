@@ -280,14 +280,27 @@ public class InmobiliariaVista {
         System.out.println("Ingrese ID de la Comuna:");
         int idComuna = scanner.nextInt();
         scanner.nextLine();
-
+    
         Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
         if (comuna != null) {
-            System.out.println(comuna.toString());
+            // Mostrar información básica de la comuna
+            System.out.println(comuna.toString(true));  // Usamos la versión con detalles adicionales
+    
+            // Mostrar todas las propiedades de la comuna
+            List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
+            if (propiedades.isEmpty()) {
+                System.out.println("No hay propiedades registradas en esta comuna.");
+            } else {
+                System.out.println("Propiedades en la comuna:");
+                for (Object propiedad : propiedades) {
+                    System.out.println(propiedad.toString());  // Usamos el método toString de cada propiedad
+                }
+            }
         } else {
             System.out.println("Comuna no encontrada");
         }
     }
+    
 
     private void crearComuna() {
         System.out.println("Ingrese ID:");
@@ -476,6 +489,7 @@ public class InmobiliariaVista {
                 boolean tienePatio = scanner.nextBoolean();
                 casa.setTienePatio(tienePatio);
 
+                comuna.guardarCambios();
                 System.out.println("Casa actualizada correctamente.");
             } else {
                 System.out.println("Casa no encontrada.");
@@ -527,6 +541,7 @@ public class InmobiliariaVista {
                 boolean tieneBodega = scanner.nextBoolean();
                 departamento.setTieneBodega(tieneBodega);
 
+                comuna.guardarCambios();
                 System.out.println("Departamento actualizado correctamente.");
             } else {
                 System.out.println("Departamento no encontrado.");
@@ -571,6 +586,7 @@ public class InmobiliariaVista {
                 terreno.setTieneServicioGas(tieneGas);
 
                 System.out.println("Terreno actualizado correctamente.");
+                comuna.guardarCambios();
             } else {
                 System.out.println("Terreno no encontrado.");
             }

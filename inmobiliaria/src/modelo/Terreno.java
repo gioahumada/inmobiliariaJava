@@ -41,19 +41,19 @@ public class Terreno extends Inmueble{
 
     /* Metodos */
 
-    public long calcPrecioTerreno() {
-        long multiplicador = 0;
+    public double calcPrecioTerreno() {
+        double multiplicador = 0;
 
         if (this.isTieneServicioAgua()) {
-            multiplicador += 200;
+            multiplicador += 0.2;
         }
 
         if (this.isTieneServicioLuz()) {
-            multiplicador += 200;
+            multiplicador += 0.2;
         }
 
         if (this.isTieneServicioGas()) {
-            multiplicador += 200;
+            multiplicador += 0.2;
         }
 
         return multiplicador;
