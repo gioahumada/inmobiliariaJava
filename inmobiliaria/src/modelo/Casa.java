@@ -73,40 +73,27 @@ public class Casa extends Inmueble {
     /* $$$$ */
 
     public double calcPrecioCasa() {
-        double valorAgregado = 0;
+        double precioBase = precioMetroCuadradoConstruido();  // Precio base actualizado
+        double valorAgregado = precioBase;
 
-        /*Num Habitaciones */
-
-        if (this.getNumHabitaciones() > 2) {
-            valorAgregado += (getNumHabitaciones() - 2) * 0.02;
+        // Num Habitaciones
+        if (this.getNumHabitaciones() > 1) {
+            valorAgregado += precioBase * ((getNumHabitaciones() - 1) * 0.01);  // Aumento más suave
         }
 
-        if (this.getNumHabitaciones() < 0) {
-            valorAgregado -= 2.0;
-        }
-
-        /* Baños */
-
+        // Baños
         if (this.getNumBanios() > 1) {
-            valorAgregado += (getNumBanios() - 1) * 0.03;
+            valorAgregado += precioBase * ((getNumBanios() - 1) * 0.015);  // Aumento más suave
         }
 
-        if (this.getNumBanios() < 0) {
-            valorAgregado -= 2.0;
+        // Estacionamiento
+        if (this.getNumEstacionamiento() > 0) {
+            valorAgregado += precioBase * 0.03;  // Aumento por estacionamiento
         }
 
-        /* Estacionamiento */
-
-        if (this.getNumEstacionamiento() > 1) {
-            valorAgregado += (getNumEstacionamiento() - 1) * 0.2;
-        }
-
-        if (this.getNumBanios() < 0) {
-            valorAgregado -= 2.0;
-        }
-
+        // Patio
         if (this.isTienePatio()) {
-            valorAgregado += 0.5;
+            valorAgregado += precioBase * 0.02;  // Aumento más suave por tener patio
         }
 
         return valorAgregado;
@@ -115,7 +102,6 @@ public class Casa extends Inmueble {
     public long precioMetroCuadradoConstruido() {
         return (long) this.getMts2Construidos() * 500000; // Devuelve long
     }
-
 
     @Override
     public String toString() {

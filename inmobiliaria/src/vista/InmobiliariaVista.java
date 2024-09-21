@@ -21,7 +21,7 @@ public class InmobiliariaVista {
 
     private void mostrarMenuLogin() {
         limpiarPantalla();
-        System.out.println("=== Sistema de Inicio de Sesión ===");
+        System.out.println("=== Sistema de Inicio de Sesión v1 ===");
         System.out.println("¿Desea iniciar sesión o continuar como invitado?");
         System.out.println("1. Iniciar sesión");
         System.out.println("2. Continuar como invitado");
@@ -357,7 +357,6 @@ public class InmobiliariaVista {
         long precio = comuna.precioFinalCasa(comuna, casa); // Calcula el precio automáticamente
         casa.setPrecio(precio);
         comuna.agregarCasa(casa);
-
 
         System.out.println("Casa añadida a la comuna.");
     }
