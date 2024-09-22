@@ -38,7 +38,7 @@ public class InmobiliariaVista {
         }
     }
 
-    private void iniciarSesion() {
+    public void iniciarSesion() {
         System.out.println("Ingrese su nombre de usuario:");
         String nombreUsuario = scanner.nextLine();
         System.out.println("Ingrese su contraseña:");
@@ -57,7 +57,7 @@ public class InmobiliariaVista {
         }
     }
 
-    private void mostrarMenuInvitado() {
+    public void mostrarMenuInvitado() {
         while (true) {
             System.out.println("=== Inmobiliaria - Invitado ===");
             System.out.println("1. Mostrar Todas las Comunas");
