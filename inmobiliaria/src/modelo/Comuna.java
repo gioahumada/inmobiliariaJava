@@ -214,17 +214,23 @@ public class Comuna {
     }
 
     public long precioFinalCasa(Comuna comuna, Casa casa) {
-        long multSector = (long) (comuna.calcPrecioAgregadoSector() * 100); // Ajustado a long
-        double multCasa = casa.calcPrecioCasa();  // Usando el nuevo método que trabaja con long
+        double multSector = comuna.calcPrecioAgregadoSector();  // Factor de la comuna
+        double precioCasa = casa.calcPrecioCasa();  // Precio calculado de la casa
 
-        long precioBase = casa.precioMetroCuadrado();
-        precioBase += casa.precioMetroCuadradoConstruido();
+        // Precio de los metros no construidos (calculado desde Inmueble)
+        long precioNoConstruido = casa.precioMetroCuadrado();
 
-        double factorTotal = 1 + multSector + multCasa; // Cambiado a long
+        // Precio de los metros construidos
+        long precioConstruido = casa.precioMetroCuadradoConstruido();
 
-        return (long) (precioBase * factorTotal); // Cálculo final con long
+        // Suma de precios de metros construidos y no construidos
+        long precioTotalBase = precioNoConstruido + precioConstruido;
+
+        // Cálculo final: suma los precios de metros construidos y no construidos, y aplica el factor sectorial
+        double precioFinal = precioTotalBase * multSector;
+
+        return (long) (precioFinal + precioCasa);  // Suma el precio total ajustado con el valor de la casa
     }
-
 
 
 

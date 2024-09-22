@@ -76,7 +76,7 @@ public class Departamento extends Inmueble {
         multiplicador += this.getPiso() * 0.002;
 
         if(this.isTieneBodega()) {
-            multiplicador += 0.5;
+            multiplicador += 0.1;
         }
 
         if (this.isTieneEstacionamiento()) {

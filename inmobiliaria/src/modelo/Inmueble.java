@@ -66,8 +66,23 @@ public class Inmueble {
     /* Metodos */
 
     public long precioMetroCuadrado() {
-        return (long) this.getMts2() * 110282;  /*Valor mt2 2024 */
+        double metrosNoConstruidos = this.getMts2();  // Asumimos que `getMts2()` está en `Inmueble`
+
+        if (this instanceof Casa) {
+            // En una casa, se restan los metros construidos de los no construidos para calcularlos por separado.
+            Casa casa = (Casa) this;
+            metrosNoConstruidos -= casa.getMts2Construidos();  // Restamos los metros construidos si es una Casa
+        }
+        else if (this instanceof Departamento) {
+            // En un departamento, todos los metros son útiles, no hay metros "no construidos"
+            metrosNoConstruidos = this.getMts2();  // Usamos el total de metros del departamento
+        }
+
+        // Calcular el precio de los metros
+        return (long) (metrosNoConstruidos * 110282);  // Precio por metro cuadrado
     }
+
+
 
     public String getPrecioFormat() {
         /* Coloca los precios en pesos chilenos */

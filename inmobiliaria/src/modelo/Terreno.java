@@ -45,15 +45,15 @@ public class Terreno extends Inmueble{
         double multiplicador = 0;
 
         if (this.isTieneServicioAgua()) {
-            multiplicador += 0.2;
+            multiplicador += 0.3;
         }
 
         if (this.isTieneServicioLuz()) {
-            multiplicador += 0.2;
+            multiplicador += 0.3;
         }
 
         if (this.isTieneServicioGas()) {
-            multiplicador += 0.2;
+            multiplicador += 0.3;
         }
 
         return multiplicador;

@@ -1,9 +1,9 @@
-modelo/Terreno.class
-modelo/Inmueble.class
-modelo/Inmobiliaria.class
-modelo/Comuna.class
+modelo\Inmobiliaria.class
+modelo\Inmueble.class
+vista\InmobiliariaVista.class
+modelo\Departamento.class
 App.class
-modelo/Usuario.class
-vista/InmobiliariaVista.class
-modelo/Casa.class
-modelo/Departamento.class
+modelo\Casa.class
+modelo\Comuna.class
+modelo\Terreno.class
+modelo\Usuario.class

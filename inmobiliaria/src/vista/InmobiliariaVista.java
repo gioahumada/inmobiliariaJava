@@ -358,7 +358,6 @@ public class InmobiliariaVista {
         casa.setPrecio(precio);
         comuna.agregarCasa(casa);
 
-
         System.out.println("Casa añadida a la comuna.");
     }
 
