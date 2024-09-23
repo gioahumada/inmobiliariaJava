@@ -1,6 +1,7 @@
 import modelo.Inmobiliaria;
 import vista.InmobiliariaVista;
 import java.io.IOException;
+import vista.Login;
 
 public class App {
     public static void main(String[] args) {
@@ -13,7 +14,8 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        vista.mostrarMenu(); // Mostrar menú sin necesidad de controller intermedio
+
+        Login login = new Login(inmobiliaria);
+        login.setVisible(true);
     }
 }

@@ -102,7 +102,7 @@ public class Inmobiliaria {
         agregarComuna(comuna); // Llama al método ya existente para agregar una comuna
     }
 
-    public void eliminarComunaPorId(int id) {
+    public boolean eliminarComunaPorId(int id) {
         Comuna comuna = buscarComunaPorId(id);
         if (comuna != null) {
             comunas.remove(comuna);
@@ -115,14 +115,18 @@ public class Inmobiliaria {
             if (archivoPropiedades.exists()) {
                 if (archivoPropiedades.delete()) {
                     System.out.println("Archivo de propiedades eliminado");
+                    return true;
                 } else {
                     System.out.println("No se pudo eliminar el archivo de propiedades");
+                    return false;
                 }
             } else {
                 System.out.println("El archivo de propiedades no existe");
+                return false;
             }
         } else {
             System.out.println("Comuna no encontrada.");
+            return false;
         }
     }
     
