@@ -6,6 +6,9 @@ package vista;
 
 import modelo.Inmobiliaria;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  *
  * @author gioahumada
@@ -23,7 +26,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
-        username.setText(loggedUser);
+        username.setText("@"+loggedUser);
+        setTitle("Inmobiliaria Java - Menu Administrador");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**

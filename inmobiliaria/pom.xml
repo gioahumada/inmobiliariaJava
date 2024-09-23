@@ -5,7 +5,7 @@
 
     <groupId>com.mx3</groupId>
     <artifactId>inmobiliariaJava</artifactId>
-    <version>0.4 Alpha</version>
+    <version>0.4-Alpha</version>
 
     <dependencies>
         <!-- OpenCSV dependency -->
@@ -18,6 +18,16 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory> <!-- Asegúrate de colocar tus imágenes y otros recursos aquí -->
+                <includes>
+                    <include>**/*.png</include> <!-- Incluye imágenes PNG -->
+                    <include>**/*.csv</include> <!-- Incluye archivos CSV -->
+                    <!-- Incluye cualquier otro tipo de archivo necesario -->
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -28,12 +38,28 @@
                     <target>14</target>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para generar un JAR ejecutable con MANIFEST.MF -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.mx3.MainClass</mainClass> <!-- Cambia esto por el nombre completo de tu clase principal -->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin para ejecutar la aplicación -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-                    <mainClass>App</mainClass> <!-- Asegúrate de que el nombre de la clase principal esté correcto -->
+                    <mainClass>com.mx3.MainClass</mainClass> <!-- Cambia esto también si tu clase principal tiene otro nombre -->
                 </configuration>
             </plugin>
         </plugins>
