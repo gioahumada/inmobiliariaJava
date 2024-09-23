@@ -8,6 +8,7 @@ import modelo.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  *
@@ -156,35 +157,45 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 "Añadir Propiedad", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         if (tipoPropiedad != null) {
-            // Solicitar ID de la Comuna
-            String idComunaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-            if (idComunaStr != null && !idComunaStr.trim().isEmpty()) {
-                try {
-                    int idComuna = Integer.parseInt(idComunaStr.trim());
-                    Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
+            // Obtener todas las comunas
+            List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
-                    if (comuna != null) {
-                        switch (tipoPropiedad) {
-                            case "Casa":
-                                agregarCasaAComuna(comuna);
-                                break;
-                            case "Departamento":
-                                agregarDepartamentoAComuna(comuna);
-                                break;
-                            case "Terreno":
-                                agregarTerrenoAComuna(comuna);
-                                break;
-                            default:
-                                JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+            if (comunas.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay comunas disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Crear un array de nombres de comunas
+            String[] nombresComunas = comunas.stream().map(Comuna::getNombre).toArray(String[]::new);
+
+            // Mostrar un JComboBox con los nombres de las comunas
+            String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
+                    "Seleccionar Comuna", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+
+            if (nombreComunaSeleccionada != null) {
+                // Buscar la comuna seleccionada por nombre
+                Comuna comunaSeleccionada = comunas.stream()
+                        .filter(comuna -> comuna.getNombre().equals(nombreComunaSeleccionada))
+                        .findFirst()
+                        .orElse(null);
+
+                if (comunaSeleccionada != null) {
+                    switch (tipoPropiedad) {
+                        case "Casa":
+                            agregarCasaAComuna(comunaSeleccionada);
+                            break;
+                        case "Departamento":
+                            agregarDepartamentoAComuna(comunaSeleccionada);
+                            break;
+                        case "Terreno":
+                            agregarTerrenoAComuna(comunaSeleccionada);
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "ID de Comuna no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -294,59 +305,69 @@ public class MenuPropiedades extends javax.swing.JFrame {
     }
 
     private void quitarDeComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Solicitar ID de la Comuna
-        String idComunaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-        if (idComunaStr != null && !idComunaStr.trim().isEmpty()) {
-            try {
-                int idComuna = Integer.parseInt(idComunaStr.trim());
-                Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
+        // Obtener todas las comunas
+        List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
-                if (comuna != null) {
-                    // Opciones de tipo de propiedad
-                    String[] options = {"Casa", "Departamento", "Terreno"};
-                    String tipoPropiedad = (String) JOptionPane.showInputDialog(this, "Seleccione el tipo de propiedad a quitar:",
-                            "Quitar Propiedad", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if (comunas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay comunas disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                    if (tipoPropiedad != null) {
-                        // Solicitar ID de la propiedad
-                        String idPropiedadStr = JOptionPane.showInputDialog(this, "Ingrese ID de la propiedad:");
-                        if (idPropiedadStr != null && !idPropiedadStr.trim().isEmpty()) {
-                            try {
-                                int idPropiedad = Integer.parseInt(idPropiedadStr.trim());
+        // Crear un array de nombres de comunas
+        String[] nombresComunas = comunas.stream().map(Comuna::getNombre).toArray(String[]::new);
 
-                                switch (tipoPropiedad) {
-                                    case "Casa":
-                                        comuna.eliminarCasa(idPropiedad);
-                                        JOptionPane.showMessageDialog(this, "Casa quitada de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                        break;
-                                    case "Departamento":
-                                        comuna.eliminarDepartamento(idPropiedad);
-                                        JOptionPane.showMessageDialog(this, "Departamento quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                        break;
-                                    case "Terreno":
-                                        comuna.eliminarTerreno(idPropiedad);
-                                        JOptionPane.showMessageDialog(this, "Terreno quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                        break;
-                                    default:
-                                        JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(this, "ID de propiedad inválido", "Error", JOptionPane.ERROR_MESSAGE);
+        // Mostrar un JComboBox con los nombres de las comunas
+        String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
+                "Quitar Propiedad", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+
+        if (nombreComunaSeleccionada != null) {
+            // Buscar la comuna seleccionada por nombre
+            Comuna comunaSeleccionada = comunas.stream()
+                    .filter(comuna -> comuna.getNombre().equals(nombreComunaSeleccionada))
+                    .findFirst()
+                    .orElse(null);
+
+            if (comunaSeleccionada != null) {
+                // Opciones de tipo de propiedad
+                String[] options = {"Casa", "Departamento", "Terreno"};
+                String tipoPropiedad = (String) JOptionPane.showInputDialog(this, "Seleccione el tipo de propiedad a quitar:",
+                        "Quitar Propiedad", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                if (tipoPropiedad != null) {
+                    // Solicitar ID de la propiedad
+                    String idPropiedadStr = JOptionPane.showInputDialog(this, "Ingrese ID de la propiedad:");
+                    if (idPropiedadStr != null && !idPropiedadStr.trim().isEmpty()) {
+                        try {
+                            int idPropiedad = Integer.parseInt(idPropiedadStr.trim());
+
+                            switch (tipoPropiedad) {
+                                case "Casa":
+                                    comunaSeleccionada.eliminarCasa(idPropiedad);
+                                    JOptionPane.showMessageDialog(this, "Casa quitada de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                    break;
+                                case "Departamento":
+                                    comunaSeleccionada.eliminarDepartamento(idPropiedad);
+                                    JOptionPane.showMessageDialog(this, "Departamento quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                    break;
+                                case "Terreno":
+                                    comunaSeleccionada.eliminarTerreno(idPropiedad);
+                                    JOptionPane.showMessageDialog(this, "Terreno quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                    break;
+                                default:
+                                    JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "ID de la propiedad no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(this, "ID de propiedad inválido", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de propiedad", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "ID de la propiedad no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de propiedad", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "ID de la Comuna no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

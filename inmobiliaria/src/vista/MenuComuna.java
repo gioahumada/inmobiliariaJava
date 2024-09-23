@@ -241,39 +241,50 @@ public class MenuComuna extends javax.swing.JFrame {
     }
 
     private void verComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Prompt the user to enter the ID of the Comuna
-        String idComunaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-        if (idComunaStr != null && !idComunaStr.trim().isEmpty()) {
-            try {
-                int idComuna = Integer.parseInt(idComunaStr.trim());
-                Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
-                if (comuna != null) {
-                    // Display the Comuna details
-                    StringBuilder details = new StringBuilder();
-                    details.append("Detalles de la Comuna:\n");
-                    details.append(comuna.toString(true)); // Assuming toString(true) provides detailed info
+        // Obtener todas las comunas
+        List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
-                    // Display the properties in the Comuna
-                    List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
-                    if (propiedades.isEmpty()) {
-                        details.append("\nNo hay propiedades registradas en esta comuna.");
-                    } else {
-                        details.append("\nPropiedades en la comuna:\n");
-                        for (Object propiedad : propiedades) {
-                            details.append(propiedad.toString()).append("\n");
-                        }
-                    }
+        if (comunas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay comunas disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                    // Show the details in a message dialog
-                    JOptionPane.showMessageDialog(this, details.toString(), "Detalles de la Comuna", JOptionPane.INFORMATION_MESSAGE);
+        // Crear un array de nombres de comunas
+        String[] nombresComunas = comunas.stream().map(Comuna::getNombre).toArray(String[]::new);
+
+        // Mostrar un JComboBox con los nombres de las comunas
+        String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
+                "Ver Comuna", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+
+        if (nombreComunaSeleccionada != null) {
+            // Buscar la comuna seleccionada por nombre
+            Comuna comunaSeleccionada = comunas.stream()
+                    .filter(comuna -> comuna.getNombre().equals(nombreComunaSeleccionada))
+                    .findFirst()
+                    .orElse(null);
+
+            if (comunaSeleccionada != null) {
+                // Mostrar los detalles de la comuna seleccionada
+                StringBuilder details = new StringBuilder();
+                details.append("Detalles de la Comuna:\n");
+                details.append(comunaSeleccionada.toString(true)); // Assuming toString(true) provides detailed info
+
+                // Mostrar las propiedades en la comuna
+                List<Object> propiedades = comunaSeleccionada.obtenerTodasLasPropiedades();
+                if (propiedades.isEmpty()) {
+                    details.append("\nNo hay propiedades registradas en esta comuna.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+                    details.append("\nPropiedades en la comuna:\n");
+                    for (Object propiedad : propiedades) {
+                        details.append(propiedad.toString()).append("\n");
+                    }
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+
+                // Mostrar los detalles en un cuadro de diálogo
+                JOptionPane.showMessageDialog(this, details.toString(), "Detalles de la Comuna", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "ID de Comuna no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
