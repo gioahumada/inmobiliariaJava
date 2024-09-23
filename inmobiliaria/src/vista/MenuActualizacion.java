@@ -7,6 +7,7 @@ package vista;
 import modelo.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -24,6 +25,9 @@ public class MenuActualizacion extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
+        setTitle("Inmobiliaria Java - Actualizar Datos");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**

@@ -8,6 +8,7 @@ import modelo.Inmobiliaria;
 import modelo.Usuario;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -26,6 +27,9 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
+        setTitle("Inmobiliaria Java");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**

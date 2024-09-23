@@ -7,6 +7,7 @@ package vista;
 import modelo.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -23,6 +24,9 @@ public class MenuPropiedades extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
+        setTitle("Inmobiliaria Java - Menú Propiedades");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**
