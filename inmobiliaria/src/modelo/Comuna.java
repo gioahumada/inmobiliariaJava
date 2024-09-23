@@ -366,8 +366,7 @@ public class Comuna {
         return "ID: " + this.getId() + "\n" +
                 "Nombre: " + this.getNombre() + "\n" +
                 "Clase: " + this.getClase() + "\n" +
-                "Total Inmuebles: " + (departamentos.size() + casas.size() + terrenos.size()) + "\n" +
-                "------------------------";
+                "Total Inmuebles: " + (departamentos.size() + casas.size() + terrenos.size()) + "\n";
     }
 
     public String toString(boolean incluirInfoAdicional) {
@@ -375,8 +374,7 @@ public class Comuna {
             return toString() + "\n" +
                     "Departamentos: " + departamentos.size() + "\n" +
                     "Casas: " + casas.size() + "\n" +
-                    "Terrenos: " + terrenos.size() + "\n" +
-                    "------------------------";
+                    "Terrenos: " + terrenos.size() + "\n";
         } else {
             return toString();
         }

@@ -8,6 +8,8 @@ import modelo.Comuna;
 import modelo.Inmobiliaria;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
@@ -100,7 +102,7 @@ public class MenuInvitado extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel4.setText("Menu Invitado");
+        jLabel4.setText("Menú Invitado");
 
         mostrarComuna.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mostrarComunas.png"))); // NOI18N
         mostrarComuna.setBorder(null);
@@ -175,20 +177,48 @@ public class MenuInvitado extends javax.swing.JFrame {
         JFrame frame = new JFrame("Lista de Comunas");
         Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
         frame.setIconImage(icon);
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Create a JTextArea to display the Comuna details
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
+        // Define column names for the table
+        String[] columnNames = {"ID", "Nombre", "Clase", "Total Inmuebles"};
 
-        // Append each Comuna's details to the JTextArea
-        for (Comuna comuna : comunas) {
-            textArea.append(comuna.toString() + "\n");
+        // Create data array for the table
+        Object[][] data = new Object[comunas.size()][4];
+        for (int i = 0; i < comunas.size(); i++) {
+            Comuna comuna = comunas.get(i);
+            data[i][0] = comuna.getId();
+            data[i][1] = comuna.getNombre();
+            data[i][2] = comuna.getClase();
+            data[i][3] = comuna.obtenerTodasLasPropiedades().size();
         }
 
-        // Add the JTextArea to a JScrollPane
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        // Create the table with the data and column names
+        JTable table = new JTable(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // All cells are not editable
+            }
+        };
+
+        // Set the font for the table
+        Font projectFont = new Font("Helvetica Neue", Font.PLAIN, 12); // Adjust as needed
+        table.setFont(projectFont);
+        table.setFillsViewportHeight(true);
+
+        // Customize the table header
+        JTableHeader header = table.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(new Color(255, 165, 0)); // Orange color
+                return c;
+            }
+        });
+
+        // Add the table to a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(table);
 
         // Add the JScrollPane to the JFrame
         frame.add(scrollPane);

@@ -14,17 +14,29 @@
             <artifactId>opencsv</artifactId>
             <version>5.5.2</version>
         </dependency>
+        <!-- JFreeChart dependency -->
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.3</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/main/resources</directory> <!-- Asegúrate de colocar tus imágenes y otros recursos aquí -->
+                <directory>src/main/resources</directory>
                 <includes>
-                    <include>**/*.png</include> <!-- Incluye imágenes PNG -->
-                    <include>**/*.csv</include> <!-- Incluye archivos CSV -->
-                    <!-- Incluye cualquier otro tipo de archivo necesario -->
+                    <include>**/*.png</include>
+                    <include>**/*.csv</include>
                 </includes>
             </resource>
         </resources>
@@ -39,7 +51,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin para generar un JAR ejecutable con MANIFEST.MF -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -47,19 +58,18 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.mx3.MainClass</mainClass> <!-- Cambia esto por el nombre completo de tu clase principal -->
+                            <mainClass>com.mx3.MainClass</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
 
-            <!-- Plugin para ejecutar la aplicación -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-                    <mainClass>com.mx3.MainClass</mainClass> <!-- Cambia esto también si tu clase principal tiene otro nombre -->
+                    <mainClass>com.mx3.MainClass</mainClass>
                 </configuration>
             </plugin>
         </plugins>

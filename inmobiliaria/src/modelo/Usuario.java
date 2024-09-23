@@ -9,9 +9,9 @@ public class Usuario {
     private String hashContraseña;
     private boolean esAdministrador;
 
-    public Usuario(String nombreUsuario, String contraseña, boolean esAdministrador) {
+    public Usuario(String nombreUsuario, String contraseña, boolean esAdministrador, boolean isHashed) {
         this.nombreUsuario = nombreUsuario;
-        this.hashContraseña = hashPassword(contraseña);
+        this.hashContraseña = isHashed ? contraseña : hashPassword(contraseña);
         this.esAdministrador = esAdministrador;
     }
 

@@ -93,8 +93,7 @@ public class Departamento extends Inmueble {
         return "Departamento\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + this.getPrecioFormat() +  "\n" +
-                "Direccion: " + this.getDireccion() + "\n" +
-                "------------------------";
+                "Direccion: " + this.getDireccion() + "\n";
     }
 
     public String toString(boolean incluirInfoAdicional) {
@@ -110,8 +109,7 @@ public class Departamento extends Inmueble {
                     "Cant. Estacionamientos: " + this.isTieneEstacionamiento() + "\n" +
                     "Piso: " + getPiso() + "\n" +
                     "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
-                    "Tiene bodega: " + isTieneBodega() + "\n" +
-                    "------------------------";
+                    "Tiene bodega: " + isTieneBodega() + "\n";
         } else {
             // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();

@@ -52,6 +52,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
         menuComuna = new javax.swing.JButton();
         menuPropiedades = new javax.swing.JButton();
         menuActualizacion = new javax.swing.JButton();
+        menuEstadisticas = new javax.swing.JButton();
+        menuToolBox = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,7 +104,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel4.setText("Menu Administrador");
+        jLabel4.setText("Menú Administrador");
 
         menuComuna.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menuComuna.png"))); // NOI18N
         menuComuna.setBorder(null);
@@ -128,6 +130,22 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
+        menuEstadisticas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estadisticas.png"))); // NOI18N
+        menuEstadisticas.setBorder(null);
+        menuEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEstadisticasActionPerformed(evt);
+            }
+        });
+
+        menuToolBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/toolbox.png"))); // NOI18N
+        menuToolBox.setBorder(null);
+        menuToolBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuToolBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,11 +160,17 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(6, 6, 6)
-                                                                .addComponent(menuComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(menuPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(menuActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                .addComponent(menuEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                .addComponent(menuComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(menuPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(menuActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                                 .addGap(0, 16, Short.MAX_VALUE)))
                                 .addContainerGap())
         );
@@ -163,7 +187,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                         .addComponent(menuComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(menuPropiedades, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(menuActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 259, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(menuEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +234,20 @@ public class MenuAdministrador extends javax.swing.JFrame {
         MenuActualizacion menuActualizacion = new MenuActualizacion(inmobiliaria);
         menuActualizacion.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         menuActualizacion.setVisible(true);
+    }
+
+    private void menuEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
+        Inmobiliaria inmobiliaria = this.inmobiliaria;
+        MenuEstadistica menuEstadisticas = new MenuEstadistica(inmobiliaria);
+        menuEstadisticas.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        menuEstadisticas.setVisible(true);
+    }
+
+    private void menuToolBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        Inmobiliaria inmobiliaria = this.inmobiliaria;
+        MenuToolBox menuToolBox = new MenuToolBox(inmobiliaria);
+        menuToolBox.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        menuToolBox.setVisible(true);
     }
 
     /**
@@ -254,7 +296,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton menuActualizacion;
     private javax.swing.JButton menuComuna;
+    private javax.swing.JButton menuEstadisticas;
     private javax.swing.JButton menuPropiedades;
+    private javax.swing.JButton menuToolBox;
     private javax.swing.JLabel username;
     // End of variables declaration
 }

@@ -42,6 +42,11 @@ public class Inmobiliaria {
 
     public void agregarUsuario(Usuario usuario) {
         usuarios.put(usuario.getNombreUsuario(), usuario);
+        try {
+            guardarUsuariosCSV("usuarios.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Usuario obtenerUsuario(String nombreUsuario) {
@@ -163,11 +168,20 @@ public class Inmobiliaria {
         try (CSVReader reader = new CSVReader(new FileReader(file))) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                String nombreUsuario = nextLine[0];
-                String hashContraseña = nextLine[1];
-                boolean esAdministrador = Boolean.parseBoolean(nextLine[2]);
-                Usuario usuario = new Usuario(nombreUsuario, hashContraseña, esAdministrador);
-                agregarUsuario(usuario);
+                if (nextLine.length < 3) {
+                    System.err.println("Invalid line format: " + String.join(",", nextLine));
+                    continue;
+                }
+                try {
+                    String nombreUsuario = nextLine[0];
+                    String hashContraseña = nextLine[1];
+                    boolean esAdministrador = Boolean.parseBoolean(nextLine[2]);
+                    Usuario usuario = new Usuario(nombreUsuario, hashContraseña, esAdministrador, true); // Pass true to indicate the password is already hashed
+                    usuarios.put(nombreUsuario, usuario);
+                } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+                    System.err.println("Error parsing line: " + String.join(",", nextLine));
+                    e.printStackTrace();
+                }
             }
         } catch (CsvValidationException e) {
             e.printStackTrace();

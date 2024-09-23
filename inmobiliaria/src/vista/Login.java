@@ -28,7 +28,7 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
         setTitle("Inmobiliaria Java");
-        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        Image icon = new ImageIcon(getClass().getClassLoader().getResource("img/icon.png")).getImage();
         setIconImage(icon);
     }
 
@@ -245,7 +245,8 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void loginAsGuestButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Logged in as guest");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/img/iconJ.png"));
+        JOptionPane.showMessageDialog(this, "¡Bienvenido, Invitado!", "Iniciar Sesión", JOptionPane.INFORMATION_MESSAGE, icon);
         logged = true;
         guest = true;
         dispose();
@@ -262,7 +263,8 @@ public class Login extends javax.swing.JFrame {
 
         Usuario usuario = inmobiliaria.obtenerUsuario(username);
         if (usuario != null && usuario.verificarContraseña(password)) {
-            JOptionPane.showMessageDialog(this, "Login successful!");
+            ImageIcon icon = new ImageIcon(getClass().getResource("/img/iconJ.png"));
+            JOptionPane.showMessageDialog(this, "¡Bienvenido, " + username + "!", "Iniciar Sesión", JOptionPane.INFORMATION_MESSAGE, icon);
             logged = true;
             dispose(); // Close the login dialog
             if (usuario.isEsAdministrador()) {

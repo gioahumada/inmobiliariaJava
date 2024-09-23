@@ -109,8 +109,7 @@ public class Casa extends Inmueble {
         return "Casa\n" +
                 "ID : " + this.getId() + "\n" +
                 "Precio: " + getPrecioFormat() +  "\n" +
-                "Direccion: " + this.getDireccion() + "\n" +
-                "------------------------";
+                "Direccion: " + this.getDireccion() + "\n";
     }
 
     public String toString(boolean incluirInfoAdicional) {
@@ -125,8 +124,7 @@ public class Casa extends Inmueble {
                     "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
                     "Cant. Estacionamientos: " + this.getNumEstacionamiento() + "\n" +
                     "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
-                    "Tiene Patio: " + this.isTienePatio() + "\n" +
-                    "------------------------";
+                    "Tiene Patio: " + this.isTienePatio() + "\n";
         } else {
             // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
