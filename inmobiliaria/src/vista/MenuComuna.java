@@ -8,6 +8,10 @@ import modelo.Comuna;
 import modelo.Inmobiliaria;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -25,6 +29,9 @@ public class MenuComuna extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
+        setTitle("Inmobiliaria Java - Menú Comuna");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**
@@ -181,20 +188,50 @@ public class MenuComuna extends javax.swing.JFrame {
 
         // Create a new JFrame to display the Comunas
         JFrame frame = new JFrame("Lista de Comunas");
-        frame.setSize(400, 300);
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        frame.setIconImage(icon);
+        frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Create a JTextArea to display the Comuna details
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
+        // Define column names for the table
+        String[] columnNames = {"ID", "Nombre", "Clase", "Total Inmuebles"};
 
-        // Append each Comuna's details to the JTextArea
-        for (Comuna comuna : comunas) {
-            textArea.append(comuna.toString() + "\n");
+        // Create data array for the table
+        Object[][] data = new Object[comunas.size()][4];
+        for (int i = 0; i < comunas.size(); i++) {
+            Comuna comuna = comunas.get(i);
+            data[i][0] = comuna.getId();
+            data[i][1] = comuna.getNombre();
+            data[i][2] = comuna.getClase();
+            data[i][3] = comuna.obtenerTodasLasPropiedades().size();
         }
 
-        // Add the JTextArea to a JScrollPane
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        // Create the table with the data and column names
+        JTable table = new JTable(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // All cells are not editable
+            }
+        };
+
+        // Set the font for the table
+        Font projectFont = new Font("Helvetica Neue", Font.PLAIN, 12); // Adjust as needed
+        table.setFont(projectFont);
+        table.setFillsViewportHeight(true);
+
+        // Customize the table header
+        JTableHeader header = table.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(new Color(255, 165, 0)); // Orange color
+                return c;
+            }
+        });
+
+        // Add the table to a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(table);
 
         // Add the JScrollPane to the JFrame
         frame.add(scrollPane);
@@ -204,39 +241,50 @@ public class MenuComuna extends javax.swing.JFrame {
     }
 
     private void verComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Prompt the user to enter the ID of the Comuna
-        String idComunaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-        if (idComunaStr != null && !idComunaStr.trim().isEmpty()) {
-            try {
-                int idComuna = Integer.parseInt(idComunaStr.trim());
-                Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
-                if (comuna != null) {
-                    // Display the Comuna details
-                    StringBuilder details = new StringBuilder();
-                    details.append("Detalles de la Comuna:\n");
-                    details.append(comuna.toString(true)); // Assuming toString(true) provides detailed info
+        // Obtener todas las comunas
+        List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
-                    // Display the properties in the Comuna
-                    List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
-                    if (propiedades.isEmpty()) {
-                        details.append("\nNo hay propiedades registradas en esta comuna.");
-                    } else {
-                        details.append("\nPropiedades en la comuna:\n");
-                        for (Object propiedad : propiedades) {
-                            details.append(propiedad.toString()).append("\n");
-                        }
-                    }
+        if (comunas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay comunas disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                    // Show the details in a message dialog
-                    JOptionPane.showMessageDialog(this, details.toString(), "Detalles de la Comuna", JOptionPane.INFORMATION_MESSAGE);
+        // Crear un array de nombres de comunas
+        String[] nombresComunas = comunas.stream().map(Comuna::getNombre).toArray(String[]::new);
+
+        // Mostrar un JComboBox con los nombres de las comunas
+        String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
+                "Ver Comuna", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+
+        if (nombreComunaSeleccionada != null) {
+            // Buscar la comuna seleccionada por nombre
+            Comuna comunaSeleccionada = comunas.stream()
+                    .filter(comuna -> comuna.getNombre().equals(nombreComunaSeleccionada))
+                    .findFirst()
+                    .orElse(null);
+
+            if (comunaSeleccionada != null) {
+                // Mostrar los detalles de la comuna seleccionada
+                StringBuilder details = new StringBuilder();
+                details.append("Detalles de la Comuna:\n");
+                details.append(comunaSeleccionada.toString(true)); // Assuming toString(true) provides detailed info
+
+                // Mostrar las propiedades en la comuna
+                List<Object> propiedades = comunaSeleccionada.obtenerTodasLasPropiedades();
+                if (propiedades.isEmpty()) {
+                    details.append("\nNo hay propiedades registradas en esta comuna.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+                    details.append("\nPropiedades en la comuna:\n");
+                    for (Object propiedad : propiedades) {
+                        details.append(propiedad.toString()).append("\n");
+                    }
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+
+                // Mostrar los detalles en un cuadro de diálogo
+                JOptionPane.showMessageDialog(this, details.toString(), "Detalles de la Comuna", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "ID de Comuna no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

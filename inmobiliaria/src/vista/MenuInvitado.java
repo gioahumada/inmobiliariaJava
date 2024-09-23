@@ -8,6 +8,7 @@ import modelo.Comuna;
 import modelo.Inmobiliaria;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -25,6 +26,9 @@ public class MenuInvitado extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
+        setTitle("Inmobiliaria Java - Invitado");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        setIconImage(icon);
     }
 
     /**
@@ -169,6 +173,8 @@ public class MenuInvitado extends javax.swing.JFrame {
 
         // Create a new JFrame to display the Comunas
         JFrame frame = new JFrame("Lista de Comunas");
+        Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+        frame.setIconImage(icon);
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
