@@ -62,9 +62,8 @@ public class Terreno extends Inmueble{
     @Override
     public String toString() {
         // Información básica que siempre se mostrará
-        return "Terreno\n" +
-                "ID : " + this.getId() + "\n" +
-                "Precio: " + getPrecioFormat() +  "\n" +
+        return  "ID : " + this.getId() + " | " +
+                "Precio: " + getPrecioFormat() +  " | " +
                 "Dirección: " + this.getDireccion() + "\n";
     }
 

@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Comuna {
     private int id;
@@ -360,6 +361,17 @@ public class Comuna {
         }
     }
 
+    public List<Integer> obtenerIdsCasas() {
+        return casas.stream().map(Casa::getId).collect(Collectors.toList());
+    }
+
+    public List<Departamento> obtenerTodosLosDepartamentos() {
+        return new ArrayList<>(departamentos);
+    }
+
+    public List<Terreno> obtenerTodosLosTerrenos() {
+        return new ArrayList<>(this.terrenos);
+    }
 
     @Override
     public String toString() {

@@ -90,9 +90,8 @@ public class Departamento extends Inmueble {
     @Override
     public String toString() {
         // Información básica que siempre se mostrará
-        return "Departamento\n" +
-                "ID : " + this.getId() + "\n" +
-                "Precio: " + this.getPrecioFormat() +  "\n" +
+        return  "ID : " + this.getId() + " | " +
+                "Precio: " + this.getPrecioFormat() +  " | " +
                 "Direccion: " + this.getDireccion() + "\n";
     }
 
