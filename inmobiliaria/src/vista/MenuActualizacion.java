@@ -243,51 +243,56 @@ public class MenuActualizacion extends javax.swing.JFrame {
                     .orElse(null);
 
             if (comunaSeleccionada != null) {
-                // Solicitar ID de la Casa
-                String idCasaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Casa:");
-                if (idCasaStr != null && !idCasaStr.trim().isEmpty()) {
-                    try {
-                        int idCasa = Integer.parseInt(idCasaStr.trim());
-                        Casa casa = comunaSeleccionada.obtenerCasa(idCasa);
+                // Obtener los IDs de las casas en la comuna seleccionada
+                List<Integer> idsCasas = comunaSeleccionada.obtenerIdsCasas();
+                if (idsCasas.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay casas disponibles en esta comuna", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                        if (casa != null) {
-                            // Solicitar nuevos datos de la Casa
-                            String nuevaDireccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección de la Casa:", casa.getDireccion());
-                            String nuevosMts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados de la Casa:", casa.getMts2());
-                            String nuevoNumHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones de la Casa:", casa.getNumHabitaciones());
-                            String nuevoNumBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños de la Casa:", casa.getNumBanios());
-                            String nuevoNumEstacionamientoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Estacionamientos de la Casa:", casa.getNumEstacionamiento());
-                            String nuevosMts2ConstruidosStr = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados Construidos de la Casa:", casa.getMts2Construidos());
-                            String tienePatioStr = JOptionPane.showInputDialog(this, "¿Tiene Patio? (true/false):", casa.isTienePatio());
+                // Crear un array de IDs de casas
+                Integer[] idsCasasArray = idsCasas.toArray(new Integer[0]);
 
-                            if (nuevaDireccion != null && !nuevaDireccion.trim().isEmpty() &&
-                                    nuevosMts2Str != null && !nuevosMts2Str.trim().isEmpty() &&
-                                    nuevoNumHabitacionesStr != null && !nuevoNumHabitacionesStr.trim().isEmpty() &&
-                                    nuevoNumBaniosStr != null && !nuevoNumBaniosStr.trim().isEmpty() &&
-                                    nuevoNumEstacionamientoStr != null && !nuevoNumEstacionamientoStr.trim().isEmpty() &&
-                                    nuevosMts2ConstruidosStr != null && !nuevosMts2ConstruidosStr.trim().isEmpty() &&
-                                    tienePatioStr != null && !tienePatioStr.trim().isEmpty()) {
+                // Mostrar un JComboBox con los IDs de las casas
+                Integer idCasaSeleccionada = (Integer) JOptionPane.showInputDialog(this, "Seleccione el ID de la Casa:",
+                        "Actualizar Casa", JOptionPane.QUESTION_MESSAGE, null, idsCasasArray, idsCasasArray[0]);
 
-                                casa.setDireccion(nuevaDireccion.trim());
-                                casa.setMts2(Double.parseDouble(nuevosMts2Str.trim()));
-                                casa.setNumHabitaciones(Integer.parseInt(nuevoNumHabitacionesStr.trim()));
-                                casa.setNumBanios(Integer.parseInt(nuevoNumBaniosStr.trim()));
-                                casa.setNumEstacionamiento(Integer.parseInt(nuevoNumEstacionamientoStr.trim()));
-                                casa.setMts2Construidos(Integer.parseInt(nuevosMts2ConstruidosStr.trim()));
-                                casa.setTienePatio(Boolean.parseBoolean(tienePatioStr.trim()));
+                if (idCasaSeleccionada != null) {
+                    Casa casa = comunaSeleccionada.obtenerCasa(idCasaSeleccionada);
 
-                                JOptionPane.showMessageDialog(this, "Casa actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
+                    if (casa != null) {
+                        // Solicitar nuevos datos de la Casa
+                        String nuevaDireccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección de la Casa:", casa.getDireccion());
+                        String nuevosMts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados de la Casa:", casa.getMts2());
+                        String nuevoNumHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones de la Casa:", casa.getNumHabitaciones());
+                        String nuevoNumBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños de la Casa:", casa.getNumBanios());
+                        String nuevoNumEstacionamientoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Estacionamientos de la Casa:", casa.getNumEstacionamiento());
+                        String nuevosMts2ConstruidosStr = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados Construidos de la Casa:", casa.getMts2Construidos());
+                        String tienePatioStr = JOptionPane.showInputDialog(this, "¿Tiene Patio? (true/false):", casa.isTienePatio());
+
+                        if (nuevaDireccion != null && !nuevaDireccion.trim().isEmpty() &&
+                                nuevosMts2Str != null && !nuevosMts2Str.trim().isEmpty() &&
+                                nuevoNumHabitacionesStr != null && !nuevoNumHabitacionesStr.trim().isEmpty() &&
+                                nuevoNumBaniosStr != null && !nuevoNumBaniosStr.trim().isEmpty() &&
+                                nuevoNumEstacionamientoStr != null && !nuevoNumEstacionamientoStr.trim().isEmpty() &&
+                                nuevosMts2ConstruidosStr != null && !nuevosMts2ConstruidosStr.trim().isEmpty() &&
+                                tienePatioStr != null && !tienePatioStr.trim().isEmpty()) {
+
+                            casa.setDireccion(nuevaDireccion.trim());
+                            casa.setMts2(Double.parseDouble(nuevosMts2Str.trim()));
+                            casa.setNumHabitaciones(Integer.parseInt(nuevoNumHabitacionesStr.trim()));
+                            casa.setNumBanios(Integer.parseInt(nuevoNumBaniosStr.trim()));
+                            casa.setNumEstacionamiento(Integer.parseInt(nuevoNumEstacionamientoStr.trim()));
+                            casa.setMts2Construidos(Integer.parseInt(nuevosMts2ConstruidosStr.trim()));
+                            casa.setTienePatio(Boolean.parseBoolean(tienePatioStr.trim()));
+
+                            JOptionPane.showMessageDialog(this, "Casa actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(this, "Casa no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "ID de Casa inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Casa no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "ID de la Casa no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -309,7 +314,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
 
         // Mostrar un JComboBox con los nombres de las comunas
         String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
-                "Actualizar Departamento", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+                "Seleccionar Comuna", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
 
         if (nombreComunaSeleccionada != null) {
             // Buscar la comuna seleccionada por nombre
@@ -319,51 +324,58 @@ public class MenuActualizacion extends javax.swing.JFrame {
                     .orElse(null);
 
             if (comunaSeleccionada != null) {
-                // Solicitar ID del Departamento
-                String idDepartamentoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Departamento:");
-                if (idDepartamentoStr != null && !idDepartamentoStr.trim().isEmpty()) {
-                    try {
-                        int idDepartamento = Integer.parseInt(idDepartamentoStr.trim());
-                        Departamento departamento = comunaSeleccionada.obtenerDepartamento(idDepartamento);
+                // Obtener todos los departamentos de la comuna seleccionada
+                List<Departamento> departamentos = comunaSeleccionada.obtenerTodosLosDepartamentos();
 
-                        if (departamento != null) {
-                            // Solicitar nuevos datos del Departamento
-                            String nuevaDireccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección del Departamento:", departamento.getDireccion());
-                            String nuevosMts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados del Departamento:", departamento.getMts2());
-                            String nuevoNumHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones del Departamento:", departamento.getNumHabitaciones());
-                            String nuevoNumBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños del Departamento:", departamento.getNumBanos());
-                            String nuevoPisoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Piso del Departamento:", departamento.getPiso());
-                            String tieneEstacionamientoStr = JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento? (true/false):", departamento.isTieneEstacionamiento());
-                            String tieneBodegaStr = JOptionPane.showInputDialog(this, "¿Tiene Bodega? (true/false):", departamento.isTieneBodega());
+                if (departamentos.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay departamentos disponibles en esta comuna", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                            if (nuevaDireccion != null && !nuevaDireccion.trim().isEmpty() &&
-                                    nuevosMts2Str != null && !nuevosMts2Str.trim().isEmpty() &&
-                                    nuevoNumHabitacionesStr != null && !nuevoNumHabitacionesStr.trim().isEmpty() &&
-                                    nuevoNumBaniosStr != null && !nuevoNumBaniosStr.trim().isEmpty() &&
-                                    nuevoPisoStr != null && !nuevoPisoStr.trim().isEmpty() &&
-                                    tieneEstacionamientoStr != null && !tieneEstacionamientoStr.trim().isEmpty() &&
-                                    tieneBodegaStr != null && !tieneBodegaStr.trim().isEmpty()) {
+                // Crear un array de IDs de departamentos
+                Integer[] idsDepartamentos = departamentos.stream().map(Departamento::getId).toArray(Integer[]::new);
 
-                                departamento.setDireccion(nuevaDireccion.trim());
-                                departamento.setMts2(Double.parseDouble(nuevosMts2Str.trim()));
-                                departamento.setNumHabitaciones(Integer.parseInt(nuevoNumHabitacionesStr.trim()));
-                                departamento.setNumBanos(Integer.parseInt(nuevoNumBaniosStr.trim()));
-                                departamento.setPiso(Integer.parseInt(nuevoPisoStr.trim()));
-                                departamento.setTieneEstacionamiento(Boolean.parseBoolean(tieneEstacionamientoStr.trim()));
-                                departamento.setTieneBodega(Boolean.parseBoolean(tieneBodegaStr.trim()));
+                // Mostrar un JComboBox con los IDs de los departamentos
+                Integer idDepartamentoSeleccionado = (Integer) JOptionPane.showInputDialog(this, "Seleccione un Departamento:",
+                        "Seleccionar Departamento", JOptionPane.QUESTION_MESSAGE, null, idsDepartamentos, idsDepartamentos[0]);
 
-                                JOptionPane.showMessageDialog(this, "Departamento actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Departamento no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "ID de Departamento inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                if (idDepartamentoSeleccionado != null) {
+                    // Buscar el departamento seleccionado por ID
+                    Departamento departamentoSeleccionado = departamentos.stream()
+                            .filter(departamento -> departamento.getId() == idDepartamentoSeleccionado)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (departamentoSeleccionado != null) {
+                        // Solicitar nuevos datos del Departamento
+                        String direccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección:", departamentoSeleccionado.getDireccion());
+                        String mts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados:", departamentoSeleccionado.getMts2());
+                        double mts2 = Double.parseDouble(mts2Str.trim());
+                        String numHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones:", departamentoSeleccionado.getNumHabitaciones());
+                        int numHabitaciones = Integer.parseInt(numHabitacionesStr.trim());
+                        String numBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños:", departamentoSeleccionado.getNumBanos());
+                        int numBanios = Integer.parseInt(numBaniosStr.trim());
+                        String pisoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Piso:", departamentoSeleccionado.getPiso());
+                        int piso = Integer.parseInt(pisoStr.trim());
+                        String tieneEstacionamientoStr = JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento? (true/false):", departamentoSeleccionado.isTieneEstacionamiento());
+                        boolean tieneEstacionamiento = Boolean.parseBoolean(tieneEstacionamientoStr.trim());
+                        String tieneBodegaStr = JOptionPane.showInputDialog(this, "¿Tiene Bodega? (true/false):", departamentoSeleccionado.isTieneBodega());
+                        boolean tieneBodega = Boolean.parseBoolean(tieneBodegaStr.trim());
+
+                        // Actualizar el Departamento
+                        departamentoSeleccionado.setDireccion(direccion);
+                        departamentoSeleccionado.setMts2(mts2);
+                        departamentoSeleccionado.setNumHabitaciones(numHabitaciones);
+                        departamentoSeleccionado.setNumBanos(numBanios);
+                        departamentoSeleccionado.setPiso(piso);
+                        departamentoSeleccionado.setTieneEstacionamiento(tieneEstacionamiento);
+                        departamentoSeleccionado.setTieneBodega(tieneBodega);
+
+                        // Mostrar mensaje de confirmación
+                        JOptionPane.showMessageDialog(this, "Departamento actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Departamento no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "ID del Departamento no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -395,45 +407,52 @@ public class MenuActualizacion extends javax.swing.JFrame {
                     .orElse(null);
 
             if (comunaSeleccionada != null) {
-                // Solicitar ID del Terreno
-                String idTerrenoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Terreno:");
-                if (idTerrenoStr != null && !idTerrenoStr.trim().isEmpty()) {
-                    try {
-                        int idTerreno = Integer.parseInt(idTerrenoStr.trim());
-                        Terreno terreno = comunaSeleccionada.obtenerTerreno(idTerreno);
+                // Obtener todos los terrenos de la comuna seleccionada
+                List<Terreno> terrenos = comunaSeleccionada.obtenerTodosLosTerrenos();
 
-                        if (terreno != null) {
-                            // Solicitar nuevos datos del Terreno
-                            String nuevaDireccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección del Terreno:", terreno.getDireccion());
-                            String nuevosMts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados del Terreno:", terreno.getMts2());
-                            String tieneAguaStr = JOptionPane.showInputDialog(this, "¿Tiene Agua? (true/false):", terreno.isTieneServicioAgua());
-                            String tieneLuzStr = JOptionPane.showInputDialog(this, "¿Tiene Luz? (true/false):", terreno.isTieneServicioLuz());
-                            String tieneGasStr = JOptionPane.showInputDialog(this, "¿Tiene Gas? (true/false):", terreno.isTieneServicioGas());
+                if (terrenos.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay terrenos disponibles en esta comuna", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                            if (nuevaDireccion != null && !nuevaDireccion.trim().isEmpty() &&
-                                    nuevosMts2Str != null && !nuevosMts2Str.trim().isEmpty() &&
-                                    tieneAguaStr != null && !tieneAguaStr.trim().isEmpty() &&
-                                    tieneLuzStr != null && !tieneLuzStr.trim().isEmpty() &&
-                                    tieneGasStr != null && !tieneGasStr.trim().isEmpty()) {
+                // Crear un array de IDs de terrenos
+                Integer[] idsTerrenos = terrenos.stream().map(Terreno::getId).toArray(Integer[]::new);
 
-                                terreno.setDireccion(nuevaDireccion.trim());
-                                terreno.setMts2(Double.parseDouble(nuevosMts2Str.trim()));
-                                terreno.setTieneServicioAgua(Boolean.parseBoolean(tieneAguaStr.trim()));
-                                terreno.setTieneServicioLuz(Boolean.parseBoolean(tieneLuzStr.trim()));
-                                terreno.setTieneServicioGas(Boolean.parseBoolean(tieneGasStr.trim()));
+                // Mostrar un JComboBox con los IDs de los terrenos
+                Integer idTerrenoSeleccionado = (Integer) JOptionPane.showInputDialog(this, "Seleccione un Terreno:",
+                        "Seleccionar Terreno", JOptionPane.QUESTION_MESSAGE, null, idsTerrenos, idsTerrenos[0]);
 
-                                JOptionPane.showMessageDialog(this, "Terreno actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Terreno no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "ID de Terreno inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                if (idTerrenoSeleccionado != null) {
+                    // Buscar el terreno seleccionado por ID
+                    Terreno terrenoSeleccionado = terrenos.stream()
+                            .filter(terreno -> terreno.getId() == idTerrenoSeleccionado)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (terrenoSeleccionado != null) {
+                        // Solicitar nuevos datos del Terreno
+                        String direccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección:", terrenoSeleccionado.getDireccion());
+                        String mts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados:", terrenoSeleccionado.getMts2());
+                        double mts2 = Double.parseDouble(mts2Str.trim());
+                        String tieneAguaStr = JOptionPane.showInputDialog(this, "¿Tiene Agua? (true/false):", terrenoSeleccionado.isTieneServicioAgua());
+                        boolean tieneAgua = Boolean.parseBoolean(tieneAguaStr.trim());
+                        String tieneLuzStr = JOptionPane.showInputDialog(this, "¿Tiene Luz? (true/false):", terrenoSeleccionado.isTieneServicioLuz());
+                        boolean tieneLuz = Boolean.parseBoolean(tieneLuzStr.trim());
+                        String tieneGasStr = JOptionPane.showInputDialog(this, "¿Tiene Gas? (true/false):", terrenoSeleccionado.isTieneServicioGas());
+                        boolean tieneGas = Boolean.parseBoolean(tieneGasStr.trim());
+
+                        // Actualizar el Terreno
+                        terrenoSeleccionado.setDireccion(direccion);
+                        terrenoSeleccionado.setMts2(mts2);
+                        terrenoSeleccionado.setTieneServicioAgua(tieneAgua);
+                        terrenoSeleccionado.setTieneServicioLuz(tieneLuz);
+                        terrenoSeleccionado.setTieneServicioGas(tieneGas);
+
+                        // Mostrar mensaje de confirmación
+                        JOptionPane.showMessageDialog(this, "Terreno actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Terreno no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "ID del Terreno no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);

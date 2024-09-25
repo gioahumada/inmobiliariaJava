@@ -106,9 +106,8 @@ public class Casa extends Inmueble {
     @Override
     public String toString() {
         // Información básica que siempre se mostrará
-        return "Casa\n" +
-                "ID : " + this.getId() + "\n" +
-                "Precio: " + getPrecioFormat() +  "\n" +
+        return  "ID : " + this.getId() + " | " +
+                "Precio: " + getPrecioFormat() +  " | " +
                 "Direccion: " + this.getDireccion() + "\n";
     }
 

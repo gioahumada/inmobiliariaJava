@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Comuna {
     private int id;
@@ -58,11 +59,50 @@ public class Comuna {
 
     /* Metodos */
 
+    public boolean idExisteCasa(int id) {
+        // Verificar si el ID existe en la lista de casas
+        for (Casa casa : casas) {
+            if (casa.getId() == id) {
+                return true;  // El ID ya existe
+            }
+        }
+        return false;  // El ID no existe en ninguna lista
+    }
+
+    // Verificar si el ID existe en la lista de departamentos
+    public boolean idExisteDepartamento(int id) {
+        for (Departamento departamento : departamentos) {
+            if (departamento.getId() == id) {
+                return true;  // El ID ya existe
+            }
+        }
+        return false;  // El ID no existe en ninguna lista
+    }
+
+    // Verificar si el ID existe en la lista de terrenos
+    public boolean idExisteTerreno(int id) {
+        for (Terreno terreno : terrenos) {
+            if (terreno.getId() == id) {
+                return true;  // El ID ya existe
+            }
+        }
+
+        return false;  // El ID no existe en ninguna lista
+    }
+
+
+
+
+
+
     // Departamento
 
     public void agregarDepartamento(Departamento departamento) {
-        departamentos.add(departamento);
-        guardarCambios();
+        if (!idExisteDepartamento(departamento.getId())) {
+            // Si el ID no existe, se añade la casa a la lista
+            departamentos.add(departamento);
+            guardarCambios();
+        }
     }
 
     public void eliminarDepartamento(Departamento departamento) {
@@ -117,8 +157,11 @@ public class Comuna {
     // Terreno
 
     public void agregarTerreno(Terreno terreno) {
-        terrenos.add(terreno);
-        guardarCambios();
+        if (!idExisteTerreno(terreno.getId()))
+        {
+            terrenos.add(terreno);
+            guardarCambios();
+        }
     }
 
     public void eliminarTerreno(Terreno terreno) {
@@ -171,8 +214,12 @@ public class Comuna {
     // Casa
 
     public void agregarCasa(Casa casa) {
-        casas.add(casa);
-        guardarCambios();
+
+        if (!idExisteCasa(casa.getId())) {
+            // Si el ID no existe, se añade la casa a la lista
+            casas.add(casa);
+            guardarCambios();
+        }
     }
 
     public void eliminarCasa(Casa casa) {
@@ -360,6 +407,17 @@ public class Comuna {
         }
     }
 
+    public List<Integer> obtenerIdsCasas() {
+        return casas.stream().map(Casa::getId).collect(Collectors.toList());
+    }
+
+    public List<Departamento> obtenerTodosLosDepartamentos() {
+        return new ArrayList<>(departamentos);
+    }
+
+    public List<Terreno> obtenerTodosLosTerrenos() {
+        return new ArrayList<>(this.terrenos);
+    }
 
     @Override
     public String toString() {
