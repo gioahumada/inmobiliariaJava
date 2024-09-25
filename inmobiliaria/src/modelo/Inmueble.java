@@ -90,6 +90,10 @@ public class Inmueble {
         return currencyFormat.format(this.getPrecio());
     }
 
+
+
+
+
     @Override
     public String toString() {
         return id + "," + precio + "," + direccion + "," + mts2;

@@ -331,6 +331,20 @@ public class MenuComuna extends javax.swing.JFrame {
 
         // Prompt the user to enter the details for the new Comuna
         String idStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
+        if (idStr != null)
+        {
+            try{
+                int idd= Integer.parseInt(idStr.trim());
+                // Check if the ID already exists
+                if (inmobiliaria.existeComunaConId(idd)) {
+                    JOptionPane.showMessageDialog(this, "El ID " + idd + " ya existe. Por favor, ingrese otro ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
         String nombre = JOptionPane.showInputDialog(this, "Ingrese Nombre de la Comuna:");
 
         if (idStr != null && nombre != null && !idStr.trim().isEmpty() && !nombre.trim().isEmpty()) {

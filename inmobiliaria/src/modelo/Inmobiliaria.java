@@ -40,6 +40,8 @@ public class Inmobiliaria {
 
     /* Metodos */
 
+
+
     public void agregarUsuario(Usuario usuario) {
         usuarios.put(usuario.getNombreUsuario(), usuario);
         try {
@@ -102,7 +104,17 @@ public class Inmobiliaria {
         return null; // Retorna null si no se encuentra la comuna
     }
 
+
+    public boolean existeComunaConId(int id) {
+        boolean exists = comunas.stream().anyMatch(comuna -> comuna.getId() == id);
+        return exists;
+    }
+
+
     public void agregarComuna(int id, String nombre, String clase) {
+        if (existeComunaConId(id)) {
+            return;
+        }
         Comuna comuna = new Comuna(id, nombre, clase);
         agregarComuna(comuna); // Llama al método ya existente para agregar una comuna
     }
@@ -112,11 +124,11 @@ public class Inmobiliaria {
         if (comuna != null) {
             comunas.remove(comuna);
             guardarCambiosComunas(); // Ya existente
-            
+
             // Eliminar el archivo CSV de propiedades asociado a la comuna
             String propiedadesFilePath = "db/comuna_" + id + "_propiedades.csv";
             File archivoPropiedades = new File(propiedadesFilePath);
-            
+
             if (archivoPropiedades.exists()) {
                 if (archivoPropiedades.delete()) {
                     System.out.println("Archivo de propiedades eliminado");
@@ -134,7 +146,7 @@ public class Inmobiliaria {
             return false;
         }
     }
-    
+
 
     public void actualizarComuna(int id, String nombre, String clase) {
         Comuna comuna = buscarComunaPorId(id);
@@ -228,5 +240,4 @@ public class Inmobiliaria {
             e.printStackTrace();
         }
     }
-
 }

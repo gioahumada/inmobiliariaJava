@@ -203,6 +203,20 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarCasaAComuna(Comuna comuna) {
         // Solicitar datos de la Casa
         String idCasaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Casa:");
+        if(idCasaStr!= null)
+        {
+            try{
+                int iddCasa = Integer.parseInt(idCasaStr.trim());
+                // Verificar si el ID ya existe en la comuna
+                if (comuna.idExisteCasa(iddCasa)) {
+                    // Mostrar mensaje de error si el ID ya existe
+                    JOptionPane.showMessageDialog(this, "Error: El ID de casa" + iddCasa + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;  // Detener el flujo si el ID ya existe
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "ID de Casa inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         if (idCasaStr != null && !idCasaStr.trim().isEmpty()) {
             try {
                 int idCasa = Integer.parseInt(idCasaStr.trim());
@@ -239,6 +253,20 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarDepartamentoAComuna(Comuna comuna) {
         // Solicitar datos del Departamento
         String idDepartamentoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Departamento:");
+        if(idDepartamentoStr!= null)
+        {
+            try{
+                int iddD = Integer.parseInt(idDepartamentoStr.trim());
+                // Verificar si el ID ya existe en la comuna
+                if (comuna.idExisteDepartamento(iddD)) {
+                    // Mostrar mensaje de error si el ID ya existe
+                    JOptionPane.showMessageDialog(this, "Error: El ID de Departamento" + iddD + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;  // Detener el flujo si el ID ya existe
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "ID de Departamento inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         if (idDepartamentoStr != null && !idDepartamentoStr.trim().isEmpty()) {
             try {
                 int idDepartamento = Integer.parseInt(idDepartamentoStr.trim());
@@ -275,6 +303,20 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarTerrenoAComuna(Comuna comuna) {
         // Solicitar datos del Terreno
         String idTerrenoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Terreno:");
+        if(idTerrenoStr!= null)
+        {
+            try{
+                int iddT = Integer.parseInt(idTerrenoStr.trim());
+                // Verificar si el ID ya existe en la comuna
+                if (comuna.idExisteTerreno(iddT)) {
+                    // Mostrar mensaje de error si el ID ya existe
+                    JOptionPane.showMessageDialog(this, "Error: El ID de Terreno" + iddT + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;  // Detener el flujo si el ID ya existe
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "ID de Terreno inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         if (idTerrenoStr != null && !idTerrenoStr.trim().isEmpty()) {
             try {
                 int idTerreno = Integer.parseInt(idTerrenoStr.trim());
@@ -303,6 +345,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ID del Terreno no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void quitarDeComunaActionPerformed(java.awt.event.ActionEvent evt) {
         // Obtener todas las comunas
