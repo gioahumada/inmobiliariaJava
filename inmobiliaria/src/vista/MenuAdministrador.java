@@ -54,6 +54,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         menuActualizacion = new javax.swing.JButton();
         menuEstadisticas = new javax.swing.JButton();
         menuToolBox = new javax.swing.JButton();
+        acercaDe = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,7 +105,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel4.setText("Menú Administrador");
+        jLabel4.setText("Menu Administrador");
 
         menuComuna.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menuComuna.png"))); // NOI18N
         menuComuna.setBorder(null);
@@ -146,6 +147,14 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
+        acercaDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/acercaDe.png"))); // NOI18N
+        acercaDe.setBorder(null);
+        acercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acercaDeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -164,7 +173,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                                 .addComponent(menuEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addGap(18, 18, 18)
-                                                                                .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(acercaDe, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                                 .addComponent(menuComuna, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addGap(18, 18, 18)
@@ -190,7 +201,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(menuEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(menuToolBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(acercaDe, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 141, Short.MAX_VALUE))
         );
 
@@ -250,6 +262,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
         menuToolBox.setVisible(true);
     }
 
+    private void acercaDeActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -287,6 +303,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
+    private javax.swing.JButton acercaDe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

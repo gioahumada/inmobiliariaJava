@@ -40,12 +40,14 @@ public class Inmobiliaria {
 
     /* Metodos */
 
-
+    public boolean hasRegisteredUsers() {
+        return !usuarios.isEmpty();
+    }
 
     public void agregarUsuario(Usuario usuario) {
         usuarios.put(usuario.getNombreUsuario(), usuario);
         try {
-            guardarUsuariosCSV("usuarios.csv");
+            guardarUsuariosCSV("db/usuarios.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +80,7 @@ public class Inmobiliaria {
 
                 // Guardar los cambios en el archivo CSV después de la actualización
                 try {
-                    guardarComunasCSV("comunas.csv");
+                    guardarComunasCSV("db/comunas.csv");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -235,9 +237,23 @@ public class Inmobiliaria {
 
     private void guardarCambiosComunas() {
         try {
-            guardarComunasCSV("comunas.csv");
+            guardarComunasCSV("db/comunas.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Inmobiliaria.java
+    public boolean eliminarUsuario(String nombreUsuario) {
+        if (usuarios.containsKey(nombreUsuario)) {
+            usuarios.remove(nombreUsuario);
+            try {
+                guardarUsuariosCSV("db/usuarios.csv");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
     }
 }

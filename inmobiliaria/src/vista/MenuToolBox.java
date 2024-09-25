@@ -9,6 +9,7 @@ import modelo.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.awt.*;
  */
 public class MenuToolBox extends javax.swing.JFrame {
     private Inmobiliaria inmobiliaria;
+
 
     /**
      * Creates new form MenuAdministrador
@@ -46,6 +48,8 @@ public class MenuToolBox extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         crearUsuario = new javax.swing.JButton();
+        eliminarUsuario = new javax.swing.JButton();
+        cambiarContrasena = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +94,22 @@ public class MenuToolBox extends javax.swing.JFrame {
             }
         });
 
+        eliminarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminarUsuario.png"))); // NOI18N
+        eliminarUsuario.setBorder(null);
+        eliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarUsuarioActionPerformed(evt);
+            }
+        });
+
+        cambiarContrasena.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/actualizarContraseña.png"))); // NOI18N
+        cambiarContrasena.setBorder(null);
+        cambiarContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarContrasenaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -103,7 +123,12 @@ public class MenuToolBox extends javax.swing.JFrame {
                                                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(6, 6, 6)
-                                                                .addComponent(crearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(cambiarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                .addComponent(crearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(eliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                                 .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -119,8 +144,12 @@ public class MenuToolBox extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(crearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 313, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(crearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(eliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cambiarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 201, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,6 +181,50 @@ public class MenuToolBox extends javax.swing.JFrame {
 
         // Display confirmation message
         JOptionPane.showMessageDialog(this, "Usuario creado con éxito.");
+    }
+
+    private void eliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {
+        // Retrieve user input
+        String nombreUsuario = JOptionPane.showInputDialog(this, "Ingrese el nombre de usuario a eliminar:");
+
+        // Check if the user exists and delete
+        if (inmobiliaria.eliminarUsuario(nombreUsuario)) {
+            // Display confirmation message
+            JOptionPane.showMessageDialog(this, "Usuario eliminado con éxito.");
+        } else {
+            // Display error message if user does not exist
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+        }
+    }
+
+    private void cambiarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {
+        // Retrieve user input
+        String nombreUsuario = JOptionPane.showInputDialog(this, "Ingrese su nombre de usuario:");
+        String contraseñaActual = JOptionPane.showInputDialog(this, "Ingrese su contraseña actual:");
+        String nuevaContraseña = JOptionPane.showInputDialog(this, "Ingrese su nueva contraseña:");
+
+        // Check if the user exists
+        Usuario usuario = inmobiliaria.obtenerUsuario(nombreUsuario);
+        if (usuario != null) {
+            // Verify current password
+            if (usuario.verificarContraseña(contraseñaActual)) {
+                // Update password
+                usuario.setHashContraseña(nuevaContraseña);
+                try {
+                    inmobiliaria.guardarUsuariosCSV("db/usuarios.csv");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Display confirmation message
+                JOptionPane.showMessageDialog(this, "Contraseña actualizada con éxito.");
+            } else {
+                // Display error message if current password is incorrect
+                JOptionPane.showMessageDialog(this, "Contraseña actual incorrecta.");
+            }
+        } else {
+            // Display error message if user does not exist
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+        }
     }
 
     /**
@@ -318,7 +391,9 @@ public class MenuToolBox extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
+    private javax.swing.JButton cambiarContrasena;
     private javax.swing.JButton crearUsuario;
+    private javax.swing.JButton eliminarUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
