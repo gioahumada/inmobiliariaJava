@@ -12,10 +12,9 @@ Este proyecto permite gestionar la venta de departamentos, incluyendo la adminis
 
 ## 📷 Imágenes
 
-![img](img/img.png)
-
-![img_1](img/img_1.png)
 <div style="text-align: center;">
+    <img src="img/img.png" alt="img" />
+    <img src="img/img_1.png" alt="img_1" />
     <p float="left">
         <img src="img/img_2.png" width="45%" />
         <img src="img/img_3.png" width="45%" />
