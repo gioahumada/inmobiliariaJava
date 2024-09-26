@@ -27,7 +27,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Centrar la ventana
         setResizable(false); // Deshabilitar el cambio de tamaño
         username.setText("@"+loggedUser);
-        setTitle("Inmobiliaria Java - Menu Administrador");
+        setTitle("Inmobiliaria Java - Menú Administrador");
         Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
         setIconImage(icon);
     }

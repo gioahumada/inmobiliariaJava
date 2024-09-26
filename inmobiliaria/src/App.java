@@ -7,7 +7,7 @@ import vista.MenuToolBox;
 import javax.swing.*;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) {    
         Inmobiliaria inmobiliaria = new Inmobiliaria();
         InmobiliariaVista vista = new InmobiliariaVista(inmobiliaria);
 

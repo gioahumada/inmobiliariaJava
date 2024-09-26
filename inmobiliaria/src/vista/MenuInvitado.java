@@ -4,14 +4,14 @@
  */
 package vista;
 
-import modelo.Comuna;
-import modelo.Inmobiliaria;
+import modelo.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -242,41 +242,111 @@ public class MenuInvitado extends javax.swing.JFrame {
     }
 
     private void verComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Prompt the user to enter the ID of the Comuna
-        String idComunaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-        if (idComunaStr != null && !idComunaStr.trim().isEmpty()) {
-            try {
-                int idComuna = Integer.parseInt(idComunaStr.trim());
-                Comuna comuna = inmobiliaria.buscarComunaPorId(idComuna);
-                if (comuna != null) {
-                    // Display the Comuna details
-                    StringBuilder details = new StringBuilder();
-                    details.append("Detalles de la Comuna:\n");
-                    details.append(comuna.toString(true)); // Assuming toString(true) provides detailed info
+        // Obtener todas las comunas
+        List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
-                    // Display the properties in the Comuna
-                    List<Object> propiedades = comuna.obtenerTodasLasPropiedades();
-                    if (propiedades.isEmpty()) {
-                        details.append("\nNo hay propiedades registradas en esta comuna.");
-                    } else {
-                        details.append("\nPropiedades en la comuna:\n");
-                        for (Object propiedad : propiedades) {
-                            details.append(propiedad.toString()).append("\n");
-                        }
-                    }
+        if (comunas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay comunas disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                    // Show the details in a message dialog
-                    JOptionPane.showMessageDialog(this, details.toString(), "Detalles de la Comuna", JOptionPane.INFORMATION_MESSAGE);
+        // Crear un array de nombres de comunas
+        String[] nombresComunas = comunas.stream().map(Comuna::getNombre).toArray(String[]::new);
+
+        // Mostrar un JComboBox con los nombres de las comunas
+        String nombreComunaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione una Comuna:",
+                "Ver Comuna", JOptionPane.QUESTION_MESSAGE, null, nombresComunas, nombresComunas[0]);
+
+        if (nombreComunaSeleccionada != null) {
+            // Buscar la comuna seleccionada por nombre
+            Comuna comunaSeleccionada = comunas.stream()
+                    .filter(comuna -> comuna.getNombre().equals(nombreComunaSeleccionada))
+                    .findFirst()
+                    .orElse(null);
+
+            if (comunaSeleccionada != null) {
+                // Preguntar si el usuario desea ver los detalles de la comuna
+                String[] opciones = { "Sí", "No" };
+                int confirmacion = JOptionPane.showOptionDialog(this,
+                        "¿Desea ver los detalles de la comuna?",
+                        "Confirmación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        opciones,
+                        opciones[0]);
+
+                // Determinar si se debe mostrar la información detallada
+                boolean incluirInfoAdicional = (confirmacion == JOptionPane.YES_OPTION);
+
+                // Crear un nuevo JFrame para mostrar los detalles de la comuna
+                JFrame frame = new JFrame("Detalles de la Comuna");
+                frame.setSize(800, 600);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+
+                // Establecer el icono de la ventana
+                Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
+                frame.setIconImage(icon);
+
+                // Crear un JPanel para los detalles de la comuna
+                JPanel detailsPanel = new JPanel();
+                detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+                detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                // Añadir los detalles de la comuna
+                JLabel detailsLabel = new JLabel("<html><b>Detalles de la Comuna:</b><br>" + comunaSeleccionada.toString(incluirInfoAdicional) + "</html>");
+                detailsPanel.add(detailsLabel);
+
+                // Crear un JPanel para las propiedades
+                JPanel propertiesPanel = new JPanel();
+                propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
+
+                // Añadir las propiedades al panel
+                List<Object> propiedades = comunaSeleccionada.obtenerTodasLasPropiedades();
+                if (propiedades.isEmpty()) {
+                    propertiesPanel.add(new JLabel("No hay propiedades registradas en esta comuna."));
                 } else {
-                    JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+                    for (Object propiedad : propiedades) {
+                        JPanel propertyPanel = new JPanel();
+                        propertyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                        String iconPath = "/img/favicon.png"; // Default icon
+                        String propiedadDetalles = "";
+                        if (propiedad instanceof Casa) {
+                            iconPath = "/img/casa.png";
+                            propiedadDetalles = ((Casa) propiedad).toString(incluirInfoAdicional);
+                        } else if (propiedad instanceof Departamento) {
+                            iconPath = "/img/departamento.png";
+                            propiedadDetalles = ((Departamento) propiedad).toString(incluirInfoAdicional);
+                        } else if (propiedad instanceof Terreno) {
+                            iconPath = "/img/terreno.png";
+                            propiedadDetalles = ((Terreno) propiedad).toString(incluirInfoAdicional);
+                        }
+
+                        JLabel iconLabel = new JLabel(new ImageIcon(getClass().getResource(iconPath)));
+                        JLabel propertyLabel = new JLabel(propiedad.toString());
+                        propertyPanel.add(iconLabel);
+                        propertyPanel.add(propertyLabel);
+                        propertiesPanel.add(propertyPanel);
+                    }
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+
+                // Añadir el panel de propiedades a un JScrollPane
+                JScrollPane scrollPane = new JScrollPane(propertiesPanel);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+                // Añadir los paneles al frame
+                frame.add(detailsPanel, BorderLayout.NORTH);
+                frame.add(scrollPane, BorderLayout.CENTER);
+
+                // Hacer visible el frame
+                frame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "ID de Comuna no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void acercaDeActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
