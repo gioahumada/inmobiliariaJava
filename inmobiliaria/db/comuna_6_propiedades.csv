@@ -1,1 +1,7 @@
-"Casa","1","casa simon","81786280","70.0","4","2","2","50","true"
+"Casa","1","Av. Vicuña Mackenna 1234","90345678","80.0","3","2","1","70","true"
+"Casa","2","Av. La Florida 5678","92456789","100.0","4","2","2","85","true"
+"Casa","3","Av. Tobalaba 2345","89567890","90.0","3","2","1","78","true"
+"Departamento","1","Av. Trinidad 123","86567123","65.0","2","1","7","true","false"
+"Departamento","2","Av. Walker Martínez 789","87678234","75.0","3","2","10","true","true"
+"Terreno","1","Av. Rojas Magallanes 4567","40123456","180.0","true","true","false"
+"Terreno","2","Av. Colombia 2345","62567890","210.0","true","true","true"

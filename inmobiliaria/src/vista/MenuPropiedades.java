@@ -377,33 +377,52 @@ public class MenuPropiedades extends javax.swing.JFrame {
                         "Quitar Propiedad", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
                 if (tipoPropiedad != null) {
-                    // Solicitar ID de la propiedad
-                    String idPropiedadStr = JOptionPane.showInputDialog(this, "Ingrese ID de la propiedad:");
-                    if (idPropiedadStr != null && !idPropiedadStr.trim().isEmpty()) {
-                        try {
-                            int idPropiedad = Integer.parseInt(idPropiedadStr.trim());
+                    // Obtener los IDs de las propiedades según el tipo seleccionado
+                    String[] idsPropiedades;
+                    switch (tipoPropiedad) {
+                        case "Casa":
+                            idsPropiedades = comunaSeleccionada.obtenerIdsCasas().stream().map(String::valueOf).toArray(String[]::new);
+                            break;
+                        case "Departamento":
+                            idsPropiedades = comunaSeleccionada.obtenerTodosLosDepartamentos().stream().map(d -> String.valueOf(d.getId())).toArray(String[]::new);
+                            break;
+                        case "Terreno":
+                            idsPropiedades = comunaSeleccionada.obtenerTodosLosTerrenos().stream().map(t -> String.valueOf(t.getId())).toArray(String[]::new);
+                            break;
+                        default:
+                            idsPropiedades = new String[0];
+                    }
 
-                            switch (tipoPropiedad) {
-                                case "Casa":
-                                    comunaSeleccionada.eliminarCasa(idPropiedad);
-                                    JOptionPane.showMessageDialog(this, "Casa quitada de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                    break;
-                                case "Departamento":
-                                    comunaSeleccionada.eliminarDepartamento(idPropiedad);
-                                    JOptionPane.showMessageDialog(this, "Departamento quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                    break;
-                                case "Terreno":
-                                    comunaSeleccionada.eliminarTerreno(idPropiedad);
-                                    JOptionPane.showMessageDialog(this, "Terreno quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                    break;
-                                default:
-                                    JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this, "ID de propiedad inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                    if (idsPropiedades.length == 0) {
+                        JOptionPane.showMessageDialog(this, "No hay propiedades disponibles para quitar", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Mostrar un JComboBox con los IDs de las propiedades
+                    String idPropiedadSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione el ID de la propiedad:",
+                            "Quitar Propiedad", JOptionPane.QUESTION_MESSAGE, null, idsPropiedades, idsPropiedades[0]);
+
+                    if (idPropiedadSeleccionada != null) {
+                        int idPropiedad = Integer.parseInt(idPropiedadSeleccionada.trim());
+
+                        switch (tipoPropiedad) {
+                            case "Casa":
+                                comunaSeleccionada.eliminarCasa(idPropiedad);
+                                JOptionPane.showMessageDialog(this, "Casa quitada de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            case "Departamento":
+                                comunaSeleccionada.eliminarDepartamento(idPropiedad);
+                                JOptionPane.showMessageDialog(this, "Departamento quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            case "Terreno":
+                                comunaSeleccionada.eliminarTerreno(idPropiedad);
+                                JOptionPane.showMessageDialog(this, "Terreno quitado de la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            default:
+                                JOptionPane.showMessageDialog(this, "Tipo de propiedad no válido", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "ID de la propiedad no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Debe seleccionar un ID de propiedad", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de propiedad", "Error", JOptionPane.ERROR_MESSAGE);

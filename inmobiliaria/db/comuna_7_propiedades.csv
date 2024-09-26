@@ -1,0 +1,6 @@
+"Casa","1","Calle Colón 1234","85234567","70.0","3","1","1","65","true"
+"Casa","2","Av. Argentina 5678","94345678","95.0","4","2","1","80","true"
+"Departamento","1","Calle Uruguay 234","73123456","55.0","2","1","4","true","false"
+"Departamento","2","Av. Errázuriz 789","81456789","85.0","3","2","8","true","true"
+"Terreno","1","Calle San Ignacio 4567","40789123","150.0","true","true","false"
+"Terreno","2","Cerro Alegre 3456","52890234","180.0","true","true","true"
