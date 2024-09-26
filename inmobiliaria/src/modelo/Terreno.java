@@ -70,14 +70,13 @@ public class Terreno extends Inmueble{
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
             // Mostrar toda la información si se desea información adicional
-            return "Terreno\n" +
-                    "ID : " + this.getId() + "\n" +
-                    "Precio: " + getPrecioFormat() +  "\n" +
-                    "Dirección: " + this.getDireccion() + "\n" +
-                    "Metros Cuadrados: "+ this.getMts2() + "\n" +
-                    "Tiene Agua: " + this.isTieneServicioAgua() + "\n" +
-                    "Tiene Luz: " + this.isTieneServicioLuz() + "\n" +
-                    "Tiene Gas: " + this.isTieneServicioGas() + "\n";
+            return "ID : " + this.getId() + " | " +
+                    "Precio: " + getPrecioFormat() +  " | " +
+                    "Dirección: " + this.getDireccion() + " | " +
+                    "Metros Cuadrados: "+ this.getMts2() + " | " +
+                    "Tiene Agua: " + this.isTieneServicioAgua() + " | " +
+                    "Tiene Luz: " + this.isTieneServicioLuz() + " | " +
+                    "Tiene Gas: " + this.isTieneServicioGas() + " | ";
         } else {
             // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();

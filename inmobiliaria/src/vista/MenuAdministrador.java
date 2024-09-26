@@ -221,49 +221,39 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void menuComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Assuming you have a reference to the Inmobiliaria instance
-        Inmobiliaria inmobiliaria = this.inmobiliaria;
-
-        // Create a new instance of MenuComuna
         MenuComuna menuComuna = new MenuComuna(inmobiliaria);
-
-        // Set the default close operation to dispose the frame instead of exiting the application
         menuComuna.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        // Set the new MenuComuna instance to be visible
         menuComuna.setVisible(true);
     }
 
     private void menuPropiedadesActionPerformed(java.awt.event.ActionEvent evt) {
-        Inmobiliaria inmobiliaria = this.inmobiliaria;
         MenuPropiedades menuPropiedades = new MenuPropiedades(inmobiliaria);
         menuPropiedades.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         menuPropiedades.setVisible(true);
     }
 
     private void menuActualizacionActionPerformed(java.awt.event.ActionEvent evt) {
-        Inmobiliaria inmobiliaria = this.inmobiliaria;
         MenuActualizacion menuActualizacion = new MenuActualizacion(inmobiliaria);
         menuActualizacion.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         menuActualizacion.setVisible(true);
     }
 
     private void menuEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
-        Inmobiliaria inmobiliaria = this.inmobiliaria;
         MenuEstadistica menuEstadisticas = new MenuEstadistica(inmobiliaria);
         menuEstadisticas.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         menuEstadisticas.setVisible(true);
     }
 
     private void menuToolBoxActionPerformed(java.awt.event.ActionEvent evt) {
-        Inmobiliaria inmobiliaria = this.inmobiliaria;
         MenuToolBox menuToolBox = new MenuToolBox(inmobiliaria);
         menuToolBox.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         menuToolBox.setVisible(true);
     }
 
     private void acercaDeActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        AboutUs aboutUs = new AboutUs();
+        aboutUs.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        aboutUs.setVisible(true);
     }
 
     /**

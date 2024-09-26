@@ -98,17 +98,16 @@ public class Departamento extends Inmueble {
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
             // Mostrar toda la información si se desea información adicional
-            return "Departamento\n" +
-                    "ID : " + this.getId() + "\n" +
-                    "Precio: " + this.getPrecioFormat() +  "\n" +
-                    "Direccion: " + this.getDireccion() + "\n" +
-                    "Metros Cuadrados: " + this.getMts2() + "\n" +
-                    "Cant. Baños: " + this.getNumBanos() + "\n" +
-                    "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
-                    "Cant. Estacionamientos: " + this.isTieneEstacionamiento() + "\n" +
-                    "Piso: " + getPiso() + "\n" +
-                    "Tiene estacionamiento: " + isTieneEstacionamiento() + "\n" +
-                    "Tiene bodega: " + isTieneBodega() + "\n";
+            return "ID : " + this.getId() + " | " +
+                    "Precio: " + this.getPrecioFormat() +  " | " +
+                    "Direccion: " + this.getDireccion() + " | " +
+                    "Metros Cuadrados: " + this.getMts2() + " | " +
+                    "Cant. Baños: " + this.getNumBanos() + " | " +
+                    "Cant. Habitaciones: " + this.getNumHabitaciones() + " | " +
+                    "Piso: " + getPiso() + " | " +
+                    "Cant. Estacionamientos: " + this.isTieneEstacionamiento() + " | " +
+                    "Tiene estacionamiento: " + isTieneEstacionamiento() + " | " +
+                    "Tiene bodega: " + isTieneBodega() + " | ";
         } else {
             // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();

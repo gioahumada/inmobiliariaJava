@@ -240,7 +240,10 @@ public class MenuComuna extends javax.swing.JFrame {
     }
 
     private void verComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Obtener todas las comunas
+        // Preguntar si desea ver todos los datos
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ver todos los datos?", "Ver Todos los Datos", JOptionPane.YES_NO_OPTION);
+        boolean verTodosLosDatos = (respuesta == JOptionPane.YES_OPTION);
+
         List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
         if (comunas.isEmpty()) {
@@ -263,80 +266,66 @@ public class MenuComuna extends javax.swing.JFrame {
                     .orElse(null);
 
             if (comunaSeleccionada != null) {
-                // Preguntar si el usuario desea ver los detalles de la comuna
-                String[] opciones = { "Sí", "No" };
-                int confirmacion = JOptionPane.showOptionDialog(this,
-                        "¿Desea ver los detalles de la comuna?",
-                        "Confirmación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        opciones,
-                        opciones[0]);
+                // Crear un nuevo JFrame para mostrar los detalles de la comuna
+                JFrame frame = new JFrame("Detalles de la Comuna");
+                frame.setSize(800, 600);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
 
-                // Si el usuario selecciona "Sí", mostrar la información detallada
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    // Crear un nuevo JFrame para mostrar los detalles de la comuna
-                    JFrame frame = new JFrame("Detalles de la Comuna");
-                    frame.setSize(800, 600);
-                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frame.setLayout(new BorderLayout());
+                // Crear un JPanel para los detalles de la comuna
+                JPanel detailsPanel = new JPanel();
+                detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+                detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-                    // Establecer el icono de la ventana
-                    Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
-                    frame.setIconImage(icon);
+                // Añadir los detalles de la comuna
+                JLabel detailsLabel = new JLabel("<html><b>Detalles de la Comuna:</b><br>" + comunaSeleccionada.toString(verTodosLosDatos) + "</html>");
+                detailsPanel.add(detailsLabel);
 
-                    // Crear un JPanel para los detalles de la comuna
-                    JPanel detailsPanel = new JPanel();
-                    detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-                    detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                // Crear un JPanel para las propiedades
+                JPanel propertiesPanel = new JPanel();
+                propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
 
-                    // Añadir los detalles de la comuna
-                    JLabel detailsLabel = new JLabel("<html><b>Detalles de la Comuna:</b><br>" + comunaSeleccionada.toString(true) + "</html>");
-                    detailsPanel.add(detailsLabel);
+                // Añadir las propiedades al panel
+                List<Object> propiedades = comunaSeleccionada.obtenerTodasLasPropiedades();
+                if (propiedades.isEmpty()) {
+                    propertiesPanel.add(new JLabel("No hay propiedades registradas en esta comuna."));
+                } else {
+                    for (Object propiedad : propiedades) {
+                        JPanel propertyPanel = new JPanel();
+                        propertyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-                    // Crear un JPanel para las propiedades
-                    JPanel propertiesPanel = new JPanel();
-                    propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
-
-                    // Añadir las propiedades al panel
-                    List<Object> propiedades = comunaSeleccionada.obtenerTodasLasPropiedades();
-                    if (propiedades.isEmpty()) {
-                        propertiesPanel.add(new JLabel("No hay propiedades registradas en esta comuna."));
-                    } else {
-                        for (Object propiedad : propiedades) {
-                            JPanel propertyPanel = new JPanel();
-                            propertyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-                            // Determinar el icono según el tipo de propiedad
-                            String iconPath = "/img/favicon.png"; // Default icon
-                            if (propiedad instanceof Casa) {
-                                iconPath = "/img/casa.png";
-                            } else if (propiedad instanceof Departamento) {
-                                iconPath = "/img/departamento.png";
-                            } else if (propiedad instanceof Terreno) {
-                                iconPath = "/img/terreno.png";
-                            }
-
-                            JLabel iconLabel = new JLabel(new ImageIcon(getClass().getResource(iconPath)));
-                            JLabel propertyLabel = new JLabel(propiedad.toString());
-                            propertyPanel.add(iconLabel);
-                            propertyPanel.add(propertyLabel);
-                            propertiesPanel.add(propertyPanel);
+                        // Determine the icon based on the property type
+                        String iconPath = "/img/favicon.png"; // Default icon
+                        String propertyDetails = "";
+                        if (propiedad instanceof Casa) {
+                            iconPath = "/img/casa.png";
+                            propertyDetails = ((Casa) propiedad).toString(verTodosLosDatos);
+                        } else if (propiedad instanceof Departamento) {
+                            iconPath = "/img/departamento.png";
+                            propertyDetails = ((Departamento) propiedad).toString(verTodosLosDatos);
+                        } else if (propiedad instanceof Terreno) {
+                            iconPath = "/img/terreno.png";
+                            propertyDetails = ((Terreno) propiedad).toString(verTodosLosDatos);
                         }
+
+                        JLabel iconLabel = new JLabel(new ImageIcon(getClass().getResource(iconPath)));
+                        JLabel propertyLabel = new JLabel(propertyDetails);
+                        propertyPanel.add(iconLabel);
+                        propertyPanel.add(propertyLabel);
+                        propertiesPanel.add(propertyPanel);
                     }
-
-                    // Añadir el panel de propiedades a un JScrollPane
-                    JScrollPane scrollPane = new JScrollPane(propertiesPanel);
-                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-                    // Añadir los paneles al frame
-                    frame.add(detailsPanel, BorderLayout.NORTH);
-                    frame.add(scrollPane, BorderLayout.CENTER);
-
-                    // Hacer visible el frame
-                    frame.setVisible(true);
                 }
+
+                // Añadir el panel de propiedades a un JScrollPane
+                JScrollPane scrollPane = new JScrollPane(propertiesPanel);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+                // Añadir los paneles al frame
+                frame.add(detailsPanel, BorderLayout.NORTH);
+                frame.add(scrollPane, BorderLayout.CENTER);
+
+                // Hacer visible el frame
+                frame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Comuna no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
             }

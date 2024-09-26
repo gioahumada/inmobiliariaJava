@@ -242,7 +242,10 @@ public class MenuInvitado extends javax.swing.JFrame {
     }
 
     private void verComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Obtener todas las comunas
+        // Preguntar si desea ver todos los datos
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ver todos los datos?", "Ver Todos los Datos", JOptionPane.YES_NO_OPTION);
+        boolean verTodosLosDatos = (respuesta == JOptionPane.YES_OPTION);
+
         List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
         if (comunas.isEmpty()) {
@@ -265,29 +268,11 @@ public class MenuInvitado extends javax.swing.JFrame {
                     .orElse(null);
 
             if (comunaSeleccionada != null) {
-                // Preguntar si el usuario desea ver los detalles de la comuna
-                String[] opciones = { "Sí", "No" };
-                int confirmacion = JOptionPane.showOptionDialog(this,
-                        "¿Desea ver los detalles de la comuna?",
-                        "Confirmación",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        opciones,
-                        opciones[0]);
-
-                // Determinar si se debe mostrar la información detallada
-                boolean incluirInfoAdicional = (confirmacion == JOptionPane.YES_OPTION);
-
                 // Crear un nuevo JFrame para mostrar los detalles de la comuna
                 JFrame frame = new JFrame("Detalles de la Comuna");
                 frame.setSize(800, 600);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
-
-                // Establecer el icono de la ventana
-                Image icon = new ImageIcon(getClass().getResource("/img/favicon.png")).getImage();
-                frame.setIconImage(icon);
 
                 // Crear un JPanel para los detalles de la comuna
                 JPanel detailsPanel = new JPanel();
@@ -295,7 +280,7 @@ public class MenuInvitado extends javax.swing.JFrame {
                 detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
                 // Añadir los detalles de la comuna
-                JLabel detailsLabel = new JLabel("<html><b>Detalles de la Comuna:</b><br>" + comunaSeleccionada.toString(incluirInfoAdicional) + "</html>");
+                JLabel detailsLabel = new JLabel("<html><b>Detalles de la Comuna:</b><br>" + comunaSeleccionada.toString(verTodosLosDatos) + "</html>");
                 detailsPanel.add(detailsLabel);
 
                 // Crear un JPanel para las propiedades
@@ -310,21 +295,23 @@ public class MenuInvitado extends javax.swing.JFrame {
                     for (Object propiedad : propiedades) {
                         JPanel propertyPanel = new JPanel();
                         propertyPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                        // Determine the icon based on the property type
                         String iconPath = "/img/favicon.png"; // Default icon
-                        String propiedadDetalles = "";
+                        String propertyDetails = "";
                         if (propiedad instanceof Casa) {
                             iconPath = "/img/casa.png";
-                            propiedadDetalles = ((Casa) propiedad).toString(incluirInfoAdicional);
+                            propertyDetails = ((Casa) propiedad).toString(verTodosLosDatos);
                         } else if (propiedad instanceof Departamento) {
                             iconPath = "/img/departamento.png";
-                            propiedadDetalles = ((Departamento) propiedad).toString(incluirInfoAdicional);
+                            propertyDetails = ((Departamento) propiedad).toString(verTodosLosDatos);
                         } else if (propiedad instanceof Terreno) {
                             iconPath = "/img/terreno.png";
-                            propiedadDetalles = ((Terreno) propiedad).toString(incluirInfoAdicional);
+                            propertyDetails = ((Terreno) propiedad).toString(verTodosLosDatos);
                         }
 
                         JLabel iconLabel = new JLabel(new ImageIcon(getClass().getResource(iconPath)));
-                        JLabel propertyLabel = new JLabel(propiedad.toString());
+                        JLabel propertyLabel = new JLabel(propertyDetails);
                         propertyPanel.add(iconLabel);
                         propertyPanel.add(propertyLabel);
                         propertiesPanel.add(propertyPanel);
@@ -347,9 +334,10 @@ public class MenuInvitado extends javax.swing.JFrame {
         }
     }
 
-
     private void acercaDeActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        AboutUs aboutUs = new AboutUs();
+        aboutUs.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        aboutUs.setVisible(true);
     }
 
     /**

@@ -18,8 +18,6 @@ import java.awt.event.MouseEvent;
  */
 public class Login extends javax.swing.JFrame {
     Inmobiliaria inmobiliaria;
-    private boolean logged = false;
-    private boolean guest = false;
 
     /**
      * Creates new form Login
@@ -238,7 +236,9 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void clearFields() {
+    private void clearFields() { /* Permite que se borre el
+                                    texto en los fields al hacer click,
+                                    se complementa con initComponents */
         textField.setText("");
         textField.setForeground(new java.awt.Color(0, 0, 0)); // Cambiar el color del texto a negro
         passwordField.setText("");
@@ -248,38 +248,34 @@ public class Login extends javax.swing.JFrame {
     private void loginAsGuestButtonActionPerformed(java.awt.event.ActionEvent evt) {
         ImageIcon icon = new ImageIcon(getClass().getResource("/img/iconJ.png"));
         JOptionPane.showMessageDialog(this, "¡Bienvenido, Invitado!", "Iniciar Sesión", JOptionPane.INFORMATION_MESSAGE, icon);
-        logged = true;
-        guest = true;
-        dispose();
+        dispose(); /* Cerrar Ventana */
         new MenuInvitado(inmobiliaria).setVisible(true);
     }
 
     private void textFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        /* Deprecado desde NetBeans */
     }
 
+    /* El mal nombre de variable proviene desde NetBeans */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        /* Recoje los datos desde los fields */
         String username = textField.getText();
         String password = new String(passwordField.getPassword());
 
+        /* Busca el usuario, si no lo encuentra marca error.*/
         Usuario usuario = inmobiliaria.obtenerUsuario(username);
         if (usuario != null && usuario.verificarContraseña(password)) {
             ImageIcon icon = new ImageIcon(getClass().getResource("/img/iconJ.png"));
             JOptionPane.showMessageDialog(this, "¡Bienvenido, " + username + "!", "Iniciar Sesión", JOptionPane.INFORMATION_MESSAGE, icon);
-            logged = true;
-            dispose(); // Close the login dialog
-            if (usuario.isEsAdministrador()) {
+            dispose(); /* Cierra la ventana */
+            if (usuario.isEsAdministrador()) { /* Carga los diferentes menus depediendo del usuario. */
                 new MenuAdministrador(inmobiliaria, username).setVisible(true);
             } else {
                 new MenuInvitado(inmobiliaria).setVisible(true);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Contraseña y/o Usuario incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    public String getLoggedInUsername() {
-        return textField.getText();
     }
 
     /**

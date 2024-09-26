@@ -178,8 +178,8 @@ public class MenuActualizacion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+
     private void actualizarComunaActionPerformed(java.awt.event.ActionEvent evt) {
-        // Obtener todas las comunas
         List<Comuna> comunas = inmobiliaria.obtenerTodasLasComunas();
 
         if (comunas.isEmpty()) {

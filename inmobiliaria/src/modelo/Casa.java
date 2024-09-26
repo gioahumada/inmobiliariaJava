@@ -114,16 +114,15 @@ public class Casa extends Inmueble {
     public String toString(boolean incluirInfoAdicional) {
         if (incluirInfoAdicional) {
             // Mostrar toda la información si se desea información adicional
-            return "Casa\n" +
-                    "ID : " + this.getId() + "\n" +
-                    "Precio: " + getPrecioFormat() +  "\n" +
-                    "Direccion: " + this.getDireccion() + "\n" +
-                    "Metros Cuadrados: " + this.getMts2() + "\n" +
-                    "Cant. Baños: " + this.getNumBanios() + "\n" +
-                    "Cant. Habitaciones: " + this.getNumHabitaciones() + "\n" +
-                    "Cant. Estacionamientos: " + this.getNumEstacionamiento() + "\n" +
-                    "Metros Cuadrados Construidos: " + this.getMts2Construidos() + "\n" +
-                    "Tiene Patio: " + this.isTienePatio() + "\n";
+            return "ID : " + this.getId() + " | " +
+                    "Precio: " + getPrecioFormat() +  " | " +
+                    "Direccion: " + this.getDireccion() + " | " +
+                    "Metros Cuadrados: " + this.getMts2() + " | " +
+                    "Cant. Baños: " + this.getNumBanios() + " | " +
+                    "Cant. Habitaciones: " + this.getNumHabitaciones() + " | " +
+                    "Cant. Estacionamientos: " + this.getNumEstacionamiento() + " | " +
+                    "Metros Cuadrados Construidos: " + this.getMts2Construidos() + " | " +
+                    "Tiene Patio: " + this.isTienePatio();
         } else {
             // Mostrar solo el ID, la dirección y el precio si no se desea información adicional
             return toString();
