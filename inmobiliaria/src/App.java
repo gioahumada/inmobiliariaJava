@@ -5,7 +5,15 @@ import vista.MenuToolBox;
 
 import javax.swing.*;
 
+/**
+ * La clase App es el punto de entrada principal de la aplicación InmobiliariaJava.
+ */
 public class App {
+    /**
+     * El método principal que inicia la aplicación.
+     *
+     * @param args los argumentos de la línea de comandos
+     */
     public static void main(String[] args) {    
         Inmobiliaria inmobiliaria = new Inmobiliaria(); /* Nucleo */
 
