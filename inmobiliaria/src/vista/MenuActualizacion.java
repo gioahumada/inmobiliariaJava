@@ -260,52 +260,67 @@ public class MenuActualizacion extends javax.swing.JFrame {
 
             if (comunaSeleccionada != null) {
                 // Obtener los IDs de las casas en la comuna seleccionada
-                List<Integer> idsCasas = comunaSeleccionada.obtenerIdsCasas();
-                if (idsCasas.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No hay casas disponibles en esta comuna", "Error", JOptionPane.ERROR_MESSAGE);
+                String[] idsCasas = comunaSeleccionada.obtenerIdsCasas().stream().map(String::valueOf).toArray(String[]::new);
+
+                if (idsCasas.length == 0) {
+                    JOptionPane.showMessageDialog(this, "No hay casas disponibles para actualizar", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Crear un array de IDs de casas
-                Integer[] idsCasasArray = idsCasas.toArray(new Integer[0]);
-
                 // Mostrar un JComboBox con los IDs de las casas
-                Integer idCasaSeleccionada = (Integer) JOptionPane.showInputDialog(this, "Seleccione el ID de la Casa:",
-                        "Actualizar Casa", JOptionPane.QUESTION_MESSAGE, null, idsCasasArray, idsCasasArray[0]);
+                String idCasaSeleccionada = (String) JOptionPane.showInputDialog(this, "Seleccione el ID de la casa:",
+                        "Actualizar Casa", JOptionPane.QUESTION_MESSAGE, null, idsCasas, idsCasas[0]);
 
                 if (idCasaSeleccionada != null) {
-                    Casa casa = comunaSeleccionada.obtenerCasa(idCasaSeleccionada);
+                    int idCasa = Integer.parseInt(idCasaSeleccionada.trim());
+                    Casa casa = comunaSeleccionada.obtenerCasaPorId(idCasa);
 
                     if (casa != null) {
                         // Solicitar nuevos datos de la Casa
-                        String nuevaDireccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección de la Casa:", casa.getDireccion());
-                        String nuevosMts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados de la Casa:", casa.getMts2());
-                        String nuevoNumHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones de la Casa:", casa.getNumHabitaciones());
-                        String nuevoNumBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños de la Casa:", casa.getNumBanios());
-                        String nuevoNumEstacionamientoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Estacionamientos de la Casa:", casa.getNumEstacionamiento());
-                        String nuevosMts2ConstruidosStr = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados Construidos de la Casa:", casa.getMts2Construidos());
-                        String tienePatioStr = JOptionPane.showInputDialog(this, "¿Tiene Patio? (true/false):", casa.isTienePatio());
+                        String direccion = JOptionPane.showInputDialog(this, "Ingrese nueva Dirección:", casa.getDireccion());
+                        String mts2Str = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados:", casa.getMts2());
+                        double mts2 = Double.parseDouble(mts2Str.trim());
+                        String numHabitacionesStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Habitaciones:", casa.getNumHabitaciones());
+                        int numHabitaciones = Integer.parseInt(numHabitacionesStr.trim());
+                        String numBaniosStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Baños:", casa.getNumBanios());
+                        int numBanios = Integer.parseInt(numBaniosStr.trim());
+                        String numEstacionamientoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Número de Estacionamientos:", casa.getNumEstacionamiento());
+                        int numEstacionamiento = Integer.parseInt(numEstacionamientoStr.trim());
+                        String mts2ConstruidosStr = JOptionPane.showInputDialog(this, "Ingrese nuevos Metros Cuadrados Construidos:", casa.getMts2Construidos());
+                        int mts2Construidos = Integer.parseInt(mts2ConstruidosStr.trim());
 
-                        if (nuevaDireccion != null && !nuevaDireccion.trim().isEmpty() &&
-                                nuevosMts2Str != null && !nuevosMts2Str.trim().isEmpty() &&
-                                nuevoNumHabitacionesStr != null && !nuevoNumHabitacionesStr.trim().isEmpty() &&
-                                nuevoNumBaniosStr != null && !nuevoNumBaniosStr.trim().isEmpty() &&
-                                nuevoNumEstacionamientoStr != null && !nuevoNumEstacionamientoStr.trim().isEmpty() &&
-                                nuevosMts2ConstruidosStr != null && !nuevosMts2ConstruidosStr.trim().isEmpty() &&
-                                tienePatioStr != null && !tienePatioStr.trim().isEmpty()) {
+                        // Menú desplegable para seleccionar si tiene patio
+                        String[] opcionesPatio = {"Sí", "No"};
+                        String tienePatioStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Patio?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesPatio, casa.isTienePatio() ? "Sí" : "No");
+                        boolean tienePatio = "Sí".equals(tienePatioStr);
 
-                            casa.setDireccion(nuevaDireccion.trim());
-                            casa.setMts2(Double.parseDouble(nuevosMts2Str.trim()));
-                            casa.setNumHabitaciones(Integer.parseInt(nuevoNumHabitacionesStr.trim()));
-                            casa.setNumBanios(Integer.parseInt(nuevoNumBaniosStr.trim()));
-                            casa.setNumEstacionamiento(Integer.parseInt(nuevoNumEstacionamientoStr.trim()));
-                            casa.setMts2Construidos(Integer.parseInt(nuevosMts2ConstruidosStr.trim()));
-                            casa.setTienePatio(Boolean.parseBoolean(tienePatioStr.trim()));
+                        // Actualizar la Casa
+                        casa.setDireccion(direccion);
+                        casa.setMts2(mts2);
+                        casa.setNumHabitaciones(numHabitaciones);
+                        casa.setNumBanios(numBanios);
+                        casa.setNumEstacionamiento(numEstacionamiento);
+                        casa.setMts2Construidos(mts2Construidos);
+                        casa.setTienePatio(tienePatio);
 
-                            JOptionPane.showMessageDialog(this, "Casa actualizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+                        // Calcular el nuevo precio
+                        long precio = comunaSeleccionada.precioFinalCasa(comunaSeleccionada, casa);
+                        casa.setPrecio(precio);
+
+                        // Mostrar el precio calculado y preguntar si desea cambiarlo
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        if (respuesta == JOptionPane.NO_OPTION) {
+                            String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                            try {
+                                long precioManual = Long.parseLong(precioManualStr.trim());
+                                casa.setPrecio(precioManual);
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
+
+                        // Mostrar mensaje de confirmación
+                        JOptionPane.showMessageDialog(this, "Casa actualizada con precio: " + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Casa no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -379,10 +394,10 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         int numBanios = Integer.parseInt(numBaniosStr.trim());
                         String pisoStr = JOptionPane.showInputDialog(this, "Ingrese nuevo Piso:", departamentoSeleccionado.getPiso());
                         int piso = Integer.parseInt(pisoStr.trim());
-                        String tieneEstacionamientoStr = JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento? (true/false):", departamentoSeleccionado.isTieneEstacionamiento());
-                        boolean tieneEstacionamiento = Boolean.parseBoolean(tieneEstacionamientoStr.trim());
-                        String tieneBodegaStr = JOptionPane.showInputDialog(this, "¿Tiene Bodega? (true/false):", departamentoSeleccionado.isTieneBodega());
-                        boolean tieneBodega = Boolean.parseBoolean(tieneBodegaStr.trim());
+                        String tieneEstacionamientoStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, departamentoSeleccionado.isTieneEstacionamiento() ? "Sí" : "No");
+                        boolean tieneEstacionamiento = "Sí".equals(tieneEstacionamientoStr);
+                        String tieneBodegaStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Bodega?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, departamentoSeleccionado.isTieneBodega() ? "Sí" : "No");
+                        boolean tieneBodega = "Sí".equals(tieneBodegaStr);
 
                         // Actualizar el Departamento
                         departamentoSeleccionado.setDireccion(direccion);
@@ -393,8 +408,24 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         departamentoSeleccionado.setTieneEstacionamiento(tieneEstacionamiento);
                         departamentoSeleccionado.setTieneBodega(tieneBodega);
 
+                        // Calcular el nuevo precio
+                        long precio = comunaSeleccionada.precioFinalDepartamento(comunaSeleccionada, departamentoSeleccionado);
+                        departamentoSeleccionado.setPrecio(precio);
+
+                        // Mostrar el precio calculado y preguntar si desea cambiarlo
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        if (respuesta == JOptionPane.NO_OPTION) {
+                            String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                            try {
+                                long precioManual = Long.parseLong(precioManualStr.trim());
+                                departamentoSeleccionado.setPrecio(precioManual);
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
                         // Mostrar mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Departamento actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Departamento actualizado con precio: " + departamentoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Departamento no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -404,6 +435,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
             }
         }
     }
+
 
     /**
      * Acción realizada al hacer clic en el botón de actualizar terreno.
@@ -476,8 +508,24 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         terrenoSeleccionado.setTieneServicioLuz(tieneLuz);
                         terrenoSeleccionado.setTieneServicioGas(tieneGas);
 
+                        // Calcular el nuevo precio
+                        long precio = comunaSeleccionada.precioFinalTerreno(comunaSeleccionada, terrenoSeleccionado);
+                        terrenoSeleccionado.setPrecio(precio);
+
+                        // Mostrar el precio calculado y preguntar si desea cambiarlo
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        if (respuesta == JOptionPane.NO_OPTION) {
+                            String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                            try {
+                                long precioManual = Long.parseLong(precioManualStr.trim());
+                                terrenoSeleccionado.setPrecio(precioManual);
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+
                         // Mostrar mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Terreno actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Terreno actualizado con precio: " + terrenoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Terreno no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -487,6 +535,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
             }
         }
     }
+
 
     /**
      * Método principal que inicia la aplicación.
