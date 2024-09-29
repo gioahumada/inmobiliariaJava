@@ -407,6 +407,15 @@ public class Comuna {
         }
     }
 
+    public Casa obtenerCasaPorId(int idCasa) {
+        for (Casa casa : this.casas) {
+            if (casa.getId() == idCasa) {
+                return casa;
+            }
+        }
+        return null;
+    }
+
     public List<Integer> obtenerIdsCasas() {
         return casas.stream().map(Casa::getId).collect(Collectors.toList());
     }
@@ -437,4 +446,6 @@ public class Comuna {
             return toString();
         }
     }
+
+
 }
