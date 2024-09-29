@@ -219,17 +219,16 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarCasaAComuna(Comuna comuna) {
         // Solicitar datos de la Casa
         String idCasaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Casa:");
-        if(idCasaStr!= null)
-        {
-            try{
+        if(idCasaStr != null) {
+            try {
                 int iddCasa = Integer.parseInt(idCasaStr.trim());
                 // Verificar si el ID ya existe en la comuna
                 if (comuna.idExisteCasa(iddCasa)) {
                     // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de casa" + iddCasa + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: El ID de casa " + iddCasa + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;  // Detener el flujo si el ID ya existe
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Casa inválido", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -247,17 +246,33 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 int numEstacionamiento = Integer.parseInt(numEstacionamientoStr.trim());
                 String mts2ConstruidosStr = JOptionPane.showInputDialog(this, "Ingrese Metros Cuadrados Construidos:");
                 int mts2Construidos = Integer.parseInt(mts2ConstruidosStr.trim());
-                String tienePatioStr = JOptionPane.showInputDialog(this, "¿Tiene Patio? (true/false):");
-                boolean tienePatio = Boolean.parseBoolean(tienePatioStr.trim());
+
+                // Menú desplegable para seleccionar si tiene patio
+                String[] opcionesPatio = {"Sí", "No"};
+                String tienePatioStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Patio?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesPatio, opcionesPatio[0]);
+                boolean tienePatio = "Sí".equals(tienePatioStr);
 
                 // Crear la Casa
                 Casa casa = new Casa(idCasa, 0, direccion, mts2, numHabitaciones, numBanios, numEstacionamiento, mts2Construidos, tienePatio);
                 long precio = comuna.precioFinalCasa(comuna, casa); // Calcula el precio automáticamente
                 casa.setPrecio(precio);
+
+                // Mostrar el precio calculado y preguntar si desea cambiarlo
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.NO_OPTION) {
+                    String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                    try {
+                        long precioManual = Long.parseLong(precioManualStr.trim());
+                        casa.setPrecio(precioManual);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
                 comuna.agregarCasa(casa);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Casa añadida a la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Casa añadida a la comuna con precio: " + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -274,17 +289,16 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarDepartamentoAComuna(Comuna comuna) {
         // Solicitar datos del Departamento
         String idDepartamentoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Departamento:");
-        if(idDepartamentoStr!= null)
-        {
-            try{
+        if(idDepartamentoStr != null) {
+            try {
                 int iddD = Integer.parseInt(idDepartamentoStr.trim());
                 // Verificar si el ID ya existe en la comuna
                 if (comuna.idExisteDepartamento(iddD)) {
                     // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de Departamento" + iddD + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: El ID de Departamento " + iddD + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;  // Detener el flujo si el ID ya existe
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Departamento inválido", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -300,19 +314,38 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 int numBanios = Integer.parseInt(numBaniosStr.trim());
                 String pisoStr = JOptionPane.showInputDialog(this, "Ingrese Piso:");
                 int piso = Integer.parseInt(pisoStr.trim());
-                String tieneEstacionamientoStr = JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento? (true/false):");
-                boolean tieneEstacionamiento = Boolean.parseBoolean(tieneEstacionamientoStr.trim());
-                String tieneBodegaStr = JOptionPane.showInputDialog(this, "¿Tiene Bodega? (true/false):");
-                boolean tieneBodega = Boolean.parseBoolean(tieneBodegaStr.trim());
+
+                // Menú desplegable para seleccionar si tiene estacionamiento
+                String[] opcionesEstacionamiento = {"Sí", "No"};
+                String tieneEstacionamientoStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Estacionamiento?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesEstacionamiento, opcionesEstacionamiento[0]);
+                boolean tieneEstacionamiento = "Sí".equals(tieneEstacionamientoStr);
+
+                // Menú desplegable para seleccionar si tiene bodega
+                String[] opcionesBodega = {"Sí", "No"};
+                String tieneBodegaStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Bodega?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesBodega, opcionesBodega[0]);
+                boolean tieneBodega = "Sí".equals(tieneBodegaStr);
 
                 // Crear el Departamento
                 Departamento departamento = new Departamento(idDepartamento, 0, direccion, mts2, numHabitaciones, numBanios, piso, tieneEstacionamiento, tieneBodega);
                 int precio = comuna.precioFinalDepartamento(comuna, departamento); // Calcula el precio automáticamente
                 departamento.setPrecio(precio);
+
+                // Mostrar el precio calculado y preguntar si desea cambiarlo
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.NO_OPTION) {
+                    String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                    try {
+                        int precioManual = Integer.parseInt(precioManualStr.trim());
+                        departamento.setPrecio(precioManual);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
                 comuna.agregarDepartamento(departamento);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Departamento añadido a la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Departamento añadido a la comuna con precio: " + departamento.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -329,17 +362,16 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarTerrenoAComuna(Comuna comuna) {
         // Solicitar datos del Terreno
         String idTerrenoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Terreno:");
-        if(idTerrenoStr!= null)
-        {
-            try{
+        if(idTerrenoStr != null) {
+            try {
                 int iddT = Integer.parseInt(idTerrenoStr.trim());
                 // Verificar si el ID ya existe en la comuna
                 if (comuna.idExisteTerreno(iddT)) {
                     // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de Terreno" + iddT + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: El ID de Terreno " + iddT + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;  // Detener el flujo si el ID ya existe
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Terreno inválido", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -349,21 +381,43 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 String direccion = JOptionPane.showInputDialog(this, "Ingrese Dirección:");
                 String mts2Str = JOptionPane.showInputDialog(this, "Ingrese Metros Cuadrados:");
                 double mts2 = Double.parseDouble(mts2Str.trim());
-                String tieneAguaStr = JOptionPane.showInputDialog(this, "¿Tiene Agua? (true/false):");
-                boolean tieneAgua = Boolean.parseBoolean(tieneAguaStr.trim());
-                String tieneLuzStr = JOptionPane.showInputDialog(this, "¿Tiene Luz? (true/false):");
-                boolean tieneLuz = Boolean.parseBoolean(tieneLuzStr.trim());
-                String tieneGasStr = JOptionPane.showInputDialog(this, "¿Tiene Gas? (true/false):");
-                boolean tieneGas = Boolean.parseBoolean(tieneGasStr.trim());
+
+                // Menú desplegable para seleccionar si tiene agua
+                String[] opcionesAgua = {"Sí", "No"};
+                String tieneAguaStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Agua?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesAgua, opcionesAgua[0]);
+                boolean tieneAgua = "Sí".equals(tieneAguaStr);
+
+                // Menú desplegable para seleccionar si tiene luz
+                String[] opcionesLuz = {"Sí", "No"};
+                String tieneLuzStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Luz?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesLuz, opcionesLuz[0]);
+                boolean tieneLuz = "Sí".equals(tieneLuzStr);
+
+                // Menú desplegable para seleccionar si tiene gas
+                String[] opcionesGas = {"Sí", "No"};
+                String tieneGasStr = (String) JOptionPane.showInputDialog(this, "¿Tiene Gas?", "Seleccionar", JOptionPane.QUESTION_MESSAGE, null, opcionesGas, opcionesGas[0]);
+                boolean tieneGas = "Sí".equals(tieneGasStr);
 
                 // Crear el Terreno
                 Terreno terreno = new Terreno(idTerreno, 0, direccion, mts2, tieneAgua, tieneLuz, tieneGas);
                 int precio = comuna.precioFinalTerreno(comuna, terreno); // Calcula el precio automáticamente
                 terreno.setPrecio(precio);
+
+                // Mostrar el precio calculado y preguntar si desea cambiarlo
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.NO_OPTION) {
+                    String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
+                    try {
+                        int precioManual = Integer.parseInt(precioManualStr.trim());
+                        terreno.setPrecio(precioManual);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Precio inválido, se mantendrá el precio calculado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
                 comuna.agregarTerreno(terreno);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Terreno añadido a la comuna.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Terreno añadido a la comuna con precio: " + terreno.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
