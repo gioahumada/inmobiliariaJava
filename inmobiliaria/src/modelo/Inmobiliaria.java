@@ -72,7 +72,7 @@ public class Inmobiliaria {
         guardarCambiosComunas();
     }
 
-    public void actualizarComuna(Comuna comunaActualizada) {
+    public void actualizarComuna(Comuna comunaActualizada) throws NoEncontrado {
         for (Comuna comuna : comunas) {
             if (comuna.getId() == comunaActualizada.getId()) {
                 comuna.setNombre(comunaActualizada.getNombre());
@@ -88,7 +88,7 @@ public class Inmobiliaria {
                 return;
             }
         }
-        System.out.println("No se encontró la comuna con ID: " + comunaActualizada.getId());
+        throw new NoEncontrado("No se encontró la comuna con ID: " + comunaActualizada.getId());
     }
 
     public List<Comuna> obtenerTodasLasComunas() {
@@ -97,33 +97,40 @@ public class Inmobiliaria {
 
     /* InmobiliariaController */
 
-    public Comuna buscarComunaPorId(int id) {
+    public Comuna buscarComunaPorId(int id) throws NoEncontrado {
         for (Comuna comuna : comunas) {
             if (comuna.getId() == id) {
                 return comuna; // Devuelve la comuna si encuentra coincidencia de ID
             }
         }
-        return null; // Retorna null si no se encuentra la comuna
+        throw new NoEncontrado("Comuna con ID " + id + " no encontrada."); // Lanza la excepción si no se encuentra la comuna
     }
 
 
-    public boolean existeComunaConId(int id) {
+    public boolean existeComunaConId(int id) throws NoEncontrado {
         boolean exists = comunas.stream().anyMatch(comuna -> comuna.getId() == id);
+        if (!exists) {
+            throw new NoEncontrado("Comuna con ID " + id + " no encontrada.");
+        }
         return exists;
     }
 
 
     public void agregarComuna(int id, String nombre, String clase) {
-        if (existeComunaConId(id)) {
-            return;
+        try {
+            if (existeComunaConId(id)) {
+                return;
+            }
+        } catch (NoEncontrado e) {
+            // If the exception is thrown, it means the comuna does not exist, so we can proceed to add it
         }
         Comuna comuna = new Comuna(id, nombre, clase);
         agregarComuna(comuna); // Llama al método ya existente para agregar una comuna
     }
 
     public boolean eliminarComunaPorId(int id) {
-        Comuna comuna = buscarComunaPorId(id);
-        if (comuna != null) {
+        try {
+            Comuna comuna = buscarComunaPorId(id);
             comunas.remove(comuna);
             guardarCambiosComunas(); // Ya existente
 
@@ -143,19 +150,21 @@ public class Inmobiliaria {
                 System.out.println("El archivo de propiedades no existe");
                 return false;
             }
-        } else {
-            System.out.println("Comuna no encontrada.");
+        } catch (NoEncontrado e) {
+            System.out.println("Error: " + e.getMessage());
             return false;
         }
     }
 
 
     public void actualizarComuna(int id, String nombre, String clase) {
-        Comuna comuna = buscarComunaPorId(id);
-        if (comuna != null) {
+        try {
+            Comuna comuna = buscarComunaPorId(id);
             comuna.setNombre(nombre);
             comuna.setClase(clase);
             guardarCambiosComunas(); // Ya existente
+        } catch (NoEncontrado e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -244,7 +253,7 @@ public class Inmobiliaria {
     }
 
     // Inmobiliaria.java
-    public boolean eliminarUsuario(String nombreUsuario) {
+    public void eliminarUsuario(String nombreUsuario) throws NoEncontrado {
         if (usuarios.containsKey(nombreUsuario)) {
             usuarios.remove(nombreUsuario);
             try {
@@ -252,8 +261,8 @@ public class Inmobiliaria {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return true;
+        } else {
+            throw new NoEncontrado("Usuario no encontrado.");
         }
-        return false;
     }
 }
