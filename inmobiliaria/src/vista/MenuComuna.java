@@ -418,17 +418,23 @@ public class MenuComuna extends javax.swing.JFrame {
 
         // Prompt the user to enter the details for the new Comuna
         String idStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Comuna:");
-        if (idStr != null)
-        {
-            try{
-                int idd= Integer.parseInt(idStr.trim());
+        if (idStr != null) {
+            try {
+                int idd = Integer.parseInt(idStr.trim());
                 // Check if the ID already exists
-                if (inmobiliaria.existeComunaConId(idd)) {
-                    JOptionPane.showMessageDialog(this, "El ID " + idd + " ya existe. Por favor, ingrese otro ID.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                try {
+                    if (inmobiliaria.existeComunaConId(idd)) {
+                        throw new YaExiste("El ID " + idd + " ya existe. Por favor, ingrese otro ID.");
+                    }
+                } catch (NoEncontrado e) {
+                    // If NoEncontrado is thrown, it means the comuna does not exist, so we can proceed to add it
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Comuna inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (YaExiste e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
 

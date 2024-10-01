@@ -206,13 +206,14 @@ public class MenuToolBox extends javax.swing.JFrame {
         // Retrieve user input
         String nombreUsuario = JOptionPane.showInputDialog(this, "Ingrese el nombre de usuario a eliminar:");
 
-        // Check if the user exists and delete
-        if (inmobiliaria.eliminarUsuario(nombreUsuario)) {
+        try {
+            // Check if the user exists and delete
+            inmobiliaria.eliminarUsuario(nombreUsuario);
             // Display confirmation message
             JOptionPane.showMessageDialog(this, "Usuario eliminado con éxito.");
-        } else {
+        } catch (modelo.NoEncontrado e) {
             // Display error message if user does not exist
-            JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
