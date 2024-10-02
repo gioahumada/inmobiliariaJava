@@ -219,19 +219,26 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarCasaAComuna(Comuna comuna) {
         // Solicitar datos de la Casa
         String idCasaStr = JOptionPane.showInputDialog(this, "Ingrese ID de la Casa:");
-        if(idCasaStr != null) {
+        if (idCasaStr != null) {
             try {
                 int iddCasa = Integer.parseInt(idCasaStr.trim());
                 // Verificar si el ID ya existe en la comuna
-                if (comuna.idExisteCasa(iddCasa)) {
-                    // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de casa " + iddCasa + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;  // Detener el flujo si el ID ya existe
+                try {
+                    if (comuna.idExisteCasa(iddCasa)) {
+                        throw new YaExiste("El ID de casa " + iddCasa + " ya existe en la comuna.");
+                    }
+                } catch (NoEncontrado e) {
+                    // Si NoEncontrado es lanzado, significa que la casa no existe, así que podemos proceder
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Casa inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (YaExiste e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
         if (idCasaStr != null && !idCasaStr.trim().isEmpty()) {
             try {
                 int idCasa = Integer.parseInt(idCasaStr.trim());
@@ -289,19 +296,26 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarDepartamentoAComuna(Comuna comuna) {
         // Solicitar datos del Departamento
         String idDepartamentoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Departamento:");
-        if(idDepartamentoStr != null) {
+        if (idDepartamentoStr != null) {
             try {
                 int iddD = Integer.parseInt(idDepartamentoStr.trim());
                 // Verificar si el ID ya existe en la comuna
-                if (comuna.idExisteDepartamento(iddD)) {
-                    // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de Departamento " + iddD + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;  // Detener el flujo si el ID ya existe
+                try {
+                    if (comuna.idExisteDepartamento(iddD)) {
+                        throw new YaExiste("El ID de Departamento " + iddD + " ya existe en la comuna.");
+                    }
+                } catch (NoEncontrado e) {
+                    // Si NoEncontrado es lanzado, significa que el departamento no existe, así que podemos proceder
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Departamento inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (YaExiste e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
         if (idDepartamentoStr != null && !idDepartamentoStr.trim().isEmpty()) {
             try {
                 int idDepartamento = Integer.parseInt(idDepartamentoStr.trim());
@@ -362,19 +376,27 @@ public class MenuPropiedades extends javax.swing.JFrame {
     private void agregarTerrenoAComuna(Comuna comuna) {
         // Solicitar datos del Terreno
         String idTerrenoStr = JOptionPane.showInputDialog(this, "Ingrese ID del Terreno:");
-        if(idTerrenoStr != null) {
+        if (idTerrenoStr != null) {
             try {
                 int iddT = Integer.parseInt(idTerrenoStr.trim());
                 // Verificar si el ID ya existe en la comuna
-                if (comuna.idExisteTerreno(iddT)) {
-                    // Mostrar mensaje de error si el ID ya existe
-                    JOptionPane.showMessageDialog(this, "Error: El ID de Terreno " + iddT + " ya existe en la comuna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;  // Detener el flujo si el ID ya existe
+                try {
+                    if (comuna.idExisteTerreno(iddT)) {
+                        throw new YaExiste("El ID de Terreno " + iddT + " ya existe en la comuna.");
+                    }
+                } catch (modelo.NoEncontrado e) {
+                    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "ID de Terreno inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (YaExiste e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
         if (idTerrenoStr != null && !idTerrenoStr.trim().isEmpty()) {
             try {
                 int idTerreno = Integer.parseInt(idTerrenoStr.trim());

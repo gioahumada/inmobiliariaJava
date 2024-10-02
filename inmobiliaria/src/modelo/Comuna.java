@@ -59,35 +59,34 @@ public class Comuna {
 
     /* Metodos */
 
-    public boolean idExisteCasa(int id) {
+    public boolean idExisteCasa(int id) throws NoEncontrado {
         // Verificar si el ID existe en la lista de casas
         for (Casa casa : casas) {
             if (casa.getId() == id) {
                 return true;  // El ID ya existe
             }
         }
-        return false;  // El ID no existe en ninguna lista
+        throw new NoEncontrado("El ID de casa no existe: " + id);  // El ID no existe en ninguna lista
     }
 
     // Verificar si el ID existe en la lista de departamentos
-    public boolean idExisteDepartamento(int id) {
+    public boolean idExisteDepartamento(int id) throws NoEncontrado {
         for (Departamento departamento : departamentos) {
             if (departamento.getId() == id) {
                 return true;  // El ID ya existe
             }
         }
-        return false;  // El ID no existe en ninguna lista
+        throw new NoEncontrado("El ID de departamento no existe: " + id);  // El ID no existe en ninguna lista
     }
 
     // Verificar si el ID existe en la lista de terrenos
-    public boolean idExisteTerreno(int id) {
+    public boolean idExisteTerreno(int id) throws NoEncontrado {
         for (Terreno terreno : terrenos) {
             if (terreno.getId() == id) {
                 return true;  // El ID ya existe
             }
         }
-
-        return false;  // El ID no existe en ninguna lista
+        throw new NoEncontrado("El ID de terreno no existe: " + id);  // El ID no existe en ninguna lista
     }
 
 
@@ -97,12 +96,19 @@ public class Comuna {
 
     // Departamento
 
-    public void agregarDepartamento(Departamento departamento) {
-        if (!idExisteDepartamento(departamento.getId())) {
-            // Si el ID no existe, se añade la casa a la lista
-            departamentos.add(departamento);
-            guardarCambios();
+    public void agregarDepartamento(Departamento departamento)
+    {
+        try {
+            if (!idExisteDepartamento(departamento.getId()))
+            {
+                // Si el ID no existe, se añade el departamento a la lista
+                departamentos.add(departamento);
+                guardarCambios();
+            }
+        }catch(NoEncontrado e){
+            e.printStackTrace();
         }
+
     }
 
     public void eliminarDepartamento(Departamento departamento) {
@@ -157,10 +163,15 @@ public class Comuna {
     // Terreno
 
     public void agregarTerreno(Terreno terreno) {
-        if (!idExisteTerreno(terreno.getId()))
+        try{
+            if (!idExisteTerreno(terreno.getId()))
+            {
+                terrenos.add(terreno);
+                guardarCambios();
+            }
+        }catch(NoEncontrado e)
         {
-            terrenos.add(terreno);
-            guardarCambios();
+            e.printStackTrace();
         }
     }
 
@@ -214,11 +225,14 @@ public class Comuna {
     // Casa
 
     public void agregarCasa(Casa casa) {
-
-        if (!idExisteCasa(casa.getId())) {
-            // Si el ID no existe, se añade la casa a la lista
-            casas.add(casa);
-            guardarCambios();
+        try{
+            if (!idExisteCasa(casa.getId())) {
+                // Si el ID no existe, se añade la casa a la lista
+                casas.add(casa);
+                guardarCambios();
+            }
+        }catch(NoEncontrado e){
+            e.printStackTrace();
         }
     }
 
