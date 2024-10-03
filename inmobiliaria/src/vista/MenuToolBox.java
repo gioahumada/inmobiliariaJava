@@ -9,6 +9,7 @@ import modelo.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -191,6 +192,33 @@ public class MenuToolBox extends javax.swing.JFrame {
 
         // Add the new user to the Inmobiliaria instance
         inmobiliaria.agregarUsuario(nuevoUsuario);
+
+        // Ensure the db directory exists
+        File dbDir = new File("db");
+        if (!dbDir.exists()) {
+            dbDir.mkdirs();
+        }
+
+        // Ensure the usuarios.csv file exists
+        File usuariosFile = new File("db/usuarios.csv");
+        if (!usuariosFile.exists()) {
+            try {
+                usuariosFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al crear el archivo usuarios.csv.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        // Save the users to the CSV file
+        try {
+            inmobiliaria.guardarUsuariosCSV("db/usuarios.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al guardar los usuarios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Display confirmation message
         JOptionPane.showMessageDialog(this, "Usuario creado con éxito.");

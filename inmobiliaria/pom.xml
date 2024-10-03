@@ -5,7 +5,7 @@
 
     <groupId>com.mx3</groupId>
     <artifactId>inmobiliariaJava</artifactId>
-    <version>0.4-Alpha</version>
+    <version>0.6-Alpha</version>
 
     <dependencies>
         <!-- OpenCSV dependency -->
@@ -71,6 +71,26 @@
                 <configuration>
                     <mainClass>com.mx3.MainClass</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.mx3.MainClass</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

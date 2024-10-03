@@ -308,7 +308,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         casa.setPrecio(precio);
 
                         // Mostrar el precio calculado y preguntar si desea cambiarlo
-                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                         if (respuesta == JOptionPane.NO_OPTION) {
                             String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                             try {
@@ -320,7 +320,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         }
 
                         // Mostrar mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Casa actualizada con precio: " + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Casa actualizada con precio: $" + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Casa no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -413,7 +413,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         departamentoSeleccionado.setPrecio(precio);
 
                         // Mostrar el precio calculado y preguntar si desea cambiarlo
-                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                         if (respuesta == JOptionPane.NO_OPTION) {
                             String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                             try {
@@ -425,7 +425,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         }
 
                         // Mostrar mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Departamento actualizado con precio: " + departamentoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Departamento actualizado con precio: $" + departamentoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Departamento no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -513,7 +513,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         terrenoSeleccionado.setPrecio(precio);
 
                         // Mostrar el precio calculado y preguntar si desea cambiarlo
-                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                        int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                         if (respuesta == JOptionPane.NO_OPTION) {
                             String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                             try {
@@ -525,7 +525,7 @@ public class MenuActualizacion extends javax.swing.JFrame {
                         }
 
                         // Mostrar mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Terreno actualizado con precio: " + terrenoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Terreno actualizado con precio: $" + terrenoSeleccionado.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Terreno no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
                     }

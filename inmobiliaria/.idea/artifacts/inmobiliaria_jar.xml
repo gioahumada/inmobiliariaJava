@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/inmobiliaria_jar</output-path>
     <root id="archive" name="inmobiliaria.jar">
       <element id="module-output" name="inmobiliaria" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jfreechart/1.5.5/jfreechart-1.5.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/opencsv/opencsv/5.9/opencsv-5.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar" path-in-jar="/" />

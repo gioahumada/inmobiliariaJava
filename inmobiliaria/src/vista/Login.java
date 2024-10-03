@@ -74,7 +74,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 0, 10)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel9.setText("v.0.5");
+        jLabel9.setText("v.0.6");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoLow.png"))); // NOI18N
@@ -270,12 +270,6 @@ public class Login extends javax.swing.JFrame {
         new MenuInvitado(inmobiliaria).setVisible(true);
     }
 
-    /**
-     * Acción realizada al hacer clic en el campo de texto del nombre de usuario.
-     *
-     * @param evt el evento de acción
-     */
-
     private void textFieldActionPerformed(java.awt.event.ActionEvent evt) {
         /* Deprecado desde NetBeans */
     }
@@ -287,7 +281,7 @@ public class Login extends javax.swing.JFrame {
      * @param evt el evento de acción
      */
 
-    /* El mal nombre de variable proviene desde NetBeans */
+    /* El mal nombre de la función proviene desde NetBeans */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         /* Recoje los datos desde los fields */
         String username = textField.getText();

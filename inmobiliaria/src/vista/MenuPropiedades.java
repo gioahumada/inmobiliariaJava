@@ -265,7 +265,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 casa.setPrecio(precio);
 
                 // Mostrar el precio calculado y preguntar si desea cambiarlo
-                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.NO_OPTION) {
                     String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                     try {
@@ -279,7 +279,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 comuna.agregarCasa(casa);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Casa añadida a la comuna con precio: " + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Casa añadida a la comuna con precio $: " + casa.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -345,7 +345,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 departamento.setPrecio(precio);
 
                 // Mostrar el precio calculado y preguntar si desea cambiarlo
-                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.NO_OPTION) {
                     String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                     try {
@@ -359,7 +359,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 comuna.agregarDepartamento(departamento);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Departamento añadido a la comuna con precio: " + departamento.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Departamento añadido a la comuna con precio: $" + departamento.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -425,7 +425,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 terreno.setPrecio(precio);
 
                 // Mostrar el precio calculado y preguntar si desea cambiarlo
-                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: " + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
+                int respuesta = JOptionPane.showConfirmDialog(this, "El precio calculado es: $" + precio + "\n¿Desea mantener este precio?", "Confirmar Precio", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.NO_OPTION) {
                     String precioManualStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo precio:");
                     try {
@@ -439,7 +439,7 @@ public class MenuPropiedades extends javax.swing.JFrame {
                 comuna.agregarTerreno(terreno);
 
                 // Mostrar mensaje de confirmación
-                JOptionPane.showMessageDialog(this, "Terreno añadido a la comuna con precio: " + terreno.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Terreno añadido a la comuna con precio: $" + terreno.getPrecio(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
             }
